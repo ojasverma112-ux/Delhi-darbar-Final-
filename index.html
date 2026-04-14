@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Delhi Darbaar — Royal Dining Experience</title>
+  <meta name="description" content="Animated premium restaurant website for Delhi Darbaar." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <!-- LOADER -->
+  <div class="loader" id="loader">
+    <div class="loader-ring"></div>
+    <p>Preparing royal experience...</p>
+  </div>
+
+  <!-- AMBIENT GRAPHIC LAYERS -->
+  <div class="bg-graphics" aria-hidden="true">
+    <span class="orb orb-1"></span>
+    <span class="orb orb-2"></span>
+    <span class="orb orb-3"></span>
+    <span class="grid-overlay"></span>
+    <span class="noise-overlay"></span>
+  </div>
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <div class="container topbar-inner">
+      <p>✨ Chef’s Royal Tasting Menu Available Tonight</p>
+      <p>📞 +31 6 13533612</p>
+    </div>
+  </div>
+
+  <!-- NAV -->
+  <header class="nav-wrap" id="top">
+    <nav class="container nav">
+      <a href="#top" class="brand">
+        <span class="brand-icon">✦</span>
+        <span class="brand-text">Delhi Darbaar</span>
+      </a>
+
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">☰</button>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#story">Story</a></li>
+        <li><a href="#menu">Menu</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#reviews">Reviews</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <button class="btn btn-ghost" id="openReserve">Book</button>
+        <button class="btn btn-outline" id="openCart">Cart <span id="cartCount">0</span></button>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero section-bleed">
+      <div class="hero-slider" id="heroSlider">
+        <div class="hero-slide active" style="background-image:url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=2200&q=80')"></div>
+        <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=2200&q=80')"></div>
+        <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1541544741938-0af808871cc0?auto=format&fit=crop&w=2200&q=80')"></div>
+      </div>
+
+      <div class="hero-overlay"></div>
+
+      <div class="container hero-content reveal">
+        <p class="kicker">Authentic North Indian Cuisine</p>
+        <h1>A Taste of Royalty</h1>
+        <p class="subtitle">
+          Rich spices. Timeless recipes. Elevated hospitality.
+          Crafted for unforgettable evenings and grand celebrations.
+        </p>
+        <div class="hero-actions">
+          <a href="#menu" class="btn btn-primary">Explore Menu</a>
+          <button class="btn btn-outline" id="heroBookBtn">Book a Table</button>
+        </div>
+        <div class="hero-chips">
+          <span>⭐ 4.9/5 Rated</span>
+          <span>🥘 120+ Dishes</span>
+          <span>👨‍🍳 Live Tandoor</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- STORY -->
+    <section class="section" id="story">
+      <div class="container story-grid">
+        <article class="panel reveal">
+          <p class="kicker">The Philosophy</p>
+          <h2>Honoring Tradition, Embracing Innovation.</h2>
+          <p>
+            We preserve heritage flavors while elevating them with modern finesse.
+            Every dish is layered, aromatic, and crafted with precision.
+          </p>
+          <div class="feature-grid">
+            <div class="feature-card"><h4>Fresh Spice Lab</h4><p>House-roasted masalas daily.</p></div>
+            <div class="feature-card"><h4>Royal Recipes</h4><p>Mughlai classics perfected.</p></div>
+            <div class="feature-card"><h4>Premium Ingredients</h4><p>Quality-first sourcing.</p></div>
+            <div class="feature-card"><h4>Fine Hospitality</h4><p>Warm, polished service.</p></div>
+          </div>
+        </article>
+
+        <aside class="story-gallery reveal">
+          <figure><img src="https://images.unsplash.com/photo-1600891963935-c1a42c5e7f31?auto=format&fit=crop&w=1200&q=80" alt="dish"></figure>
+          <figure><img src="https://images.unsplash.com/photo-1515003197210-e0cd71810b5f?auto=format&fit=crop&w=1200&q=80" alt="interior"></figure>
+          <figure><img src="https://images.unsplash.com/photo-1598514982691-86b3c997f4f2?auto=format&fit=crop&w=1200&q=80" alt="plating"></figure>
+        </aside>
+      </div>
+    </section>
+
+    <!-- MENU -->
+    <section class="section dark" id="menu">
+      <div class="container">
+        <div class="menu-head reveal">
+          <div>
+            <p class="kicker">Royal Menu</p>
+            <h2>Signature Dishes</h2>
+          </div>
+          <button class="btn btn-ghost" id="resetFilters">Reset</button>
+        </div>
+
+        <div class="menu-tools reveal">
+          <input id="searchInput" class="search" placeholder="Search dish..." />
+          <div class="chips" id="categoryChips"></div>
+        </div>
+
+        <div class="menu-grid reveal" id="menuGrid"></div>
+      </div>
+    </section>
+
+    <!-- GALLERY -->
+    <section class="section" id="gallery">
+      <div class="container reveal">
+        <p class="kicker">Ambience</p>
+        <h2>Gallery</h2>
+        <div class="gallery-grid" id="galleryGrid"></div>
+      </div>
+    </section>
+
+    <!-- REVIEWS -->
+    <section class="section dark" id="reviews">
+      <div class="container reveal">
+        <p class="kicker">Guest Love</p>
+        <h2>What People Say</h2>
+        <div class="review-track-wrap">
+          <div class="review-track" id="reviewTrack"></div>
+        </div>
+        <div class="review-dots" id="reviewDots"></div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="section" id="contact">
+      <div class="container contact-grid">
+        <article class="panel reveal">
+          <p class="kicker">Visit</p>
+          <h2>Reserve Your Table</h2>
+          <ul class="contact-list">
+            <li>📍 Havenstraat 75, 1211 KH Hilversum</li>
+            <li>📞 +31 6 13533612</li>
+            <li>🕐 Mon–Thu 13:00–22:00</li>
+            <li>🕐 Fri–Sat 13:00–22:30</li>
+            <li>❌ Sunday Closed</li>
+          </ul>
+        </article>
+
+        <form class="panel reserve-form reveal" id="reserveForm">
+          <input required type="text" placeholder="Full Name" />
+          <input required type="email" placeholder="Email" />
+          <input required type="tel" placeholder="Phone" />
+          <input required type="datetime-local" />
+          <select required>
+            <option value="">Guests</option>
+            <option>1 Guest</option><option>2 Guests</option><option>3 Guests</option>
+            <option>4 Guests</option><option>5 Guests</option><option>6+ Guests</option>
+          </select>
+          <textarea placeholder="Special request"></textarea>
+          <button class="btn btn-primary" type="submit">Send Reservation</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div>
+        <h3>Delhi Darbaar</h3>
+        <p>Luxury Indian dining with heritage soul and modern craft.</p>
+      </div>
+      <div>
+        <h4>Quick Links</h4>
+        <a href="#menu">Menu</a><br><a href="#gallery">Gallery</a><br><a href="#contact">Contact</a>
+      </div>
+      <div>
+        <h4>Social</h4>
+        <a href="#">Instagram</a><br><a href="#">Facebook</a><br><a href="#">TikTok</a>
+      </div>
+    </div>
+    <div class="container copyright">© <span id="year"></span> Delhi Darbaar. All rights reserved.</div>
+  </footer>
+
+  <!-- CART DRAWER -->
+  <aside class="cart-drawer" id="cartDrawer">
+    <div class="cart-head">
+      <h3>Your Order</h3>
+      <button class="btn btn-ghost" id="closeCart">Close</button>
+    </div>
+    <div class="cart-items" id="cartItems"></div>
+    <div class="cart-summary">
+      <div><span>Subtotal</span><strong id="cartSubtotal">€0.00</strong></div>
+      <button class="btn btn-primary" id="checkoutBtn">Checkout</button>
+    </div>
+  </aside>
+
+  <!-- RESERVATION MODAL -->
+  <dialog id="reserveDialog" class="reserve-dialog">
+    <div class="dialog-head">
+      <h3>Book a Table</h3>
+      <button id="closeReserveDialog" class="btn btn-ghost">Close</button>
+    </div>
+    <p>Use the reservation form in the Contact section or call us directly at +31 6 13533612.</p>
+  </dialog>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox">
+    <button id="closeLightbox">✕</button>
+    <img id="lightboxImg" src="" alt="Gallery preview">
+  </div>
+
+  <script src="./script.js"></script>
+</body>
+</html>

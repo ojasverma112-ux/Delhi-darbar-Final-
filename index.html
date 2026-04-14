@@ -1,238 +1,147 @@
 <!doctype html>
-<html lang="en">
+<html lang="nl">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Delhi Darbaar — Royal Dining Experience</title>
-  <meta name="description" content="Animated premium restaurant website for Delhi Darbaar." />
+  <title>Delhi Darbaar Hilversum | Indiaas Restaurant</title>
+  <meta name="description" content="Delhi Darbaar Hilversum - Authentieke Indiase keuken, reserveringen en online bestellen." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
-  <!-- LOADER -->
-  <div class="loader" id="loader">
-    <div class="loader-ring"></div>
-    <p>Preparing royal experience...</p>
+  <div id="loader" class="loader">
+    <div class="ring"></div>
+    <p data-i18n="loading">Laden...</p>
   </div>
 
-  <!-- AMBIENT GRAPHIC LAYERS -->
-  <div class="bg-graphics" aria-hidden="true">
-    <span class="orb orb-1"></span>
-    <span class="orb orb-2"></span>
-    <span class="orb orb-3"></span>
-    <span class="grid-overlay"></span>
-    <span class="noise-overlay"></span>
-  </div>
-
-  <!-- TOP BAR -->
-  <div class="topbar">
+  <header class="topbar">
     <div class="container topbar-inner">
-      <p>✨ Chef’s Royal Tasting Menu Available Tonight</p>
-      <p>📞 +31 6 13533612</p>
+      <p>📍 Havenstraat 75, 1211 KH Hilversum</p>
+      <p>📞 +31 613 53 36 12</p>
     </div>
-  </div>
+  </header>
 
-  <!-- NAV -->
-  <header class="nav-wrap" id="top">
-    <nav class="container nav">
-      <a href="#top" class="brand">
-        <span class="brand-icon">✦</span>
-        <span class="brand-text">Delhi Darbaar</span>
+  <nav class="nav-wrap">
+    <div class="container nav">
+      <a href="#home" class="brand">
+        <img src="./assets/images/logo.png" alt="Delhi Darbaar Logo" class="logo" onerror="this.src='./assets/images/fallback.jpg'">
+        <span>Delhi Darbaar</span>
       </a>
 
-      <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">☰</button>
+      <button id="menuToggle" class="menu-toggle">☰</button>
 
-      <ul class="nav-links" id="navLinks">
-        <li><a href="#story">Story</a></li>
-        <li><a href="#menu">Menu</a></li>
-        <li><a href="#gallery">Gallery</a></li>
-        <li><a href="#reviews">Reviews</a></li>
-        <li><a href="#contact">Contact</a></li>
+      <ul id="navLinks" class="nav-links">
+        <li><a href="#story" data-i18n="nav_story">Over ons</a></li>
+        <li><a href="#menu" data-i18n="nav_menu">Menu</a></li>
+        <li><a href="#gallery" data-i18n="nav_gallery">Galerij</a></li>
+        <li><a href="#reservation" data-i18n="nav_reservation">Reserveren</a></li>
+        <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
       </ul>
 
       <div class="nav-actions">
-        <button class="btn btn-ghost" id="openReserve">Book</button>
-        <button class="btn btn-outline" id="openCart">Cart <span id="cartCount">0</span></button>
+        <select id="langSwitch" class="lang-switch" aria-label="Language switch">
+          <option value="nl">NL</option>
+          <option value="en">EN</option>
+        </select>
       </div>
-    </nav>
-  </header>
+    </div>
+  </nav>
 
-  <main>
-    <!-- HERO -->
-    <section class="hero section-bleed">
-      <div class="hero-slider" id="heroSlider">
-        <div class="hero-slide active" style="background-image:url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=2200&q=80')"></div>
-        <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=2200&q=80')"></div>
-        <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1541544741938-0af808871cc0?auto=format&fit=crop&w=2200&q=80')"></div>
+  <main id="home">
+    <section class="hero">
+      <div class="hero-slider">
+        <div class="hero-slide active" style="background-image:url('./assets/images/hero-1.jpg')"></div>
+        <div class="hero-slide" style="background-image:url('./assets/images/hero-2.jpg')"></div>
+        <div class="hero-slide" style="background-image:url('./assets/images/hero-3.jpg')"></div>
       </div>
-
       <div class="hero-overlay"></div>
 
       <div class="container hero-content reveal">
-        <p class="kicker">Authentic North Indian Cuisine</p>
-        <h1>A Taste of Royalty</h1>
-        <p class="subtitle">
-          Rich spices. Timeless recipes. Elevated hospitality.
-          Crafted for unforgettable evenings and grand celebrations.
+        <p class="kicker" data-i18n="hero_kicker">Authentieke Noord-Indiase Keuken</p>
+        <h1 data-i18n="hero_title">Een Smaak van Koninklijke Klasse</h1>
+        <p data-i18n="hero_sub">
+          Traditionele recepten, rijke kruiden en een warme sfeer in het hart van Hilversum.
         </p>
-        <div class="hero-actions">
-          <a href="#menu" class="btn btn-primary">Explore Menu</a>
-          <button class="btn btn-outline" id="heroBookBtn">Book a Table</button>
-        </div>
-        <div class="hero-chips">
-          <span>⭐ 4.9/5 Rated</span>
-          <span>🥘 120+ Dishes</span>
-          <span>👨‍🍳 Live Tandoor</span>
+        <div class="hero-buttons">
+          <a class="btn btn-primary" href="#reservation" data-i18n="hero_cta_reserve">Reserveer Nu</a>
+          <a class="btn btn-outline" href="#menu" data-i18n="hero_cta_menu">Bekijk Menu</a>
         </div>
       </div>
     </section>
 
-    <!-- STORY -->
-    <section class="section" id="story">
-      <div class="container story-grid">
-        <article class="panel reveal">
-          <p class="kicker">The Philosophy</p>
-          <h2>Honoring Tradition, Embracing Innovation.</h2>
-          <p>
-            We preserve heritage flavors while elevating them with modern finesse.
-            Every dish is layered, aromatic, and crafted with precision.
+    <section id="story" class="section">
+      <div class="container two-col">
+        <article class="card reveal">
+          <p class="kicker" data-i18n="story_kicker">Ons Verhaal</p>
+          <h2 data-i18n="story_title">Traditie en Smaak in Perfecte Balans</h2>
+          <p data-i18n="story_text">
+            Delhi Darbaar brengt authentieke Indiase en Mughlai smaken met een eigentijdse presentatie.
+            Onze chef werkt met jarenlange ervaring en verse ingrediënten.
           </p>
-          <div class="feature-grid">
-            <div class="feature-card"><h4>Fresh Spice Lab</h4><p>House-roasted masalas daily.</p></div>
-            <div class="feature-card"><h4>Royal Recipes</h4><p>Mughlai classics perfected.</p></div>
-            <div class="feature-card"><h4>Premium Ingredients</h4><p>Quality-first sourcing.</p></div>
-            <div class="feature-card"><h4>Fine Hospitality</h4><p>Warm, polished service.</p></div>
-          </div>
         </article>
-
-        <aside class="story-gallery reveal">
-          <figure><img src="https://images.unsplash.com/photo-1600891963935-c1a42c5e7f31?auto=format&fit=crop&w=1200&q=80" alt="dish"></figure>
-          <figure><img src="https://images.unsplash.com/photo-1515003197210-e0cd71810b5f?auto=format&fit=crop&w=1200&q=80" alt="interior"></figure>
-          <figure><img src="https://images.unsplash.com/photo-1598514982691-86b3c997f4f2?auto=format&fit=crop&w=1200&q=80" alt="plating"></figure>
-        </aside>
+        <div class="story-image reveal">
+          <img src="./assets/images/gallery-1.jpg" alt="Restaurant sfeer" onerror="this.src='./assets/images/fallback.jpg'">
+        </div>
       </div>
     </section>
 
-    <!-- MENU -->
-    <section class="section dark" id="menu">
+    <section id="menu" class="section dark">
       <div class="container">
-        <div class="menu-head reveal">
-          <div>
-            <p class="kicker">Royal Menu</p>
-            <h2>Signature Dishes</h2>
-          </div>
-          <button class="btn btn-ghost" id="resetFilters">Reset</button>
+        <div class="section-head reveal">
+          <h2 data-i18n="menu_title">Populaire Gerechten</h2>
+          <input id="menuSearch" class="search" type="text" placeholder="Zoek gerecht..." />
         </div>
-
-        <div class="menu-tools reveal">
-          <input id="searchInput" class="search" placeholder="Search dish..." />
-          <div class="chips" id="categoryChips"></div>
-        </div>
-
-        <div class="menu-grid reveal" id="menuGrid"></div>
+        <div id="menuGrid" class="menu-grid reveal"></div>
       </div>
     </section>
 
-    <!-- GALLERY -->
-    <section class="section" id="gallery">
-      <div class="container reveal">
-        <p class="kicker">Ambience</p>
-        <h2>Gallery</h2>
-        <div class="gallery-grid" id="galleryGrid"></div>
-      </div>
-    </section>
-
-    <!-- REVIEWS -->
-    <section class="section dark" id="reviews">
-      <div class="container reveal">
-        <p class="kicker">Guest Love</p>
-        <h2>What People Say</h2>
-        <div class="review-track-wrap">
-          <div class="review-track" id="reviewTrack"></div>
+    <section id="gallery" class="section">
+      <div class="container">
+        <h2 class="reveal" data-i18n="gallery_title">Galerij</h2>
+        <div class="gallery-grid reveal">
+          <img src="./assets/images/gallery-1.jpg" alt="Delhi Darbaar 1" onerror="this.src='./assets/images/fallback.jpg'">
+          <img src="./assets/images/gallery-2.jpg" alt="Delhi Darbaar 2" onerror="this.src='./assets/images/fallback.jpg'">
+          <img src="./assets/images/gallery-3.jpg" alt="Delhi Darbaar 3" onerror="this.src='./assets/images/fallback.jpg'">
+          <img src="./assets/images/gallery-4.jpg" alt="Delhi Darbaar 4" onerror="this.src='./assets/images/fallback.jpg'">
         </div>
-        <div class="review-dots" id="reviewDots"></div>
       </div>
     </section>
 
-    <!-- CONTACT -->
-    <section class="section" id="contact">
-      <div class="container contact-grid">
-        <article class="panel reveal">
-          <p class="kicker">Visit</p>
-          <h2>Reserve Your Table</h2>
-          <ul class="contact-list">
-            <li>📍 Havenstraat 75, 1211 KH Hilversum</li>
-            <li>📞 +31 6 13533612</li>
-            <li>🕐 Mon–Thu 13:00–22:00</li>
-            <li>🕐 Fri–Sat 13:00–22:30</li>
-            <li>❌ Sunday Closed</li>
-          </ul>
-        </article>
-
-        <form class="panel reserve-form reveal" id="reserveForm">
-          <input required type="text" placeholder="Full Name" />
-          <input required type="email" placeholder="Email" />
-          <input required type="tel" placeholder="Phone" />
-          <input required type="datetime-local" />
-          <select required>
-            <option value="">Guests</option>
-            <option>1 Guest</option><option>2 Guests</option><option>3 Guests</option>
-            <option>4 Guests</option><option>5 Guests</option><option>6+ Guests</option>
+    <section id="reservation" class="section dark">
+      <div class="container">
+        <h2 class="reveal" data-i18n="res_title">Reserveringssysteem</h2>
+        <form id="reservationForm" class="reservation-form reveal">
+          <input type="text" id="name" required placeholder="Naam" />
+          <input type="email" id="email" required placeholder="E-mail" />
+          <input type="tel" id="phone" required placeholder="Telefoon" />
+          <input type="date" id="date" required />
+          <input type="time" id="time" required />
+          <select id="guests" required>
+            <option value="">Aantal gasten</option>
+            <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6+</option>
           </select>
-          <textarea placeholder="Special request"></textarea>
-          <button class="btn btn-primary" type="submit">Send Reservation</button>
+          <textarea id="notes" placeholder="Opmerkingen"></textarea>
+          <button type="submit" class="btn btn-primary" data-i18n="res_submit">Verstuur Reservering</button>
         </form>
+      </div>
+    </section>
+
+    <section id="contact" class="section">
+      <div class="container reveal">
+        <h2 data-i18n="contact_title">Contact</h2>
+        <p>Email: info@delhidarbaar.nl</p>
+        <p>Telefoon: +31 613 53 36 12</p>
       </div>
     </section>
   </main>
 
   <footer class="footer">
-    <div class="container footer-grid">
-      <div>
-        <h3>Delhi Darbaar</h3>
-        <p>Luxury Indian dining with heritage soul and modern craft.</p>
-      </div>
-      <div>
-        <h4>Quick Links</h4>
-        <a href="#menu">Menu</a><br><a href="#gallery">Gallery</a><br><a href="#contact">Contact</a>
-      </div>
-      <div>
-        <h4>Social</h4>
-        <a href="#">Instagram</a><br><a href="#">Facebook</a><br><a href="#">TikTok</a>
-      </div>
+    <div class="container">
+      <p>© <span id="year"></span> Delhi Darbaar Hilversum</p>
     </div>
-    <div class="container copyright">© <span id="year"></span> Delhi Darbaar. All rights reserved.</div>
   </footer>
-
-  <!-- CART DRAWER -->
-  <aside class="cart-drawer" id="cartDrawer">
-    <div class="cart-head">
-      <h3>Your Order</h3>
-      <button class="btn btn-ghost" id="closeCart">Close</button>
-    </div>
-    <div class="cart-items" id="cartItems"></div>
-    <div class="cart-summary">
-      <div><span>Subtotal</span><strong id="cartSubtotal">€0.00</strong></div>
-      <button class="btn btn-primary" id="checkoutBtn">Checkout</button>
-    </div>
-  </aside>
-
-  <!-- RESERVATION MODAL -->
-  <dialog id="reserveDialog" class="reserve-dialog">
-    <div class="dialog-head">
-      <h3>Book a Table</h3>
-      <button id="closeReserveDialog" class="btn btn-ghost">Close</button>
-    </div>
-    <p>Use the reservation form in the Contact section or call us directly at +31 6 13533612.</p>
-  </dialog>
-
-  <!-- LIGHTBOX -->
-  <div class="lightbox" id="lightbox">
-    <button id="closeLightbox">✕</button>
-    <img id="lightboxImg" src="" alt="Gallery preview">
-  </div>
 
   <script src="./script.js"></script>
 </body>

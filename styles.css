@@ -1,129 +1,531 @@
-const i18n = {
-  nl: {
-    loading: "Laden...",
-    nav_story: "Over ons",
-    nav_menu: "Menu",
-    nav_gallery: "Galerij",
-    nav_reservation: "Reserveren",
-    nav_contact: "Contact",
-    hero_kicker: "Authentieke Noord-Indiase Keuken",
-    hero_title: "Een Smaak van Koninklijke Klasse",
-    hero_sub: "Traditionele recepten, rijke kruiden en een warme sfeer in het hart van Hilversum.",
-    hero_cta_reserve: "Reserveer Nu",
-    hero_cta_menu: "Bekijk Menu",
-    story_kicker: "Ons Verhaal",
-    story_title: "Traditie en Smaak in Perfecte Balans",
-    story_text: "Delhi Darbaar brengt authentieke Indiase en Mughlai smaken met een eigentijdse presentatie.",
-    menu_title: "Populaire Gerechten",
-    gallery_title: "Galerij",
-    res_title: "Reserveringssysteem",
-    res_submit: "Verstuur Reservering",
-    contact_title: "Contact"
-  },
-  en: {
-    loading: "Loading...",
-    nav_story: "Story",
-    nav_menu: "Menu",
-    nav_gallery: "Gallery",
-    nav_reservation: "Reservation",
-    nav_contact: "Contact",
-    hero_kicker: "Authentic North Indian Cuisine",
-    hero_title: "A Taste of Royalty",
-    hero_sub: "Traditional recipes, rich spices, and warm hospitality in the heart of Hilversum.",
-    hero_cta_reserve: "Reserve Now",
-    hero_cta_menu: "View Menu",
-    story_kicker: "Our Story",
-    story_title: "Tradition and Flavor in Perfect Balance",
-    story_text: "Delhi Darbaar delivers authentic Indian and Mughlai flavors with modern presentation.",
-    menu_title: "Popular Dishes",
-    gallery_title: "Gallery",
-    res_title: "Reservation System",
-    res_submit: "Send Reservation",
-    contact_title: "Contact"
-  }
-};
+/* =============================
+   Delhi Darbaar - Premium Script
+   GitHub Pages Safe
+============================= */
 
-const menuData = [
-  { name: "Butter Chicken", price: "€16.50", img: "./assets/images/dish-1.jpg" },
-  { name: "Paneer Tikka", price: "€13.00", img: "./assets/images/dish-2.jpg" },
-  { name: "Lamb Rogan Josh", price: "€18.50", img: "./assets/images/dish-3.jpg" },
-  { name: "Chicken Biryani", price: "€15.50", img: "./assets/images/dish-4.jpg" }
-];
+(function () {
+  "use strict";
 
-const loader = document.getElementById("loader");
-window.addEventListener("load", () => setTimeout(() => loader.classList.add("hide"), 500));
+  /* -----------------------------
+     Utilities
+  ------------------------------ */
+  const $ = (selector, root = document) => root.querySelector(selector);
+  const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
 
-const slides = [...document.querySelectorAll(".hero-slide")];
-let slideIndex = 0;
-setInterval(() => {
-  slides[slideIndex].classList.remove("active");
-  slideIndex = (slideIndex + 1) % slides.length;
-  slides[slideIndex].classList.add("active");
-}, 4500);
+  const imageExists = (url) =>
+    new Promise((resolve) => {
+      const img = new Image();
+      img.onload = () => resolve(true);
+      img.onerror = () => resolve(false);
+      img.src = url;
+    });
 
-const menuGrid = document.getElementById("menuGrid");
-function renderMenu(filter = "") {
-  const items = menuData.filter(m => m.name.toLowerCase().includes(filter.toLowerCase()));
-  menuGrid.innerHTML = items.map(item => `
-    <article class="menu-card">
-      <img src="${item.img}" alt="${item.name}" onerror="this.src='./assets/images/fallback.jpg'">
-      <div class="body">
-        <h3>${item.name}</h3>
-        <p class="price">${item.price}</p>
-      </div>
-    </article>
-  `).join("");
-}
-renderMenu();
+  const money = (num) => `€${Number(num).toFixed(2)}`;
 
-document.getElementById("menuSearch").addEventListener("input", e => renderMenu(e.target.value));
-
-const langSwitch = document.getElementById("langSwitch");
-function applyLang(lang) {
-  document.documentElement.lang = lang;
-  document.querySelectorAll("[data-i18n]").forEach(el => {
-    const key = el.dataset.i18n;
-    if (i18n[lang][key]) el.textContent = i18n[lang][key];
-  });
-}
-langSwitch.addEventListener("change", e => applyLang(e.target.value));
-applyLang("nl");
-
-document.getElementById("menuToggle").addEventListener("click", () => {
-  document.getElementById("navLinks").classList.toggle("show");
-});
-
-const revealObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add("show");
-      revealObserver.unobserve(entry.target);
+  /* -----------------------------
+     i18n dictionary
+  ------------------------------ */
+  const i18n = {
+    nl: {
+      loading: "Laden...",
+      top_hours: "Ma-Do 13:00–22:00 · Vr-Za 13:00–22:30 · Zo gesloten",
+      nav_story: "Over ons",
+      nav_menu: "Menu",
+      nav_gallery: "Galerij",
+      nav_reservation: "Reserveren",
+      nav_contact: "Contact",
+      nav_book: "Boek",
+      hero_kicker: "Authentieke Noord-Indiase Keuken",
+      hero_title: "Een Smaak van Koninklijke Klasse",
+      hero_sub: "Traditionele recepten, rijke kruiden en warme gastvrijheid in het hart van Hilversum.",
+      hero_cta1: "Reserveer Nu",
+      hero_cta2: "Bekijk Menu",
+      badge_fresh: "Dagelijks verse bereiding",
+      badge_tandoor: "Authentieke tandoor smaak",
+      story_kicker: "Ons Verhaal",
+      story_title: "Traditie en Smaak in Perfecte Balans",
+      story_text1: "Delhi Darbaar combineert authentieke Indiase en Mughlai smaken met een moderne, verfijnde presentatie.",
+      story_text2: "Met jarenlange culinaire ervaring en verse ingrediënten serveren wij gerechten vol diepte en karakter.",
+      feature_1_title: "Verse kruiden",
+      feature_1_text: "Dagelijks vers gemalen voor maximale aroma.",
+      feature_2_title: "Tandoor specialiteiten",
+      feature_2_text: "Traditioneel gegrild met rijke rooksmaak.",
+      feature_3_title: "Premium ingrediënten",
+      feature_3_text: "Kwaliteit staat centraal in elk gerecht.",
+      feature_4_title: "Warme service",
+      feature_4_text: "Gastvrijheid zoals je die mag verwachten.",
+      menu_kicker: "Royal Menu",
+      menu_title: "Populaire Gerechten",
+      gallery_kicker: "Sfeer",
+      gallery_title: "Galerij",
+      res_kicker: "Reserveren",
+      res_title: "Reserveringssysteem",
+      res_text: "Vul je gegevens in. Na verzenden openen we WhatsApp met je reserveringsdetails.",
+      f_name: "Naam",
+      f_email: "E-mail",
+      f_phone: "Telefoon",
+      f_date: "Datum",
+      f_time: "Tijd",
+      f_guests: "Aantal gasten",
+      f_notes: "Opmerkingen",
+      res_submit: "Verstuur Reservering",
+      res_mail: "Verstuur via Email",
+      contact_title: "Contact",
+      hours_title: "Openingstijden",
+      hours_text: "Ma-Do 13:00–22:00 · Vr-Za 13:00–22:30 · Zondag gesloten",
+      contact_cta: "Reserveer je tafel",
+      footer_note: "Premium Indiase smaakbeleving",
+      form_ok: "Reservering voorbereid. WhatsApp wordt geopend...",
+      form_err: "Controleer de velden en probeer opnieuw.",
+      search_placeholder: "Zoek gerecht...",
+      err_required: "Dit veld is verplicht.",
+      err_email: "Vul een geldig e-mailadres in.",
+      err_phone: "Vul een geldig telefoonnummer in.",
+      err_date: "Kies een geldige datum.",
+      err_time: "Kies een tijd.",
+      err_guests: "Kies aantal gasten."
+    },
+    en: {
+      loading: "Loading...",
+      top_hours: "Mon-Thu 13:00–22:00 · Fri-Sat 13:00–22:30 · Sun closed",
+      nav_story: "Story",
+      nav_menu: "Menu",
+      nav_gallery: "Gallery",
+      nav_reservation: "Reservation",
+      nav_contact: "Contact",
+      nav_book: "Book",
+      hero_kicker: "Authentic North Indian Cuisine",
+      hero_title: "A Taste of Royalty",
+      hero_sub: "Traditional recipes, rich spices, and warm hospitality in the heart of Hilversum.",
+      hero_cta1: "Reserve Now",
+      hero_cta2: "View Menu",
+      badge_fresh: "Freshly prepared daily",
+      badge_tandoor: "Authentic tandoor flavor",
+      story_kicker: "Our Story",
+      story_title: "Tradition and Flavor in Perfect Balance",
+      story_text1: "Delhi Darbaar combines authentic Indian and Mughlai flavors with a refined modern presentation.",
+      story_text2: "With years of culinary experience and fresh ingredients, we serve dishes with depth and character.",
+      feature_1_title: "Fresh spices",
+      feature_1_text: "Ground daily for maximum aroma.",
+      feature_2_title: "Tandoor specialties",
+      feature_2_text: "Traditionally grilled with rich smoky flavor.",
+      feature_3_title: "Premium ingredients",
+      feature_3_text: "Quality is central in every dish.",
+      feature_4_title: "Warm service",
+      feature_4_text: "Hospitality at its finest.",
+      menu_kicker: "Royal Menu",
+      menu_title: "Popular Dishes",
+      gallery_kicker: "Ambience",
+      gallery_title: "Gallery",
+      res_kicker: "Reservation",
+      res_title: "Reservation System",
+      res_text: "Fill in your details. After submitting, we open WhatsApp with your reservation details.",
+      f_name: "Name",
+      f_email: "Email",
+      f_phone: "Phone",
+      f_date: "Date",
+      f_time: "Time",
+      f_guests: "Guests",
+      f_notes: "Notes",
+      res_submit: "Send Reservation",
+      res_mail: "Send via Email",
+      contact_title: "Contact",
+      hours_title: "Opening Hours",
+      hours_text: "Mon-Thu 13:00–22:00 · Fri-Sat 13:00–22:30 · Sunday closed",
+      contact_cta: "Reserve your table",
+      footer_note: "Premium Indian dining experience",
+      form_ok: "Reservation prepared. Opening WhatsApp...",
+      form_err: "Please check the form fields and try again.",
+      search_placeholder: "Search dish...",
+      err_required: "This field is required.",
+      err_email: "Please enter a valid email address.",
+      err_phone: "Please enter a valid phone number.",
+      err_date: "Please choose a valid date.",
+      err_time: "Please choose a time.",
+      err_guests: "Please choose number of guests."
     }
-  });
-}, { threshold: 0.15 });
+  };
 
-document.querySelectorAll(".reveal").forEach(el => revealObserver.observe(el));
+  let currentLang = "nl";
 
-document.getElementById("reservationForm").addEventListener("submit", (e) => {
-  e.preventDefault();
-
-  const name = document.getElementById("name").value.trim();
-  const phone = document.getElementById("phone").value.trim();
-  const date = document.getElementById("date").value;
-  const time = document.getElementById("time").value;
-  const guests = document.getElementById("guests").value;
-  const notes = document.getElementById("notes").value.trim();
-
-  if (!name || !phone || !date || !time || !guests) {
-    alert("Vul alle verplichte velden in.");
-    return;
+  function t(key) {
+    return i18n[currentLang][key] || key;
   }
 
-  const msg = `Nieuwe reservering:%0ANaam: ${name}%0ATelefoon: ${phone}%0ADatum: ${date}%0ATijd: ${time}%0AGasten: ${guests}%0AOpmerking: ${notes}`;
-  window.open(`https://wa.me/31613533612?text=${msg}`, "_blank");
+  function applyI18n(lang) {
+    currentLang = lang;
+    document.documentElement.lang = lang;
 
-  alert("Reservering verzonden! We nemen snel contact op.");
-  e.target.reset();
-});
+    $$("[data-i18n]").forEach((el) => {
+      const key = el.getAttribute("data-i18n");
+      el.textContent = t(key);
+    });
 
-document.getElementById("year").textContent = new Date().getFullYear();
+    const searchInput = $("#menuSearch");
+    if (searchInput) searchInput.placeholder = t("search_placeholder");
+
+    const loaderText = $("#siteLoader p[data-i18n='loading']");
+    if (loaderText) loaderText.textContent = t("loading");
+  }
+
+  /* -----------------------------
+     Menu data
+  ------------------------------ */
+  const menuItems = [
+    { id: 1, name: "Butter Chicken", price: 16.5, category: "Chicken", img: "./dish-1.jpg", descNL: "Romige tomatencurry met boter en kruiden.", descEN: "Creamy tomato curry with butter and spices." },
+    { id: 2, name: "Paneer Tikka", price: 13.0, category: "Veg", img: "./dish-2.jpg", descNL: "Gemarineerde paneer, gegrild in tandoor.", descEN: "Marinated paneer grilled in tandoor." },
+    { id: 3, name: "Lamb Rogan Josh", price: 18.5, category: "Lamb", img: "./dish-3.jpg", descNL: "Langzaam gegaard lamsgerecht met rijke saus.", descEN: "Slow-cooked lamb in rich aromatic gravy." },
+    { id: 4, name: "Chicken Biryani", price: 15.5, category: "Rice", img: "./dish-4.jpg", descNL: "Geurige basmatirijst met gekruide kip.", descEN: "Fragrant basmati rice with spiced chicken." }
+  ];
+
+  let activeCategory = "All";
+  let activeSearch = "";
+
+  function buildMenuChips() {
+    const wrap = $("#menuChips");
+    if (!wrap) return;
+
+    const categories = ["All", ...new Set(menuItems.map((i) => i.category))];
+    wrap.innerHTML = categories
+      .map((cat) => `<button class="chip ${cat === activeCategory ? "is-active" : ""}" data-chip="${cat}">${cat}</button>`)
+      .join("");
+
+    $$("[data-chip]", wrap).forEach((chip) => {
+      chip.addEventListener("click", () => {
+        activeCategory = chip.getAttribute("data-chip");
+        buildMenuChips();
+        renderMenu();
+      });
+    });
+  }
+
+  async function resolveImage(path) {
+    const ok = await imageExists(path);
+    if (ok) return path;
+    const fallbackOK = await imageExists("./fallback.jpg");
+    return fallbackOK ? "./fallback.jpg" : path;
+  }
+
+  async function renderMenu() {
+    const grid = $("#menuGrid");
+    if (!grid) return;
+
+    const filtered = menuItems.filter((item) => {
+      const byCategory = activeCategory === "All" || item.category === activeCategory;
+      const text = `${item.name} ${item.descNL} ${item.descEN} ${item.category}`.toLowerCase();
+      const bySearch = text.includes(activeSearch.toLowerCase());
+      return byCategory && bySearch;
+    });
+
+    if (!filtered.length) {
+      grid.innerHTML = `<article class="menu-card"><div class="menu-body"><h3>No results</h3></div></article>`;
+      return;
+    }
+
+    const cards = await Promise.all(
+      filtered.map(async (item) => {
+        const safeImg = await resolveImage(item.img);
+        const desc = currentLang === "nl" ? item.descNL : item.descEN;
+        return `
+          <article class="menu-card">
+            <img src="${safeImg}" alt="${item.name}" onerror="this.onerror=null;this.src='./fallback.jpg';" />
+            <div class="menu-body">
+              <div class="menu-row">
+                <h3>${item.name}</h3>
+                <span class="price">${money(item.price)}</span>
+              </div>
+              <p class="menu-text">${desc}</p>
+              <p class="menu-meta">${item.category}</p>
+            </div>
+          </article>
+        `;
+      })
+    );
+
+    grid.innerHTML = cards.join("");
+  }
+
+  /* -----------------------------
+     Hero image setup + slider
+  ------------------------------ */
+  async function setupHero() {
+    const slides = $$(".hero-slide");
+    for (const slide of slides) {
+      const src = slide.getAttribute("data-src");
+      const safe = await resolveImage(src);
+      slide.style.backgroundImage = `url('${safe}')`;
+    }
+
+    let idx = 0;
+    setInterval(() => {
+      slides[idx].classList.remove("is-active");
+      idx = (idx + 1) % slides.length;
+      slides[idx].classList.add("is-active");
+    }, 5200);
+  }
+
+  /* -----------------------------
+     Gallery lightbox
+  ------------------------------ */
+  function setupLightbox() {
+    const lightbox = $("#lightbox");
+    const lightboxImage = $("#lightboxImage");
+    const closeBtn = $("#lightboxClose");
+    if (!lightbox || !lightboxImage || !closeBtn) return;
+
+    $$("#galleryGrid img").forEach((img) => {
+      img.addEventListener("click", async () => {
+        const src = img.getAttribute("src");
+        lightboxImage.src = await resolveImage(src);
+        lightbox.classList.add("is-open");
+      });
+    });
+
+    closeBtn.addEventListener("click", () => lightbox.classList.remove("is-open"));
+    lightbox.addEventListener("click", (e) => {
+      if (e.target === lightbox) lightbox.classList.remove("is-open");
+    });
+  }
+
+  /* -----------------------------
+     Mobile nav
+  ------------------------------ */
+  function setupMobileNav() {
+    const toggle = $("#menuToggle");
+    const nav = $("#navLinks");
+    if (!toggle || !nav) return;
+
+    toggle.addEventListener("click", () => {
+      const open = nav.classList.toggle("is-open");
+      toggle.setAttribute("aria-expanded", String(open));
+    });
+
+    $$("a", nav).forEach((a) => {
+      a.addEventListener("click", () => nav.classList.remove("is-open"));
+    });
+  }
+
+  /* -----------------------------
+     Reveal animation
+  ------------------------------ */
+  function setupReveal() {
+    const els = $$(".reveal");
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.16 }
+    );
+    els.forEach((el) => observer.observe(el));
+  }
+
+  /* -----------------------------
+     Reservation form
+  ------------------------------ */
+  function validateForm() {
+    const name = $("#name").value.trim();
+    const email = $("#email").value.trim();
+    const phone = $("#phone").value.trim();
+    const date = $("#date").value.trim();
+    const time = $("#time").value.trim();
+    const guests = $("#guests").value.trim();
+
+    let valid = true;
+
+    const setErr = (field, msg) => {
+      const el = $(`[data-error-for="${field}"]`);
+      if (el) el.textContent = msg || "";
+    };
+
+    setErr("name", "");
+    setErr("email", "");
+    setErr("phone", "");
+    setErr("date", "");
+    setErr("time", "");
+    setErr("guests", "");
+
+    if (!name) {
+      valid = false;
+      setErr("name", t("err_required"));
+    }
+    if (!email) {
+      valid = false;
+      setErr("email", t("err_required"));
+    } else if (!/^\S+@\S+\.\S+$/.test(email)) {
+      valid = false;
+      setErr("email", t("err_email"));
+    }
+    if (!phone) {
+      valid = false;
+      setErr("phone", t("err_required"));
+    } else if (!/^[0-9+\s\-()]{6,}$/.test(phone)) {
+      valid = false;
+      setErr("phone", t("err_phone"));
+    }
+    if (!date) {
+      valid = false;
+      setErr("date", t("err_date"));
+    }
+    if (!time) {
+      valid = false;
+      setErr("time", t("err_time"));
+    }
+    if (!guests) {
+      valid = false;
+      setErr("guests", t("err_guests"));
+    }
+
+    return valid;
+  }
+
+  function buildReservationMessage() {
+    const name = $("#name").value.trim();
+    const email = $("#email").value.trim();
+    const phone = $("#phone").value.trim();
+    const date = $("#date").value.trim();
+    const time = $("#time").value.trim();
+    const guests = $("#guests").value.trim();
+    const notes = $("#notes").value.trim() || "-";
+
+    return currentLang === "nl"
+      ? `Nieuwe reservering Delhi Darbaar:%0ANaam: ${encodeURIComponent(name)}%0AE-mail: ${encodeURIComponent(email)}%0ATelefoon: ${encodeURIComponent(phone)}%0ADatum: ${encodeURIComponent(date)}%0ATijd: ${encodeURIComponent(time)}%0AGasten: ${encodeURIComponent(guests)}%0AOpmerkingen: ${encodeURIComponent(notes)}`
+      : `New reservation Delhi Darbaar:%0AName: ${encodeURIComponent(name)}%0AEmail: ${encodeURIComponent(email)}%0APhone: ${encodeURIComponent(phone)}%0ADate: ${encodeURIComponent(date)}%0ATime: ${encodeURIComponent(time)}%0AGuests: ${encodeURIComponent(guests)}%0ANotes: ${encodeURIComponent(notes)}`;
+  }
+
+  function setupReservation() {
+    const form = $("#reservationForm");
+    const status = $("#formStatus");
+    const mailBtn = $("#mailFallbackBtn");
+    const quickBtn = $("#openReservationQuick");
+    if (!form || !status) return;
+
+    if (quickBtn) {
+      quickBtn.addEventListener("click", () => {
+        const target = $("#reservation");
+        if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    }
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      status.textContent = "";
+
+      if (!validateForm()) {
+        status.style.color = "var(--danger)";
+        status.textContent = t("form_err");
+        return;
+      }
+
+      status.style.color = "var(--success)";
+      status.textContent = t("form_ok");
+
+      const msg = buildReservationMessage();
+      const waNumber = "31613533612";
+      const waUrl = `https://wa.me/${waNumber}?text=${msg}`;
+
+      window.open(waUrl, "_blank", "noopener,noreferrer");
+    });
+
+    if (mailBtn) {
+      mailBtn.addEventListener("click", () => {
+        if (!validateForm()) {
+          status.style.color = "var(--danger)";
+          status.textContent = t("form_err");
+          return;
+        }
+
+        const name = $("#name").value.trim();
+        const email = $("#email").value.trim();
+        const phone = $("#phone").value.trim();
+        const date = $("#date").value.trim();
+        const time = $("#time").value.trim();
+        const guests = $("#guests").value.trim();
+        const notes = $("#notes").value.trim() || "-";
+
+        const subject = encodeURIComponent(currentLang === "nl" ? "Nieuwe reservering" : "New reservation");
+        const body = encodeURIComponent(
+          `${currentLang === "nl" ? "Naam" : "Name"}: ${name}\nEmail: ${email}\n${currentLang === "nl" ? "Telefoon" : "Phone"}: ${phone}\n${currentLang === "nl" ? "Datum" : "Date"}: ${date}\n${currentLang === "nl" ? "Tijd" : "Time"}: ${time}\n${currentLang === "nl" ? "Gasten" : "Guests"}: ${guests}\n${currentLang === "nl" ? "Opmerkingen" : "Notes"}: ${notes}`
+        );
+
+        window.location.href = `mailto:info@delhidarbaar.nl?subject=${subject}&body=${body}`;
+      });
+    }
+  }
+
+  /* -----------------------------
+     Language switch
+  ------------------------------ */
+  function setupLanguage() {
+    const switcher = $("#langSwitch");
+    if (!switcher) return;
+
+    switcher.value = "nl";
+    applyI18n("nl");
+
+    switcher.addEventListener("change", () => {
+      applyI18n(switcher.value);
+      renderMenu(); // rerender descriptions in selected language
+    });
+  }
+
+  /* -----------------------------
+     Search wiring
+  ------------------------------ */
+  function setupSearch() {
+    const input = $("#menuSearch");
+    if (!input) return;
+
+    input.addEventListener("input", (e) => {
+      activeSearch = e.target.value.trim();
+      renderMenu();
+    });
+  }
+
+  /* -----------------------------
+     Loader hide
+  ------------------------------ */
+  function hideLoaderSafely() {
+    const loader = $("#siteLoader");
+    if (!loader) return;
+    setTimeout(() => loader.classList.add("is-hidden"), 700);
+  }
+
+  /* -----------------------------
+     Year
+  ------------------------------ */
+  function setYear() {
+    const year = $("#year");
+    if (year) year.textContent = new Date().getFullYear().toString();
+  }
+
+  /* -----------------------------
+     Init
+  ------------------------------ */
+  async function init() {
+    setupLanguage();
+    setupMobileNav();
+    setupReveal();
+    setupSearch();
+    setupReservation();
+    setYear();
+
+    buildMenuChips();
+    await renderMenu();
+    await setupHero();
+    setupLightbox();
+
+    hideLoaderSafely();
+  }
+
+  // Start after DOM ready
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
+})();

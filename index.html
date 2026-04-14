@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Delhi Darbaar | A Taste of Royalty</title>
+  <meta name="description" content="Premium North Indian dining experience." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- NAV -->
+  <header class="nav-wrap" id="top">
+    <nav class="nav container">
+      <a href="#top" class="brand">
+        <span class="brand-mark">✦</span>
+        <span>Delhi Darbaar</span>
+      </a>
+
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">☰</button>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#story">Story</a></li>
+        <li><a href="#menu">Menu</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+
+      <button class="btn btn-outline" id="openCart">Cart <span id="cartCount">0</span></button>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-overlay"></div>
+    <div class="container hero-content">
+      <p class="kicker">Authentic North Indian Cuisine</p>
+      <h1>A Taste of Royalty</h1>
+      <p class="subtitle">
+        Rich spices, timeless recipes, and elevated hospitality — crafted for unforgettable evenings.
+      </p>
+      <div class="hero-actions">
+        <a href="#menu" class="btn btn-primary">Explore Menu</a>
+        <a href="#contact" class="btn btn-ghost">Book a Table</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- STORY -->
+  <section class="section" id="story">
+    <div class="container grid-2">
+      <div>
+        <p class="kicker">The Philosophy</p>
+        <h2>Honoring Tradition, Embracing Innovation.</h2>
+        <p>
+          At Delhi Darbaar, every dish celebrates heritage while reflecting modern finesse.
+          We roast, grind, and blend in-house to deliver layered, authentic flavor.
+        </p>
+        <p>
+          From tandoor classics to chef signatures, each plate is built with patience, precision, and soul.
+        </p>
+      </div>
+      <div class="story-cards">
+        <div class="story-card">Freshly Ground Spices</div>
+        <div class="story-card">Royal Mughlai Recipes</div>
+        <div class="story-card">Premium Ingredients</div>
+        <div class="story-card">Elegant Dining Experience</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MENU -->
+  <section class="section dark" id="menu">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <p class="kicker">Royal Menu</p>
+          <h2>Signature Dishes</h2>
+        </div>
+      </div>
+      <div class="menu-grid" id="menuGrid"></div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section class="section" id="gallery">
+    <div class="container">
+      <p class="kicker">Ambience</p>
+      <h2>Gallery</h2>
+      <div class="gallery-grid">
+        <div class="ph">Interior</div>
+        <div class="ph">Chef Special</div>
+        <div class="ph">Fine Dining</div>
+        <div class="ph">Tandoor</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="section dark">
+    <div class="container">
+      <p class="kicker">Guest Love</p>
+      <h2>What People Say</h2>
+      <div class="testimonials">
+        <blockquote>“Best butter chicken in town. Rich, balanced, unforgettable.”</blockquote>
+        <blockquote>“Elegant place, fast service, and truly authentic flavor.”</blockquote>
+        <blockquote>“Perfect for family dinners and date nights. 10/10.”</blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="section" id="contact">
+    <div class="container grid-2">
+      <div>
+        <p class="kicker">Reserve</p>
+        <h2>Book Your Table</h2>
+        <p>Havenstraat 75, 1211 KH Hilversum</p>
+        <p>Phone: +31 6 13533612</p>
+        <p>Mon–Thu: 13:00–22:00 | Fri–Sat: 13:00–22:30 | Sunday: Closed</p>
+      </div>
+      <form class="contact-form" onsubmit="event.preventDefault(); alert('Reservation request sent!');">
+        <input type="text" placeholder="Full Name" required />
+        <input type="email" placeholder="Email" required />
+        <input type="tel" placeholder="Phone" required />
+        <input type="datetime-local" required />
+        <button class="btn btn-primary" type="submit">Request Reservation</button>
+      </form>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      © <span id="year"></span> Delhi Darbaar. All rights reserved.
+    </div>
+  </footer>
+
+  <!-- CART DRAWER -->
+  <aside class="cart" id="cartDrawer">
+    <div class="cart-head">
+      <h3>Your Order</h3>
+      <button id="closeCart">✕</button>
+    </div>
+    <div id="cartItems" class="cart-items"></div>
+    <div class="cart-foot">
+      <strong>Total: €<span id="cartTotal">0.00</span></strong>
+      <button class="btn btn-primary" onclick="alert('Integrate payment gateway here')">Checkout</button>
+    </div>
+  </aside>
+
+  <script src="script.js"></script>
+</body>
+</html>

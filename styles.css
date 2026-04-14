@@ -1,531 +1,1434 @@
-/* =============================
-   Delhi Darbaar - Premium Script
-   GitHub Pages Safe
-============================= */
+/* ==========================================================================
+   DELHI DARBAAR - PREMIUM STYLESHEET (PART 2)
+   GitHub Pages project: /Delhi-darbar-Final-/
+   ========================================================================== */
 
-(function () {
-  "use strict";
+/* ==========================================================================
+   01) CSS RESET + ROOT TOKENS
+   ========================================================================== */
+:root{
+  --bg:#0b0d12;
+  --bg-2:#111623;
+  --bg-3:#171d2a;
+  --bg-4:#1e2433;
+  --line:rgba(255,255,255,.12);
+  --line-gold:rgba(212,175,55,.34);
+  --text:#f5f7ff;
+  --muted:#b9c3db;
+  --gold:#d4af37;
+  --orange:#e37014;
+  --success:#20c17d;
+  --danger:#ff6464;
+  --radius-xs:8px;
+  --radius-sm:10px;
+  --radius-md:14px;
+  --radius-lg:18px;
+  --shadow-1:0 12px 28px rgba(0,0,0,.28);
+  --shadow-2:0 20px 40px rgba(0,0,0,.34);
+  --shadow-gold:0 14px 34px rgba(212,175,55,.14);
+  --container:min(1220px, calc(100% - 2rem));
+  --speed-fast:.18s;
+  --speed-mid:.32s;
+  --speed-slow:.6s;
+}
 
-  /* -----------------------------
-     Utilities
-  ------------------------------ */
-  const $ = (selector, root = document) => root.querySelector(selector);
-  const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
+*,
+*::before,
+*::after{
+  box-sizing:border-box;
+}
 
-  const imageExists = (url) =>
-    new Promise((resolve) => {
-      const img = new Image();
-      img.onload = () => resolve(true);
-      img.onerror = () => resolve(false);
-      img.src = url;
-    });
+html,
+body{
+  margin:0;
+  padding:0;
+}
 
-  const money = (num) => `€${Number(num).toFixed(2)}`;
+html{
+  scroll-behavior:smooth;
+}
 
-  /* -----------------------------
-     i18n dictionary
-  ------------------------------ */
-  const i18n = {
-    nl: {
-      loading: "Laden...",
-      top_hours: "Ma-Do 13:00–22:00 · Vr-Za 13:00–22:30 · Zo gesloten",
-      nav_story: "Over ons",
-      nav_menu: "Menu",
-      nav_gallery: "Galerij",
-      nav_reservation: "Reserveren",
-      nav_contact: "Contact",
-      nav_book: "Boek",
-      hero_kicker: "Authentieke Noord-Indiase Keuken",
-      hero_title: "Een Smaak van Koninklijke Klasse",
-      hero_sub: "Traditionele recepten, rijke kruiden en warme gastvrijheid in het hart van Hilversum.",
-      hero_cta1: "Reserveer Nu",
-      hero_cta2: "Bekijk Menu",
-      badge_fresh: "Dagelijks verse bereiding",
-      badge_tandoor: "Authentieke tandoor smaak",
-      story_kicker: "Ons Verhaal",
-      story_title: "Traditie en Smaak in Perfecte Balans",
-      story_text1: "Delhi Darbaar combineert authentieke Indiase en Mughlai smaken met een moderne, verfijnde presentatie.",
-      story_text2: "Met jarenlange culinaire ervaring en verse ingrediënten serveren wij gerechten vol diepte en karakter.",
-      feature_1_title: "Verse kruiden",
-      feature_1_text: "Dagelijks vers gemalen voor maximale aroma.",
-      feature_2_title: "Tandoor specialiteiten",
-      feature_2_text: "Traditioneel gegrild met rijke rooksmaak.",
-      feature_3_title: "Premium ingrediënten",
-      feature_3_text: "Kwaliteit staat centraal in elk gerecht.",
-      feature_4_title: "Warme service",
-      feature_4_text: "Gastvrijheid zoals je die mag verwachten.",
-      menu_kicker: "Royal Menu",
-      menu_title: "Populaire Gerechten",
-      gallery_kicker: "Sfeer",
-      gallery_title: "Galerij",
-      res_kicker: "Reserveren",
-      res_title: "Reserveringssysteem",
-      res_text: "Vul je gegevens in. Na verzenden openen we WhatsApp met je reserveringsdetails.",
-      f_name: "Naam",
-      f_email: "E-mail",
-      f_phone: "Telefoon",
-      f_date: "Datum",
-      f_time: "Tijd",
-      f_guests: "Aantal gasten",
-      f_notes: "Opmerkingen",
-      res_submit: "Verstuur Reservering",
-      res_mail: "Verstuur via Email",
-      contact_title: "Contact",
-      hours_title: "Openingstijden",
-      hours_text: "Ma-Do 13:00–22:00 · Vr-Za 13:00–22:30 · Zondag gesloten",
-      contact_cta: "Reserveer je tafel",
-      footer_note: "Premium Indiase smaakbeleving",
-      form_ok: "Reservering voorbereid. WhatsApp wordt geopend...",
-      form_err: "Controleer de velden en probeer opnieuw.",
-      search_placeholder: "Zoek gerecht...",
-      err_required: "Dit veld is verplicht.",
-      err_email: "Vul een geldig e-mailadres in.",
-      err_phone: "Vul een geldig telefoonnummer in.",
-      err_date: "Kies een geldige datum.",
-      err_time: "Kies een tijd.",
-      err_guests: "Kies aantal gasten."
-    },
-    en: {
-      loading: "Loading...",
-      top_hours: "Mon-Thu 13:00–22:00 · Fri-Sat 13:00–22:30 · Sun closed",
-      nav_story: "Story",
-      nav_menu: "Menu",
-      nav_gallery: "Gallery",
-      nav_reservation: "Reservation",
-      nav_contact: "Contact",
-      nav_book: "Book",
-      hero_kicker: "Authentic North Indian Cuisine",
-      hero_title: "A Taste of Royalty",
-      hero_sub: "Traditional recipes, rich spices, and warm hospitality in the heart of Hilversum.",
-      hero_cta1: "Reserve Now",
-      hero_cta2: "View Menu",
-      badge_fresh: "Freshly prepared daily",
-      badge_tandoor: "Authentic tandoor flavor",
-      story_kicker: "Our Story",
-      story_title: "Tradition and Flavor in Perfect Balance",
-      story_text1: "Delhi Darbaar combines authentic Indian and Mughlai flavors with a refined modern presentation.",
-      story_text2: "With years of culinary experience and fresh ingredients, we serve dishes with depth and character.",
-      feature_1_title: "Fresh spices",
-      feature_1_text: "Ground daily for maximum aroma.",
-      feature_2_title: "Tandoor specialties",
-      feature_2_text: "Traditionally grilled with rich smoky flavor.",
-      feature_3_title: "Premium ingredients",
-      feature_3_text: "Quality is central in every dish.",
-      feature_4_title: "Warm service",
-      feature_4_text: "Hospitality at its finest.",
-      menu_kicker: "Royal Menu",
-      menu_title: "Popular Dishes",
-      gallery_kicker: "Ambience",
-      gallery_title: "Gallery",
-      res_kicker: "Reservation",
-      res_title: "Reservation System",
-      res_text: "Fill in your details. After submitting, we open WhatsApp with your reservation details.",
-      f_name: "Name",
-      f_email: "Email",
-      f_phone: "Phone",
-      f_date: "Date",
-      f_time: "Time",
-      f_guests: "Guests",
-      f_notes: "Notes",
-      res_submit: "Send Reservation",
-      res_mail: "Send via Email",
-      contact_title: "Contact",
-      hours_title: "Opening Hours",
-      hours_text: "Mon-Thu 13:00–22:00 · Fri-Sat 13:00–22:30 · Sunday closed",
-      contact_cta: "Reserve your table",
-      footer_note: "Premium Indian dining experience",
-      form_ok: "Reservation prepared. Opening WhatsApp...",
-      form_err: "Please check the form fields and try again.",
-      search_placeholder: "Search dish...",
-      err_required: "This field is required.",
-      err_email: "Please enter a valid email address.",
-      err_phone: "Please enter a valid phone number.",
-      err_date: "Please choose a valid date.",
-      err_time: "Please choose a time.",
-      err_guests: "Please choose number of guests."
-    }
-  };
+body{
+  min-height:100%;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  line-height:1.55;
+  overflow-x:hidden;
+  text-rendering:optimizeLegibility;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
 
-  let currentLang = "nl";
+img{
+  max-width:100%;
+  display:block;
+}
 
-  function t(key) {
-    return i18n[currentLang][key] || key;
+a{
+  color:inherit;
+  text-decoration:none;
+}
+
+button,
+input,
+select,
+textarea{
+  font:inherit;
+  color:inherit;
+}
+
+ul{
+  margin:0;
+  padding:0;
+  list-style:none;
+}
+
+h1,
+h2,
+h3,
+h4{
+  margin:.1rem 0 .8rem;
+  font-family:Cinzel,serif;
+  color:var(--gold);
+  letter-spacing:.02em;
+}
+
+p{
+  margin:.55rem 0;
+  color:var(--muted);
+}
+
+/* ==========================================================================
+   02) UTILITIES
+   ========================================================================== */
+.container{
+  width:var(--container);
+  margin-inline:auto;
+}
+
+.section{
+  padding:84px 0;
+  border-top:1px solid rgba(212,175,55,.14);
+  position:relative;
+}
+
+.section-bleed{
+  border-top:none;
+}
+
+.section-dark{
+  background:
+    linear-gradient(180deg, rgba(17,22,35,1) 0%, rgba(12,16,24,1) 100%);
+}
+
+.kicker{
+  margin-bottom:.6rem;
+  color:var(--orange);
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:.24em;
+  font-weight:800;
+}
+
+.panel{
+  background:linear-gradient(160deg,var(--bg-3),#0f1420);
+  border:1px solid var(--line);
+  border-radius:var(--radius-md);
+  box-shadow:var(--shadow-1);
+  padding:20px;
+}
+
+.reveal{
+  opacity:0;
+  transform:translateY(14px);
+  transition:
+    opacity var(--speed-slow) ease,
+    transform var(--speed-slow) ease;
+}
+
+.reveal.is-visible{
+  opacity:1;
+  transform:translateY(0);
+}
+
+.sr-only{
+  position:absolute !important;
+  width:1px !important;
+  height:1px !important;
+  padding:0 !important;
+  margin:-1px !important;
+  overflow:hidden !important;
+  clip:rect(0,0,0,0) !important;
+  white-space:nowrap !important;
+  border:0 !important;
+}
+
+/* ==========================================================================
+   03) BOOT LOADER
+   ========================================================================== */
+#bootLoader{
+  transition:opacity .35s ease, visibility .35s ease;
+}
+
+#bootLoader.hide{
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+}
+
+/* ==========================================================================
+   04) CURSOR GLOW + AMBIENT LAYERS
+   ========================================================================== */
+.cursor-glow{
+  position:fixed;
+  top:0;
+  left:0;
+  width:280px;
+  height:280px;
+  border-radius:50%;
+  pointer-events:none;
+  z-index:-1;
+  opacity:.28;
+  filter:blur(42px);
+  background:radial-gradient(circle at center, rgba(212,175,55,.52), rgba(212,175,55,0));
+  transform:translate(-50%, -50%);
+  transition:transform .08s linear;
+}
+
+.ambient-layer{
+  position:fixed;
+  inset:0;
+  overflow:hidden;
+  pointer-events:none;
+  z-index:-2;
+}
+
+.ambient-orb{
+  position:absolute;
+  border-radius:999px;
+  filter:blur(34px);
+  opacity:.28;
+  animation:floatOrb 12s ease-in-out infinite;
+}
+
+.ambient-orb-a{
+  width:340px;
+  height:340px;
+  background:#d4af37;
+  top:-110px;
+  left:-90px;
+}
+
+.ambient-orb-b{
+  width:280px;
+  height:280px;
+  background:#5f82ff;
+  right:-70px;
+  top:20%;
+  animation-delay:1.4s;
+}
+
+.ambient-orb-c{
+  width:300px;
+  height:300px;
+  background:#e37014;
+  left:36%;
+  bottom:-140px;
+  animation-delay:2.2s;
+}
+
+.ambient-grid{
+  position:absolute;
+  inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+  background-size:28px 28px;
+  mask-image:radial-gradient(circle at center, black 25%, transparent 82%);
+}
+
+.ambient-noise{
+  position:absolute;
+  inset:0;
+  opacity:.08;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.45'/%3E%3C/svg%3E");
+}
+
+@keyframes floatOrb{
+  0%,100%{transform:translate(0,0);}
+  50%{transform:translate(14px,-18px);}
+}
+
+/* ==========================================================================
+   05) SCROLL PROGRESS
+   ========================================================================== */
+.scroll-progress-wrap{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:3px;
+  z-index:120;
+  background:transparent;
+}
+
+.scroll-progress{
+  width:0%;
+  height:100%;
+  background:linear-gradient(90deg, var(--gold), var(--orange));
+  box-shadow:0 0 12px rgba(212,175,55,.44);
+  transition:width .05s linear;
+}
+
+/* ==========================================================================
+   06) TOP STRIP
+   ========================================================================== */
+.top-strip{
+  border-bottom:1px solid var(--line);
+  background:linear-gradient(90deg,#0f1420,#0c111b);
+  position:relative;
+  z-index:50;
+}
+
+.top-strip-inner{
+  min-height:40px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+  padding:6px 0;
+}
+
+.top-strip-left{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  flex-wrap:wrap;
+  font-size:12px;
+  color:#d5ddf2;
+}
+
+.top-strip-right{
+  font-size:12px;
+  color:#d5ddf2;
+  font-weight:600;
+}
+
+/* ==========================================================================
+   07) HEADER + NAV
+   ========================================================================== */
+.site-header{
+  position:sticky;
+  top:0;
+  z-index:110;
+  backdrop-filter:blur(10px);
+  background:rgba(11,13,18,.75);
+  border-bottom:1px solid var(--line-gold);
+}
+
+.nav-shell{
+  min-height:78px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  min-width:max-content;
+}
+
+.brand-logo{
+  width:44px;
+  height:44px;
+  border-radius:10px;
+  object-fit:cover;
+  border:1px solid rgba(212,175,55,.45);
+  background:#111827;
+  box-shadow:var(--shadow-gold);
+}
+
+.brand-text{
+  color:var(--gold);
+  font-weight:900;
+  letter-spacing:.13em;
+  text-transform:uppercase;
+  font-size:13px;
+}
+
+.mobile-menu-toggle{
+  display:none;
+  width:42px;
+  height:42px;
+  border-radius:10px;
+  border:1px solid var(--line);
+  background:#111827;
+  color:#fff;
+  font-size:21px;
+  cursor:pointer;
+}
+
+.main-nav{
+  display:flex;
+  align-items:center;
+  gap:16px;
+}
+
+.main-nav a{
+  color:#eef2ff;
+  font-weight:600;
+  position:relative;
+  padding:4px 2px;
+}
+
+.main-nav a::after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:-3px;
+  width:0%;
+  height:2px;
+  background:linear-gradient(90deg,var(--gold),var(--orange));
+  transition:width var(--speed-mid) ease;
+}
+
+.main-nav a:hover::after{
+  width:100%;
+}
+
+.nav-actions{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.lang-wrap{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  border:1px solid var(--line);
+  background:#111726;
+  border-radius:10px;
+  padding:7px 9px;
+}
+
+.lang-switch{
+  background:transparent;
+  border:none;
+  color:#fff;
+  font-weight:700;
+  cursor:pointer;
+  outline:none;
+}
+
+/* ==========================================================================
+   08) BUTTONS
+   ========================================================================== */
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  border:1px solid transparent;
+  border-radius:10px;
+  padding:11px 16px;
+  font-size:12px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  font-weight:800;
+  cursor:pointer;
+  transition:
+    transform var(--speed-fast) ease,
+    box-shadow var(--speed-mid) ease,
+    background var(--speed-mid) ease,
+    border-color var(--speed-mid) ease,
+    color var(--speed-mid) ease;
+}
+
+.btn:hover{
+  transform:translateY(-1px);
+}
+
+.btn:active{
+  transform:translateY(0);
+}
+
+.btn-primary{
+  background:linear-gradient(125deg,#f09543,#e37014);
+  color:#fff;
+  border-color:#e37014;
+  box-shadow:0 10px 20px rgba(227,112,20,.3);
+}
+
+.btn-outline{
+  border-color:var(--gold);
+  color:var(--gold);
+  background:transparent;
+}
+
+.btn-outline:hover{
+  background:rgba(212,175,55,.1);
+}
+
+.btn-ghost{
+  border-color:rgba(255,255,255,.3);
+  color:#fff;
+  background:transparent;
+}
+
+.btn-ghost:hover{
+  background:rgba(255,255,255,.08);
+}
+
+/* ==========================================================================
+   09) HERO
+   ========================================================================== */
+.hero-section{
+  position:relative;
+  min-height:88vh;
+  overflow:hidden;
+}
+
+.hero-slides,
+.hero-slide{
+  position:absolute;
+  inset:0;
+}
+
+.hero-slide{
+  opacity:0;
+  transform:scale(1.04);
+  background-size:cover;
+  background-position:center;
+  transition:
+    opacity .9s ease,
+    transform 5s ease;
+  will-change:opacity,transform;
+}
+
+.hero-slide.is-active{
+  opacity:1;
+  transform:scale(1);
+}
+
+.hero-overlay{
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(circle at 18% 20%, rgba(212,175,55,.24), transparent 42%),
+    radial-gradient(circle at 82% 80%, rgba(227,112,20,.18), transparent 40%),
+    linear-gradient(to bottom, rgba(0,0,0,.56), #0b0d12 86%);
+}
+
+.hero-content{
+  min-height:88vh;
+  position:relative;
+  z-index:5;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:flex-start;
+}
+
+.hero-kicker{
+  color:var(--orange);
+  letter-spacing:.26em;
+  text-transform:uppercase;
+  font-size:11px;
+  font-weight:800;
+}
+
+.hero-content h1{
+  font-size:clamp(42px,8vw,100px);
+  line-height:.92;
+  max-width:920px;
+  margin-top:.2rem;
+  margin-bottom:.8rem;
+}
+
+.hero-subtext{
+  max-width:720px;
+  font-size:1rem;
+  color:#d4dcef;
+}
+
+.hero-buttons{
+  margin-top:14px;
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+.hero-highlights{
+  margin-top:18px;
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.hero-highlights span{
+  border:1px solid rgba(255,255,255,.2);
+  background:rgba(16,21,32,.55);
+  border-radius:999px;
+  padding:7px 12px;
+  font-size:12px;
+  color:#d8dff1;
+}
+
+.hero-down-btn{
+  position:absolute;
+  bottom:20px;
+  left:50%;
+  transform:translateX(-50%);
+  z-index:7;
+  width:38px;
+  height:38px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.35);
+  background:rgba(10,12,17,.56);
+  color:#fff;
+  cursor:pointer;
+  animation:bob 1.7s ease-in-out infinite;
+}
+
+@keyframes bob{
+  0%,100%{transform:translateX(-50%) translateY(0);}
+  50%{transform:translateX(-50%) translateY(5px);}
+}
+
+/* ==========================================================================
+   10) STORY SECTION
+   ========================================================================== */
+.story-layout{
+  display:grid;
+  grid-template-columns:1.04fr .96fr;
+  gap:16px;
+  align-items:stretch;
+}
+
+.feature-grid{
+  margin-top:14px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.feature-card{
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.02);
+  border-radius:12px;
+  padding:12px;
+}
+
+.feature-card h3{
+  margin:0 0 .28rem;
+  font-size:16px;
+}
+
+.feature-card p{
+  margin:0;
+  font-size:14px;
+}
+
+.story-media{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.story-img{
+  margin:0;
+  border-radius:12px;
+  overflow:hidden;
+  border:1px solid var(--line);
+  background:#101622;
+  min-height:170px;
+}
+
+.story-img img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transition:transform .5s ease;
+}
+
+.story-img:hover img{
+  transform:scale(1.04);
+}
+
+.story-img-lg{
+  grid-column:span 2;
+  min-height:250px;
+}
+
+/* ==========================================================================
+   11) SECTION HEAD + SEARCH + CHIPS
+   ========================================================================== */
+.section-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+.menu-tools{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.search-input{
+  min-width:240px;
+  padding:11px 12px;
+  border-radius:10px;
+  border:1px solid var(--line);
+  background:#111827;
+  color:#fff;
+  outline:none;
+}
+
+.search-input:focus{
+  border-color:var(--gold);
+  box-shadow:0 0 0 3px rgba(212,175,55,.15);
+}
+
+.category-chips{
+  margin-top:14px;
+  margin-bottom:12px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.category-chip{
+  border:1px solid var(--line);
+  background:#151c2a;
+  color:#d7dff1;
+  border-radius:999px;
+  padding:8px 12px;
+  font-size:12px;
+  font-weight:600;
+  cursor:pointer;
+  transition:all var(--speed-mid) ease;
+}
+
+.category-chip:hover{
+  border-color:rgba(255,255,255,.36);
+}
+
+.category-chip.is-active{
+  border-color:var(--gold);
+  color:var(--gold);
+  background:rgba(212,175,55,.11);
+}
+
+/* ==========================================================================
+   12) MENU GRID + CARDS
+   ========================================================================== */
+.menu-grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:12px;
+}
+
+.menu-card{
+  border:1px solid var(--line);
+  border-radius:12px;
+  overflow:hidden;
+  background:linear-gradient(155deg,#181f2d,#101722);
+  box-shadow:var(--shadow-1);
+  transition:
+    transform var(--speed-mid) ease,
+    border-color var(--speed-mid) ease,
+    box-shadow var(--speed-mid) ease;
+}
+
+.menu-card:hover{
+  transform:translateY(-4px);
+  border-color:var(--line-gold);
+  box-shadow:var(--shadow-2);
+}
+
+.menu-media{
+  position:relative;
+  height:180px;
+  background:#111827;
+  overflow:hidden;
+}
+
+.menu-media img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transition:transform .6s ease;
+}
+
+.menu-card:hover .menu-media img{
+  transform:scale(1.06);
+}
+
+.menu-badge{
+  position:absolute;
+  top:10px;
+  left:10px;
+  border:1px solid rgba(255,255,255,.35);
+  background:rgba(0,0,0,.45);
+  border-radius:999px;
+  padding:5px 10px;
+  font-size:11px;
+  color:#fff;
+  font-weight:700;
+}
+
+.menu-body{
+  padding:12px;
+}
+
+.menu-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:10px;
+}
+
+.menu-row h3{
+  margin:0;
+  font-size:20px;
+}
+
+.menu-price{
+  color:var(--gold);
+  font-weight:800;
+  font-size:15px;
+}
+
+.menu-desc{
+  margin:7px 0 8px;
+  font-size:14px;
+}
+
+.menu-meta{
+  font-size:12px;
+  color:#d3dcf2;
+}
+
+/* ==========================================================================
+   13) GALLERY
+   ========================================================================== */
+.gallery-grid{
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr;
+  gap:10px;
+}
+
+.gallery-item{
+  margin:0;
+  border-radius:12px;
+  overflow:hidden;
+  border:1px solid var(--line);
+  background:#101723;
+  cursor:pointer;
+  position:relative;
+}
+
+.gallery-item:first-child{
+  grid-row:span 2;
+}
+
+.gallery-item img{
+  width:100%;
+  height:100%;
+  min-height:190px;
+  object-fit:cover;
+  transition:transform .5s ease, filter .4s ease;
+}
+
+.gallery-item:hover img{
+  transform:scale(1.05);
+  filter:saturate(1.08);
+}
+
+.gallery-item::after{
+  content:"View";
+  position:absolute;
+  right:10px;
+  bottom:10px;
+  border:1px solid rgba(255,255,255,.35);
+  background:rgba(0,0,0,.45);
+  border-radius:999px;
+  padding:5px 10px;
+  font-size:11px;
+  color:#fff;
+}
+
+/* ==========================================================================
+   14) TESTIMONIALS
+   ========================================================================== */
+.testimonial-slider{
+  overflow:hidden;
+  position:relative;
+  border-radius:12px;
+}
+
+.testimonial-track{
+  display:flex;
+  transition:transform .45s ease;
+}
+
+.testimonial-card{
+  min-width:100%;
+  border:1px solid var(--line);
+  background:linear-gradient(160deg,#181f2d,#101622);
+  border-radius:12px;
+  padding:22px;
+}
+
+.stars{
+  color:#ffd66a;
+  letter-spacing:2px;
+  margin-bottom:.6rem;
+}
+
+.testimonial-card p{
+  font-size:1rem;
+  color:#dbe3f8;
+}
+
+.testimonial-card small{
+  color:#b7c0d8;
+  font-weight:600;
+}
+
+.testimonial-dots{
+  margin-top:12px;
+  display:flex;
+  justify-content:center;
+  gap:8px;
+}
+
+.testimonial-dot{
+  width:8px;
+  height:8px;
+  border-radius:999px;
+  border:none;
+  background:#59627a;
+  cursor:pointer;
+  transition:all var(--speed-mid) ease;
+}
+
+.testimonial-dot.is-active{
+  background:var(--gold);
+  transform:scale(1.2);
+}
+
+/* ==========================================================================
+   15) RESERVATION SECTION
+   ========================================================================== */
+.reservation-layout{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+}
+
+.res-list{
+  margin-top:12px;
+  display:grid;
+  gap:8px;
+}
+
+.res-list li{
+  color:#d4dcef;
+}
+
+.res-note{
+  margin-top:12px;
+  padding:12px;
+  border-radius:10px;
+  border:1px dashed rgba(255,255,255,.2);
+  background:rgba(255,255,255,.02);
+}
+
+.reservation-form{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.field{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+
+.field label{
+  font-size:12px;
+  color:#d8e0f5;
+}
+
+.field input,
+.field select,
+.field textarea{
+  border:1px solid var(--line);
+  border-radius:10px;
+  background:#111827;
+  color:#fff;
+  padding:10px 12px;
+  outline:none;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus{
+  border-color:var(--gold);
+  box-shadow:0 0 0 3px rgba(212,175,55,.14);
+}
+
+.field-full{
+  grid-column:1 / -1;
+}
+
+.error{
+  min-height:15px;
+  font-size:12px;
+  color:var(--danger);
+}
+
+.form-actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.reservation-status{
+  margin-top:4px;
+  font-weight:700;
+  min-height:20px;
+}
+
+/* ==========================================================================
+   16) FAQ
+   ========================================================================== */
+.faq-list{
+  display:grid;
+  gap:10px;
+}
+
+.faq-item{
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:linear-gradient(155deg,#171e2b,#111723);
+  padding:12px 14px;
+}
+
+.faq-item summary{
+  cursor:pointer;
+  font-weight:700;
+  color:#edf2ff;
+  outline:none;
+}
+
+.faq-item p{
+  margin-top:10px;
+}
+
+/* ==========================================================================
+   17) CONTACT + FOOTER
+   ========================================================================== */
+.contact-layout{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+}
+
+.site-footer{
+  border-top:1px solid rgba(212,175,55,.2);
+  background:#090c12;
+  padding:24px 0;
+}
+
+.footer-inner{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+.footer-inner p{
+  margin:0;
+  color:#aeb8d0;
+  font-size:14px;
+}
+
+/* ==========================================================================
+   18) BACK TO TOP
+   ========================================================================== */
+.back-to-top{
+  position:fixed;
+  right:16px;
+  bottom:16px;
+  width:42px;
+  height:42px;
+  border-radius:10px;
+  border:1px solid var(--line);
+  background:#121927;
+  color:#fff;
+  cursor:pointer;
+  z-index:115;
+  opacity:0;
+  visibility:hidden;
+  transform:translateY(10px);
+  transition:all var(--speed-mid) ease;
+}
+
+.back-to-top.is-visible{
+  opacity:1;
+  visibility:visible;
+  transform:translateY(0);
+}
+
+.back-to-top:hover{
+  border-color:var(--gold);
+  color:var(--gold);
+}
+
+/* ==========================================================================
+   19) LIGHTBOX
+   ========================================================================== */
+.lightbox{
+  position:fixed;
+  inset:0;
+  z-index:140;
+  background:rgba(0,0,0,.88);
+  display:none;
+  place-items:center;
+  padding:20px;
+}
+
+.lightbox.is-open{
+  display:grid;
+}
+
+.lightbox img{
+  max-width:min(1100px,92vw);
+  max-height:84vh;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,.25);
+  box-shadow:var(--shadow-2);
+}
+
+.lightbox-close{
+  position:absolute;
+  top:14px;
+  right:14px;
+  width:40px;
+  height:40px;
+  border-radius:10px;
+  border:1px solid var(--line);
+  background:#111827;
+  color:#fff;
+  cursor:pointer;
+}
+
+/* ==========================================================================
+   20) STATES / HELPERS
+   ========================================================================== */
+.is-hidden{
+  display:none !important;
+}
+
+.is-muted{
+  color:var(--muted) !important;
+}
+
+.is-danger{
+  color:var(--danger) !important;
+}
+
+.is-success{
+  color:var(--success) !important;
+}
+
+/* ==========================================================================
+   21) RESPONSIVE - 1200
+   ========================================================================== */
+@media (max-width:1200px){
+  .menu-grid{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+  }
+}
+
+/* ==========================================================================
+   22) RESPONSIVE - 1024
+   ========================================================================== */
+@media (max-width:1024px){
+  .story-layout{
+    grid-template-columns:1fr;
   }
 
-  function applyI18n(lang) {
-    currentLang = lang;
-    document.documentElement.lang = lang;
-
-    $$("[data-i18n]").forEach((el) => {
-      const key = el.getAttribute("data-i18n");
-      el.textContent = t(key);
-    });
-
-    const searchInput = $("#menuSearch");
-    if (searchInput) searchInput.placeholder = t("search_placeholder");
-
-    const loaderText = $("#siteLoader p[data-i18n='loading']");
-    if (loaderText) loaderText.textContent = t("loading");
+  .reservation-layout{
+    grid-template-columns:1fr;
   }
 
-  /* -----------------------------
-     Menu data
-  ------------------------------ */
-  const menuItems = [
-    { id: 1, name: "Butter Chicken", price: 16.5, category: "Chicken", img: "./dish-1.jpg", descNL: "Romige tomatencurry met boter en kruiden.", descEN: "Creamy tomato curry with butter and spices." },
-    { id: 2, name: "Paneer Tikka", price: 13.0, category: "Veg", img: "./dish-2.jpg", descNL: "Gemarineerde paneer, gegrild in tandoor.", descEN: "Marinated paneer grilled in tandoor." },
-    { id: 3, name: "Lamb Rogan Josh", price: 18.5, category: "Lamb", img: "./dish-3.jpg", descNL: "Langzaam gegaard lamsgerecht met rijke saus.", descEN: "Slow-cooked lamb in rich aromatic gravy." },
-    { id: 4, name: "Chicken Biryani", price: 15.5, category: "Rice", img: "./dish-4.jpg", descNL: "Geurige basmatirijst met gekruide kip.", descEN: "Fragrant basmati rice with spiced chicken." }
-  ];
-
-  let activeCategory = "All";
-  let activeSearch = "";
-
-  function buildMenuChips() {
-    const wrap = $("#menuChips");
-    if (!wrap) return;
-
-    const categories = ["All", ...new Set(menuItems.map((i) => i.category))];
-    wrap.innerHTML = categories
-      .map((cat) => `<button class="chip ${cat === activeCategory ? "is-active" : ""}" data-chip="${cat}">${cat}</button>`)
-      .join("");
-
-    $$("[data-chip]", wrap).forEach((chip) => {
-      chip.addEventListener("click", () => {
-        activeCategory = chip.getAttribute("data-chip");
-        buildMenuChips();
-        renderMenu();
-      });
-    });
+  .contact-layout{
+    grid-template-columns:1fr;
   }
 
-  async function resolveImage(path) {
-    const ok = await imageExists(path);
-    if (ok) return path;
-    const fallbackOK = await imageExists("./fallback.jpg");
-    return fallbackOK ? "./fallback.jpg" : path;
+  .menu-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
   }
 
-  async function renderMenu() {
-    const grid = $("#menuGrid");
-    if (!grid) return;
-
-    const filtered = menuItems.filter((item) => {
-      const byCategory = activeCategory === "All" || item.category === activeCategory;
-      const text = `${item.name} ${item.descNL} ${item.descEN} ${item.category}`.toLowerCase();
-      const bySearch = text.includes(activeSearch.toLowerCase());
-      return byCategory && bySearch;
-    });
-
-    if (!filtered.length) {
-      grid.innerHTML = `<article class="menu-card"><div class="menu-body"><h3>No results</h3></div></article>`;
-      return;
-    }
-
-    const cards = await Promise.all(
-      filtered.map(async (item) => {
-        const safeImg = await resolveImage(item.img);
-        const desc = currentLang === "nl" ? item.descNL : item.descEN;
-        return `
-          <article class="menu-card">
-            <img src="${safeImg}" alt="${item.name}" onerror="this.onerror=null;this.src='./fallback.jpg';" />
-            <div class="menu-body">
-              <div class="menu-row">
-                <h3>${item.name}</h3>
-                <span class="price">${money(item.price)}</span>
-              </div>
-              <p class="menu-text">${desc}</p>
-              <p class="menu-meta">${item.category}</p>
-            </div>
-          </article>
-        `;
-      })
-    );
-
-    grid.innerHTML = cards.join("");
+  .gallery-grid{
+    grid-template-columns:1fr 1fr;
   }
 
-  /* -----------------------------
-     Hero image setup + slider
-  ------------------------------ */
-  async function setupHero() {
-    const slides = $$(".hero-slide");
-    for (const slide of slides) {
-      const src = slide.getAttribute("data-src");
-      const safe = await resolveImage(src);
-      slide.style.backgroundImage = `url('${safe}')`;
-    }
+  .gallery-item:first-child{
+    grid-row:auto;
+  }
+}
 
-    let idx = 0;
-    setInterval(() => {
-      slides[idx].classList.remove("is-active");
-      idx = (idx + 1) % slides.length;
-      slides[idx].classList.add("is-active");
-    }, 5200);
+/* ==========================================================================
+   23) RESPONSIVE - 760
+   ========================================================================== */
+@media (max-width:760px){
+  .top-strip-right{
+    display:none;
   }
 
-  /* -----------------------------
-     Gallery lightbox
-  ------------------------------ */
-  function setupLightbox() {
-    const lightbox = $("#lightbox");
-    const lightboxImage = $("#lightboxImage");
-    const closeBtn = $("#lightboxClose");
-    if (!lightbox || !lightboxImage || !closeBtn) return;
-
-    $$("#galleryGrid img").forEach((img) => {
-      img.addEventListener("click", async () => {
-        const src = img.getAttribute("src");
-        lightboxImage.src = await resolveImage(src);
-        lightbox.classList.add("is-open");
-      });
-    });
-
-    closeBtn.addEventListener("click", () => lightbox.classList.remove("is-open"));
-    lightbox.addEventListener("click", (e) => {
-      if (e.target === lightbox) lightbox.classList.remove("is-open");
-    });
+  .mobile-menu-toggle{
+    display:grid;
+    place-items:center;
   }
 
-  /* -----------------------------
-     Mobile nav
-  ------------------------------ */
-  function setupMobileNav() {
-    const toggle = $("#menuToggle");
-    const nav = $("#navLinks");
-    if (!toggle || !nav) return;
-
-    toggle.addEventListener("click", () => {
-      const open = nav.classList.toggle("is-open");
-      toggle.setAttribute("aria-expanded", String(open));
-    });
-
-    $$("a", nav).forEach((a) => {
-      a.addEventListener("click", () => nav.classList.remove("is-open"));
-    });
+  .main-nav{
+    display:none;
+    position:absolute;
+    top:78px;
+    left:0;
+    right:0;
+    background:#0f1522;
+    border-bottom:1px solid var(--line);
+    padding:12px 1rem;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:12px;
   }
 
-  /* -----------------------------
-     Reveal animation
-  ------------------------------ */
-  function setupReveal() {
-    const els = $$(".reveal");
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("is-visible");
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.16 }
-    );
-    els.forEach((el) => observer.observe(el));
+  .main-nav.is-open{
+    display:flex;
   }
 
-  /* -----------------------------
-     Reservation form
-  ------------------------------ */
-  function validateForm() {
-    const name = $("#name").value.trim();
-    const email = $("#email").value.trim();
-    const phone = $("#phone").value.trim();
-    const date = $("#date").value.trim();
-    const time = $("#time").value.trim();
-    const guests = $("#guests").value.trim();
-
-    let valid = true;
-
-    const setErr = (field, msg) => {
-      const el = $(`[data-error-for="${field}"]`);
-      if (el) el.textContent = msg || "";
-    };
-
-    setErr("name", "");
-    setErr("email", "");
-    setErr("phone", "");
-    setErr("date", "");
-    setErr("time", "");
-    setErr("guests", "");
-
-    if (!name) {
-      valid = false;
-      setErr("name", t("err_required"));
-    }
-    if (!email) {
-      valid = false;
-      setErr("email", t("err_required"));
-    } else if (!/^\S+@\S+\.\S+$/.test(email)) {
-      valid = false;
-      setErr("email", t("err_email"));
-    }
-    if (!phone) {
-      valid = false;
-      setErr("phone", t("err_required"));
-    } else if (!/^[0-9+\s\-()]{6,}$/.test(phone)) {
-      valid = false;
-      setErr("phone", t("err_phone"));
-    }
-    if (!date) {
-      valid = false;
-      setErr("date", t("err_date"));
-    }
-    if (!time) {
-      valid = false;
-      setErr("time", t("err_time"));
-    }
-    if (!guests) {
-      valid = false;
-      setErr("guests", t("err_guests"));
-    }
-
-    return valid;
+  .nav-actions{
+    margin-left:auto;
   }
 
-  function buildReservationMessage() {
-    const name = $("#name").value.trim();
-    const email = $("#email").value.trim();
-    const phone = $("#phone").value.trim();
-    const date = $("#date").value.trim();
-    const time = $("#time").value.trim();
-    const guests = $("#guests").value.trim();
-    const notes = $("#notes").value.trim() || "-";
-
-    return currentLang === "nl"
-      ? `Nieuwe reservering Delhi Darbaar:%0ANaam: ${encodeURIComponent(name)}%0AE-mail: ${encodeURIComponent(email)}%0ATelefoon: ${encodeURIComponent(phone)}%0ADatum: ${encodeURIComponent(date)}%0ATijd: ${encodeURIComponent(time)}%0AGasten: ${encodeURIComponent(guests)}%0AOpmerkingen: ${encodeURIComponent(notes)}`
-      : `New reservation Delhi Darbaar:%0AName: ${encodeURIComponent(name)}%0AEmail: ${encodeURIComponent(email)}%0APhone: ${encodeURIComponent(phone)}%0ADate: ${encodeURIComponent(date)}%0ATime: ${encodeURIComponent(time)}%0AGuests: ${encodeURIComponent(guests)}%0ANotes: ${encodeURIComponent(notes)}`;
+  .hero-content h1{
+    font-size:clamp(38px,11vw,72px);
   }
 
-  function setupReservation() {
-    const form = $("#reservationForm");
-    const status = $("#formStatus");
-    const mailBtn = $("#mailFallbackBtn");
-    const quickBtn = $("#openReservationQuick");
-    if (!form || !status) return;
-
-    if (quickBtn) {
-      quickBtn.addEventListener("click", () => {
-        const target = $("#reservation");
-        if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
-      });
-    }
-
-    form.addEventListener("submit", (e) => {
-      e.preventDefault();
-      status.textContent = "";
-
-      if (!validateForm()) {
-        status.style.color = "var(--danger)";
-        status.textContent = t("form_err");
-        return;
-      }
-
-      status.style.color = "var(--success)";
-      status.textContent = t("form_ok");
-
-      const msg = buildReservationMessage();
-      const waNumber = "31613533612";
-      const waUrl = `https://wa.me/${waNumber}?text=${msg}`;
-
-      window.open(waUrl, "_blank", "noopener,noreferrer");
-    });
-
-    if (mailBtn) {
-      mailBtn.addEventListener("click", () => {
-        if (!validateForm()) {
-          status.style.color = "var(--danger)";
-          status.textContent = t("form_err");
-          return;
-        }
-
-        const name = $("#name").value.trim();
-        const email = $("#email").value.trim();
-        const phone = $("#phone").value.trim();
-        const date = $("#date").value.trim();
-        const time = $("#time").value.trim();
-        const guests = $("#guests").value.trim();
-        const notes = $("#notes").value.trim() || "-";
-
-        const subject = encodeURIComponent(currentLang === "nl" ? "Nieuwe reservering" : "New reservation");
-        const body = encodeURIComponent(
-          `${currentLang === "nl" ? "Naam" : "Name"}: ${name}\nEmail: ${email}\n${currentLang === "nl" ? "Telefoon" : "Phone"}: ${phone}\n${currentLang === "nl" ? "Datum" : "Date"}: ${date}\n${currentLang === "nl" ? "Tijd" : "Time"}: ${time}\n${currentLang === "nl" ? "Gasten" : "Guests"}: ${guests}\n${currentLang === "nl" ? "Opmerkingen" : "Notes"}: ${notes}`
-        );
-
-        window.location.href = `mailto:info@delhidarbaar.nl?subject=${subject}&body=${body}`;
-      });
-    }
+  .hero-highlights{
+    gap:8px;
   }
 
-  /* -----------------------------
-     Language switch
-  ------------------------------ */
-  function setupLanguage() {
-    const switcher = $("#langSwitch");
-    if (!switcher) return;
-
-    switcher.value = "nl";
-    applyI18n("nl");
-
-    switcher.addEventListener("change", () => {
-      applyI18n(switcher.value);
-      renderMenu(); // rerender descriptions in selected language
-    });
+  .feature-grid{
+    grid-template-columns:1fr;
   }
 
-  /* -----------------------------
-     Search wiring
-  ------------------------------ */
-  function setupSearch() {
-    const input = $("#menuSearch");
-    if (!input) return;
-
-    input.addEventListener("input", (e) => {
-      activeSearch = e.target.value.trim();
-      renderMenu();
-    });
+  .menu-grid{
+    grid-template-columns:1fr;
   }
 
-  /* -----------------------------
-     Loader hide
-  ------------------------------ */
-  function hideLoaderSafely() {
-    const loader = $("#siteLoader");
-    if (!loader) return;
-    setTimeout(() => loader.classList.add("is-hidden"), 700);
+  .gallery-grid{
+    grid-template-columns:1fr;
   }
 
-  /* -----------------------------
-     Year
-  ------------------------------ */
-  function setYear() {
-    const year = $("#year");
-    if (year) year.textContent = new Date().getFullYear().toString();
+  .reservation-form{
+    grid-template-columns:1fr;
   }
 
-  /* -----------------------------
-     Init
-  ------------------------------ */
-  async function init() {
-    setupLanguage();
-    setupMobileNav();
-    setupReveal();
-    setupSearch();
-    setupReservation();
-    setYear();
-
-    buildMenuChips();
-    await renderMenu();
-    await setupHero();
-    setupLightbox();
-
-    hideLoaderSafely();
+  .field-full{
+    grid-column:auto;
   }
 
-  // Start after DOM ready
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", init);
-  } else {
-    init();
+  .footer-inner{
+    flex-direction:column;
+    align-items:flex-start;
   }
-})();
+}
+
+/* ==========================================================================
+   24) RESPONSIVE - 520
+   ========================================================================== */
+@media (max-width:520px){
+  .container{
+    width:min(1220px, calc(100% - 1.2rem));
+  }
+
+  .section{
+    padding:68px 0;
+  }
+
+  .btn{
+    width:100%;
+  }
+
+  .hero-buttons{
+    width:100%;
+  }
+
+  .hero-buttons .btn{
+    width:auto;
+  }
+
+  .nav-shell{
+    min-height:72px;
+  }
+
+  .brand-logo{
+    width:40px;
+    height:40px;
+  }
+}
+
+/* ==========================================================================
+   25) ACCESSIBILITY + REDUCED MOTION
+   ========================================================================== */
+@media (prefers-reduced-motion:reduce){
+  *,
+  *::before,
+  *::after{
+    animation:none !important;
+    transition:none !important;
+    scroll-behavior:auto !important;
+  }
+
+  .reveal{
+    opacity:1 !important;
+    transform:none !important;
+  }
+
+  .hero-slide{
+    transition:none !important;
+  }
+
+  .cursor-glow{
+    display:none !important;
+  }
+}
+
+/* ==========================================================================
+   26) PRINT SAFETY
+   ========================================================================== */
+@media print{
+  .site-header,
+  .top-strip,
+  .hero-section,
+  .back-to-top,
+  .lightbox,
+  .scroll-progress-wrap,
+  .cursor-glow,
+  .ambient-layer{
+    display:none !important;
+  }
+
+  body{
+    background:#fff;
+    color:#000;
+  }
+
+  .panel{
+    box-shadow:none;
+    border:1px solid #ccc;
+    background:#fff;
+  }
+
+  h1,h2,h3,h4{
+    color:#000;
+  }
+}
+
+/* ==========================================================================
+   27) EXTRA MICRO-INTERACTIONS
+   ========================================================================== */
+.panel,
+.menu-card,
+.feature-card,
+.faq-item,
+.gallery-item,
+.btn,
+.lang-wrap{
+  will-change:transform;
+}
+
+.panel:hover{
+  border-color:rgba(212,175,55,.26);
+}
+
+.faq-item[open]{
+  border-color:rgba(212,175,55,.32);
+  box-shadow:0 10px 26px rgba(0,0,0,.18);
+}
+
+.faq-item[open] summary{
+  color:var(--gold);
+}
+
+/* ==========================================================================
+   28) FORM VALID / INVALID VISUAL STATES
+   ========================================================================== */
+.field input.is-invalid,
+.field select.is-invalid,
+.field textarea.is-invalid{
+  border-color:var(--danger);
+  box-shadow:0 0 0 3px rgba(255,100,100,.15);
+}
+
+.field input.is-valid,
+.field select.is-valid,
+.field textarea.is-valid{
+  border-color:var(--success);
+  box-shadow:0 0 0 3px rgba(32,193,125,.12);
+}
+
+/* ==========================================================================
+   29) SKELETON LOADER STYLE (future extension)
+   ========================================================================== */
+.skeleton{
+  background:linear-gradient(
+    90deg,
+    rgba(255,255,255,.06) 25%,
+    rgba(255,255,255,.12) 37%,
+    rgba(255,255,255,.06) 63%
+  );
+  background-size:400% 100%;
+  animation:skeleton 1.2s ease infinite;
+}
+
+@keyframes skeleton{
+  0%{background-position:100% 50%;}
+  100%{background-position:0 50%;}
+}
+
+/* ==========================================================================
+   30) FINAL OVERRIDES
+   ========================================================================== */
+#reservation{
+  scroll-margin-top:92px;
+}
+
+#menu,
+#gallery,
+#testimonials,
+#faq,
+#contact,
+#story{
+  scroll-margin-top:92px;
+}

@@ -1,37 +1,50 @@
 /* ==========================================================================
-   DELHI DARBAAR - PREMIUM STYLESHEET (PART 2)
-   GitHub Pages project: /Delhi-darbar-Final-/
+   DELHI DARBAAR V3 - PREMIUM STYLES (PART 2/3)
+   GitHub Pages project path: /Delhi-darbar-Final-/
    ========================================================================== */
 
 /* ==========================================================================
-   01) CSS RESET + ROOT TOKENS
+   01) ROOT TOKENS
    ========================================================================== */
 :root{
   --bg:#0b0d12;
-  --bg-2:#111623;
-  --bg-3:#171d2a;
-  --bg-4:#1e2433;
-  --line:rgba(255,255,255,.12);
-  --line-gold:rgba(212,175,55,.34);
+  --bg-2:#101622;
+  --bg-3:#151d2b;
+  --bg-4:#1c2536;
+
   --text:#f5f7ff;
   --muted:#b9c3db;
+
   --gold:#d4af37;
+  --gold-soft:rgba(212,175,55,.3);
   --orange:#e37014;
+
+  --line:rgba(255,255,255,.12);
+  --line-strong:rgba(255,255,255,.2);
+
   --success:#20c17d;
   --danger:#ff6464;
+
   --radius-xs:8px;
   --radius-sm:10px;
   --radius-md:14px;
   --radius-lg:18px;
-  --shadow-1:0 12px 28px rgba(0,0,0,.28);
-  --shadow-2:0 20px 40px rgba(0,0,0,.34);
-  --shadow-gold:0 14px 34px rgba(212,175,55,.14);
+  --radius-xl:24px;
+
+  --shadow-1:0 10px 24px rgba(0,0,0,.24);
+  --shadow-2:0 16px 36px rgba(0,0,0,.32);
+  --shadow-gold:0 18px 34px rgba(212,175,55,.12);
+
   --container:min(1220px, calc(100% - 2rem));
-  --speed-fast:.18s;
-  --speed-mid:.32s;
-  --speed-slow:.6s;
+
+  --speed-fast:.16s;
+  --speed-mid:.28s;
+  --speed-slow:.56s;
 }
 
+/* ==========================================================================
+   02) RESET / BASE
+   ========================================================================== */
 *,
 *::before,
 *::after{
@@ -50,9 +63,9 @@ html{
 
 body{
   min-height:100%;
+  font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
   background:var(--bg);
   color:var(--text);
-  font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
   line-height:1.55;
   overflow-x:hidden;
   text-rendering:optimizeLegibility;
@@ -61,13 +74,20 @@ body{
 }
 
 img{
-  max-width:100%;
   display:block;
+  max-width:100%;
+  height:auto;
 }
 
 a{
   color:inherit;
   text-decoration:none;
+}
+
+ul{
+  list-style:none;
+  margin:0;
+  padding:0;
 }
 
 button,
@@ -78,29 +98,23 @@ textarea{
   color:inherit;
 }
 
-ul{
-  margin:0;
-  padding:0;
-  list-style:none;
-}
-
 h1,
 h2,
 h3,
 h4{
-  margin:.1rem 0 .8rem;
+  margin:.2rem 0 .7rem;
   font-family:Cinzel,serif;
   color:var(--gold);
   letter-spacing:.02em;
 }
 
 p{
-  margin:.55rem 0;
+  margin:.5rem 0;
   color:var(--muted);
 }
 
 /* ==========================================================================
-   02) UTILITIES
+   03) GLOBAL UTILITIES
    ========================================================================== */
 .container{
   width:var(--container);
@@ -108,9 +122,9 @@ p{
 }
 
 .section{
+  position:relative;
   padding:84px 0;
   border-top:1px solid rgba(212,175,55,.14);
-  position:relative;
 }
 
 .section-bleed{
@@ -118,23 +132,22 @@ p{
 }
 
 .section-dark{
-  background:
-    linear-gradient(180deg, rgba(17,22,35,1) 0%, rgba(12,16,24,1) 100%);
+  background:linear-gradient(180deg,var(--bg-2),#0f141f);
 }
 
 .kicker{
-  margin-bottom:.6rem;
+  margin-bottom:.55rem;
   color:var(--orange);
-  font-size:11px;
   text-transform:uppercase;
-  letter-spacing:.24em;
   font-weight:800;
+  letter-spacing:.24em;
+  font-size:11px;
 }
 
 .panel{
-  background:linear-gradient(160deg,var(--bg-3),#0f1420);
   border:1px solid var(--line);
   border-radius:var(--radius-md);
+  background:linear-gradient(160deg,#171f2e,#101722);
   box-shadow:var(--shadow-1);
   padding:20px;
 }
@@ -142,9 +155,7 @@ p{
 .reveal{
   opacity:0;
   transform:translateY(14px);
-  transition:
-    opacity var(--speed-slow) ease,
-    transform var(--speed-slow) ease;
+  transition:opacity var(--speed-slow) ease, transform var(--speed-slow) ease;
 }
 
 .reveal.is-visible{
@@ -159,16 +170,16 @@ p{
   padding:0 !important;
   margin:-1px !important;
   overflow:hidden !important;
-  clip:rect(0,0,0,0) !important;
-  white-space:nowrap !important;
+  clip:rect(0 0 0 0) !important;
   border:0 !important;
+  white-space:nowrap !important;
 }
 
 /* ==========================================================================
-   03) BOOT LOADER
+   04) BOOT LOADER
    ========================================================================== */
 #bootLoader{
-  transition:opacity .35s ease, visibility .35s ease;
+  transition:opacity .34s ease, visibility .34s ease;
 }
 
 #bootLoader.hide{
@@ -178,7 +189,7 @@ p{
 }
 
 /* ==========================================================================
-   04) CURSOR GLOW + AMBIENT LAYERS
+   05) CURSOR GLOW + AMBIENT
    ========================================================================== */
 .cursor-glow{
   position:fixed;
@@ -190,26 +201,26 @@ p{
   pointer-events:none;
   z-index:-1;
   opacity:.28;
-  filter:blur(42px);
-  background:radial-gradient(circle at center, rgba(212,175,55,.52), rgba(212,175,55,0));
+  filter:blur(40px);
+  background:radial-gradient(circle at center, rgba(212,175,55,.5), rgba(212,175,55,0));
   transform:translate(-50%, -50%);
-  transition:transform .08s linear;
+  transition:transform .06s linear;
 }
 
 .ambient-layer{
   position:fixed;
   inset:0;
-  overflow:hidden;
-  pointer-events:none;
   z-index:-2;
+  pointer-events:none;
+  overflow:hidden;
 }
 
 .ambient-orb{
   position:absolute;
   border-radius:999px;
-  filter:blur(34px);
+  filter:blur(35px);
   opacity:.28;
-  animation:floatOrb 12s ease-in-out infinite;
+  animation:orbFloat 12s ease-in-out infinite;
 }
 
 .ambient-orb-a{
@@ -221,12 +232,12 @@ p{
 }
 
 .ambient-orb-b{
-  width:280px;
-  height:280px;
-  background:#5f82ff;
-  right:-70px;
+  width:290px;
+  height:290px;
+  background:#4f7dff;
+  right:-80px;
   top:20%;
-  animation-delay:1.4s;
+  animation-delay:1.2s;
 }
 
 .ambient-orb-c{
@@ -234,8 +245,8 @@ p{
   height:300px;
   background:#e37014;
   left:36%;
-  bottom:-140px;
-  animation-delay:2.2s;
+  bottom:-130px;
+  animation-delay:2.1s;
 }
 
 .ambient-grid{
@@ -251,17 +262,17 @@ p{
 .ambient-noise{
   position:absolute;
   inset:0;
-  opacity:.08;
+  opacity:.07;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.45'/%3E%3C/svg%3E");
 }
 
-@keyframes floatOrb{
+@keyframes orbFloat{
   0%,100%{transform:translate(0,0);}
-  50%{transform:translate(14px,-18px);}
+  50%{transform:translate(14px,-16px);}
 }
 
 /* ==========================================================================
-   05) SCROLL PROGRESS
+   06) SCROLL PROGRESS
    ========================================================================== */
 .scroll-progress-wrap{
   position:fixed;
@@ -269,33 +280,32 @@ p{
   left:0;
   width:100%;
   height:3px;
-  z-index:120;
-  background:transparent;
+  z-index:150;
 }
 
 .scroll-progress{
   width:0%;
   height:100%;
-  background:linear-gradient(90deg, var(--gold), var(--orange));
-  box-shadow:0 0 12px rgba(212,175,55,.44);
+  background:linear-gradient(90deg,var(--gold),var(--orange));
+  box-shadow:0 0 12px rgba(212,175,55,.4);
   transition:width .05s linear;
 }
 
 /* ==========================================================================
-   06) TOP STRIP
+   07) TOP STRIP
    ========================================================================== */
 .top-strip{
   border-bottom:1px solid var(--line);
-  background:linear-gradient(90deg,#0f1420,#0c111b);
+  background:linear-gradient(90deg,#0f1420,#0b111b);
   position:relative;
-  z-index:50;
+  z-index:100;
 }
 
 .top-strip-inner{
   min-height:40px;
   display:flex;
-  align-items:center;
   justify-content:space-between;
+  align-items:center;
   gap:12px;
   flex-wrap:wrap;
   padding:6px 0;
@@ -307,25 +317,25 @@ p{
   gap:14px;
   flex-wrap:wrap;
   font-size:12px;
-  color:#d5ddf2;
+  color:#d4ddf2;
 }
 
 .top-strip-right{
   font-size:12px;
-  color:#d5ddf2;
+  color:#d4ddf2;
   font-weight:600;
 }
 
 /* ==========================================================================
-   07) HEADER + NAV
+   08) HEADER / NAV
    ========================================================================== */
 .site-header{
   position:sticky;
   top:0;
-  z-index:110;
+  z-index:120;
   backdrop-filter:blur(10px);
-  background:rgba(11,13,18,.75);
-  border-bottom:1px solid var(--line-gold);
+  background:rgba(11,13,18,.76);
+  border-bottom:1px solid var(--gold-soft);
 }
 
 .nav-shell{
@@ -347,18 +357,18 @@ p{
   width:44px;
   height:44px;
   border-radius:10px;
-  object-fit:cover;
   border:1px solid rgba(212,175,55,.45);
+  object-fit:cover;
   background:#111827;
   box-shadow:var(--shadow-gold);
 }
 
 .brand-text{
-  color:var(--gold);
-  font-weight:900;
-  letter-spacing:.13em;
   text-transform:uppercase;
+  letter-spacing:.13em;
   font-size:13px;
+  font-weight:900;
+  color:var(--gold);
 }
 
 .mobile-menu-toggle{
@@ -380,10 +390,10 @@ p{
 }
 
 .main-nav a{
-  color:#eef2ff;
+  color:#edf2ff;
   font-weight:600;
-  position:relative;
   padding:4px 2px;
+  position:relative;
 }
 
 .main-nav a::after{
@@ -412,22 +422,22 @@ p{
   align-items:center;
   gap:6px;
   border:1px solid var(--line);
-  background:#111726;
   border-radius:10px;
+  background:#111726;
   padding:7px 9px;
 }
 
 .lang-switch{
-  background:transparent;
   border:none;
+  background:transparent;
   color:#fff;
   font-weight:700;
-  cursor:pointer;
   outline:none;
+  cursor:pointer;
 }
 
 /* ==========================================================================
-   08) BUTTONS
+   09) BUTTONS
    ========================================================================== */
 .btn{
   display:inline-flex;
@@ -459,10 +469,10 @@ p{
 }
 
 .btn-primary{
-  background:linear-gradient(125deg,#f09543,#e37014);
-  color:#fff;
+  background:linear-gradient(130deg,#f09643,#e37014);
   border-color:#e37014;
-  box-shadow:0 10px 20px rgba(227,112,20,.3);
+  color:#fff;
+  box-shadow:0 10px 22px rgba(227,112,20,.3);
 }
 
 .btn-outline{
@@ -476,7 +486,7 @@ p{
 }
 
 .btn-ghost{
-  border-color:rgba(255,255,255,.3);
+  border-color:rgba(255,255,255,.32);
   color:#fff;
   background:transparent;
 }
@@ -486,7 +496,7 @@ p{
 }
 
 /* ==========================================================================
-   09) HERO
+   10) HERO
    ========================================================================== */
 .hero-section{
   position:relative;
@@ -505,9 +515,7 @@ p{
   transform:scale(1.04);
   background-size:cover;
   background-position:center;
-  transition:
-    opacity .9s ease,
-    transform 5s ease;
+  transition:opacity .9s ease, transform 5s ease;
   will-change:opacity,transform;
 }
 
@@ -520,9 +528,9 @@ p{
   position:absolute;
   inset:0;
   background:
-    radial-gradient(circle at 18% 20%, rgba(212,175,55,.24), transparent 42%),
-    radial-gradient(circle at 82% 80%, rgba(227,112,20,.18), transparent 40%),
-    linear-gradient(to bottom, rgba(0,0,0,.56), #0b0d12 86%);
+    radial-gradient(circle at 18% 20%, rgba(212,175,55,.22), transparent 42%),
+    radial-gradient(circle at 84% 80%, rgba(227,112,20,.18), transparent 40%),
+    linear-gradient(to bottom, rgba(0,0,0,.57), #0b0d12 86%);
 }
 
 .hero-content{
@@ -537,31 +545,30 @@ p{
 
 .hero-kicker{
   color:var(--orange);
-  letter-spacing:.26em;
-  text-transform:uppercase;
   font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:.26em;
   font-weight:800;
 }
 
 .hero-content h1{
-  font-size:clamp(42px,8vw,100px);
-  line-height:.92;
-  max-width:920px;
   margin-top:.2rem;
   margin-bottom:.8rem;
+  font-size:clamp(42px,8vw,102px);
+  line-height:.9;
+  max-width:930px;
 }
 
 .hero-subtext{
   max-width:720px;
-  font-size:1rem;
-  color:#d4dcef;
+  color:#d6def1;
 }
 
 .hero-buttons{
-  margin-top:14px;
   display:flex;
   gap:12px;
   flex-wrap:wrap;
+  margin-top:14px;
 }
 
 .hero-highlights{
@@ -573,27 +580,34 @@ p{
 
 .hero-highlights span{
   border:1px solid rgba(255,255,255,.2);
-  background:rgba(16,21,32,.55);
+  background:rgba(16,22,34,.56);
   border-radius:999px;
   padding:7px 12px;
   font-size:12px;
-  color:#d8dff1;
+  color:#d8dff0;
+}
+
+.hero-actions-secondary{
+  margin-top:14px;
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
 }
 
 .hero-down-btn{
   position:absolute;
-  bottom:20px;
   left:50%;
+  bottom:20px;
   transform:translateX(-50%);
-  z-index:7;
+  z-index:6;
   width:38px;
   height:38px;
   border-radius:999px;
   border:1px solid rgba(255,255,255,.35);
-  background:rgba(10,12,17,.56);
+  background:rgba(10,12,18,.56);
   color:#fff;
   cursor:pointer;
-  animation:bob 1.7s ease-in-out infinite;
+  animation:bob 1.8s ease-in-out infinite;
 }
 
 @keyframes bob{
@@ -602,13 +616,48 @@ p{
 }
 
 /* ==========================================================================
-   10) STORY SECTION
+   11) TRUST STRIP
+   ========================================================================== */
+.trust-strip-section{
+  padding:26px 0;
+}
+
+.trust-strip{
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:linear-gradient(160deg,#171f2e,#111826);
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:10px;
+  padding:14px;
+}
+
+.trust-item{
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:10px;
+  padding:10px;
+  background:rgba(255,255,255,.02);
+}
+
+.trust-item strong{
+  display:block;
+  color:var(--gold);
+  font-weight:900;
+  margin-bottom:4px;
+}
+
+.trust-item span{
+  color:#d2dbf1;
+  font-size:13px;
+}
+
+/* ==========================================================================
+   12) STORY SECTION
    ========================================================================== */
 .story-layout{
   display:grid;
   grid-template-columns:1.04fr .96fr;
   gap:16px;
-  align-items:stretch;
 }
 
 .feature-grid{
@@ -620,13 +669,13 @@ p{
 
 .feature-card{
   border:1px solid var(--line);
-  background:rgba(255,255,255,.02);
   border-radius:12px;
+  background:rgba(255,255,255,.02);
   padding:12px;
 }
 
 .feature-card h3{
-  margin:0 0 .28rem;
+  margin:0 0 .3rem;
   font-size:16px;
 }
 
@@ -643,10 +692,10 @@ p{
 
 .story-img{
   margin:0;
+  border:1px solid var(--line);
   border-radius:12px;
   overflow:hidden;
-  border:1px solid var(--line);
-  background:#101622;
+  background:#101723;
   min-height:170px;
 }
 
@@ -654,11 +703,11 @@ p{
   width:100%;
   height:100%;
   object-fit:cover;
-  transition:transform .5s ease;
+  transition:transform .56s ease;
 }
 
 .story-img:hover img{
-  transform:scale(1.04);
+  transform:scale(1.05);
 }
 
 .story-img-lg{
@@ -667,7 +716,7 @@ p{
 }
 
 /* ==========================================================================
-   11) SECTION HEAD + SEARCH + CHIPS
+   13) SECTION HEAD / SEARCH / CHIPS
    ========================================================================== */
 .section-head{
   display:flex;
@@ -686,11 +735,11 @@ p{
 
 .search-input{
   min-width:240px;
-  padding:11px 12px;
-  border-radius:10px;
   border:1px solid var(--line);
+  border-radius:10px;
   background:#111827;
   color:#fff;
+  padding:11px 12px;
   outline:none;
 }
 
@@ -710,9 +759,9 @@ p{
 
 .category-chip{
   border:1px solid var(--line);
-  background:#151c2a;
-  color:#d7dff1;
   border-radius:999px;
+  background:#151c2a;
+  color:#d8e0f3;
   padding:8px 12px;
   font-size:12px;
   font-weight:600;
@@ -721,7 +770,7 @@ p{
 }
 
 .category-chip:hover{
-  border-color:rgba(255,255,255,.36);
+  border-color:rgba(255,255,255,.35);
 }
 
 .category-chip.is-active{
@@ -731,7 +780,7 @@ p{
 }
 
 /* ==========================================================================
-   12) MENU GRID + CARDS
+   14) MENU CARDS
    ========================================================================== */
 .menu-grid{
   display:grid;
@@ -743,7 +792,7 @@ p{
   border:1px solid var(--line);
   border-radius:12px;
   overflow:hidden;
-  background:linear-gradient(155deg,#181f2d,#101722);
+  background:linear-gradient(155deg,#171f2d,#101722);
   box-shadow:var(--shadow-1);
   transition:
     transform var(--speed-mid) ease,
@@ -753,7 +802,7 @@ p{
 
 .menu-card:hover{
   transform:translateY(-4px);
-  border-color:var(--line-gold);
+  border-color:var(--gold-soft);
   box-shadow:var(--shadow-2);
 }
 
@@ -780,12 +829,12 @@ p{
   top:10px;
   left:10px;
   border:1px solid rgba(255,255,255,.35);
-  background:rgba(0,0,0,.45);
   border-radius:999px;
-  padding:5px 10px;
-  font-size:11px;
+  background:rgba(0,0,0,.46);
   color:#fff;
+  font-size:11px;
   font-weight:700;
+  padding:5px 10px;
 }
 
 .menu-body{
@@ -817,11 +866,45 @@ p{
 
 .menu-meta{
   font-size:12px;
-  color:#d3dcf2;
+  color:#d2dbf1;
 }
 
 /* ==========================================================================
-   13) GALLERY
+   15) PARALLAX DIVIDER
+   ========================================================================== */
+.parallax-divider-section{
+  padding:0;
+  border-top:none;
+}
+
+.parallax-divider{
+  min-height:300px;
+  position:relative;
+  background:
+    linear-gradient(to bottom, rgba(0,0,0,.45), rgba(0,0,0,.58)),
+    url('/Delhi-darbar-Final-/hero-2.jpg') center/cover fixed no-repeat;
+  display:grid;
+  place-items:center;
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+}
+
+.parallax-content{
+  text-align:center;
+  max-width:760px;
+  padding:20px;
+}
+
+.parallax-content h2{
+  font-size:clamp(28px,4vw,50px);
+}
+
+.parallax-content p{
+  color:#d8dff2;
+}
+
+/* ==========================================================================
+   16) GALLERY
    ========================================================================== */
 .gallery-grid{
   display:grid;
@@ -831,9 +914,9 @@ p{
 
 .gallery-item{
   margin:0;
+  border:1px solid var(--line);
   border-radius:12px;
   overflow:hidden;
-  border:1px solid var(--line);
   background:#101723;
   cursor:pointer;
   position:relative;
@@ -856,26 +939,20 @@ p{
   filter:saturate(1.08);
 }
 
-.gallery-item::after{
-  content:"View";
-  position:absolute;
-  right:10px;
-  bottom:10px;
-  border:1px solid rgba(255,255,255,.35);
-  background:rgba(0,0,0,.45);
-  border-radius:999px;
-  padding:5px 10px;
-  font-size:11px;
-  color:#fff;
+/* ==========================================================================
+   17) TESTIMONIALS
+   ========================================================================== */
+.review-links{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
 }
 
-/* ==========================================================================
-   14) TESTIMONIALS
-   ========================================================================== */
 .testimonial-slider{
   overflow:hidden;
-  position:relative;
   border-radius:12px;
+  position:relative;
 }
 
 .testimonial-track{
@@ -886,8 +963,8 @@ p{
 .testimonial-card{
   min-width:100%;
   border:1px solid var(--line);
-  background:linear-gradient(160deg,#181f2d,#101622);
   border-radius:12px;
+  background:linear-gradient(160deg,#171f2e,#101723);
   padding:22px;
 }
 
@@ -898,12 +975,12 @@ p{
 }
 
 .testimonial-card p{
-  font-size:1rem;
   color:#dbe3f8;
+  font-size:1rem;
 }
 
 .testimonial-card small{
-  color:#b7c0d8;
+  color:#b6c0d7;
   font-weight:600;
 }
 
@@ -926,11 +1003,23 @@ p{
 
 .testimonial-dot.is-active{
   background:var(--gold);
-  transform:scale(1.2);
+  transform:scale(1.25);
+}
+
+.reviews-embed{
+  margin-top:16px;
+}
+
+.reviews-embed iframe{
+  width:100%;
+  height:320px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:#111827;
 }
 
 /* ==========================================================================
-   15) RESERVATION SECTION
+   18) RESERVATION
    ========================================================================== */
 .reservation-layout{
   display:grid;
@@ -945,15 +1034,22 @@ p{
 }
 
 .res-list li{
-  color:#d4dcef;
+  color:#d2dbf0;
 }
 
 .res-note{
   margin-top:12px;
   padding:12px;
-  border-radius:10px;
   border:1px dashed rgba(255,255,255,.2);
+  border-radius:10px;
   background:rgba(255,255,255,.02);
+}
+
+.res-cta-grid{
+  margin-top:12px;
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
 }
 
 .reservation-form{
@@ -970,7 +1066,7 @@ p{
 
 .field label{
   font-size:12px;
-  color:#d8e0f5;
+  color:#dbe2f5;
 }
 
 .field input,
@@ -992,7 +1088,7 @@ p{
 }
 
 .field-full{
-  grid-column:1 / -1;
+  grid-column:1/-1;
 }
 
 .error{
@@ -1009,12 +1105,27 @@ p{
 
 .reservation-status{
   margin-top:4px;
-  font-weight:700;
   min-height:20px;
+  font-weight:700;
+}
+
+/* validation states */
+.field input.is-invalid,
+.field select.is-invalid,
+.field textarea.is-invalid{
+  border-color:var(--danger);
+  box-shadow:0 0 0 3px rgba(255,100,100,.14);
+}
+
+.field input.is-valid,
+.field select.is-valid,
+.field textarea.is-valid{
+  border-color:var(--success);
+  box-shadow:0 0 0 3px rgba(32,193,125,.12);
 }
 
 /* ==========================================================================
-   16) FAQ
+   19) FAQ
    ========================================================================== */
 .faq-list{
   display:grid;
@@ -1026,6 +1137,7 @@ p{
   border-radius:12px;
   background:linear-gradient(155deg,#171e2b,#111723);
   padding:12px 14px;
+  transition:border-color var(--speed-mid) ease, box-shadow var(--speed-mid) ease;
 }
 
 .faq-item summary{
@@ -1039,8 +1151,17 @@ p{
   margin-top:10px;
 }
 
+.faq-item[open]{
+  border-color:rgba(212,175,55,.34);
+  box-shadow:0 10px 26px rgba(0,0,0,.18);
+}
+
+.faq-item[open] summary{
+  color:var(--gold);
+}
+
 /* ==========================================================================
-   17) CONTACT + FOOTER
+   20) CONTACT
    ========================================================================== */
 .contact-layout{
   display:grid;
@@ -1048,6 +1169,16 @@ p{
   gap:16px;
 }
 
+.contact-actions{
+  margin-top:10px;
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+/* ==========================================================================
+   21) FOOTER
+   ========================================================================== */
 .site-footer{
   border-top:1px solid rgba(212,175,55,.2);
   background:#090c12;
@@ -1064,17 +1195,44 @@ p{
 
 .footer-inner p{
   margin:0;
-  color:#aeb8d0;
+  color:#aeb8cf;
   font-size:14px;
 }
 
 /* ==========================================================================
-   18) BACK TO TOP
+   22) STICKY CTA BAR
+   ========================================================================== */
+.sticky-cta-bar{
+  position:fixed;
+  left:50%;
+  bottom:14px;
+  transform:translateX(-50%);
+  z-index:130;
+  width:min(780px, calc(100% - 1rem));
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:rgba(12,16,24,.86);
+  backdrop-filter:blur(10px);
+  padding:8px;
+  display:flex;
+  gap:8px;
+  justify-content:center;
+  align-items:center;
+  box-shadow:var(--shadow-2);
+}
+
+.sticky-cta-bar .btn{
+  flex:1;
+  min-height:40px;
+}
+
+/* ==========================================================================
+   23) BACK TO TOP
    ========================================================================== */
 .back-to-top{
   position:fixed;
   right:16px;
-  bottom:16px;
+  bottom:84px;
   width:42px;
   height:42px;
   border-radius:10px;
@@ -1082,7 +1240,7 @@ p{
   background:#121927;
   color:#fff;
   cursor:pointer;
-  z-index:115;
+  z-index:135;
   opacity:0;
   visibility:hidden;
   transform:translateY(10px);
@@ -1101,12 +1259,12 @@ p{
 }
 
 /* ==========================================================================
-   19) LIGHTBOX
+   24) LIGHTBOX
    ========================================================================== */
 .lightbox{
   position:fixed;
   inset:0;
-  z-index:140;
+  z-index:160;
   background:rgba(0,0,0,.88);
   display:none;
   place-items:center;
@@ -1120,8 +1278,8 @@ p{
 .lightbox img{
   max-width:min(1100px,92vw);
   max-height:84vh;
-  border-radius:12px;
   border:1px solid rgba(255,255,255,.25);
+  border-radius:12px;
   box-shadow:var(--shadow-2);
 }
 
@@ -1131,34 +1289,25 @@ p{
   right:14px;
   width:40px;
   height:40px;
-  border-radius:10px;
   border:1px solid var(--line);
+  border-radius:10px;
   background:#111827;
   color:#fff;
   cursor:pointer;
 }
 
 /* ==========================================================================
-   20) STATES / HELPERS
+   25) PARALLAX / IMAGE PERFORMANCE HELPERS
    ========================================================================== */
-.is-hidden{
-  display:none !important;
-}
-
-.is-muted{
-  color:var(--muted) !important;
-}
-
-.is-danger{
-  color:var(--danger) !important;
-}
-
-.is-success{
-  color:var(--success) !important;
+.hero-slide,
+.story-img img,
+.menu-media img,
+.gallery-item img{
+  will-change:transform;
 }
 
 /* ==========================================================================
-   21) RESPONSIVE - 1200
+   26) RESPONSIVE <=1200
    ========================================================================== */
 @media (max-width:1200px){
   .menu-grid{
@@ -1167,7 +1316,7 @@ p{
 }
 
 /* ==========================================================================
-   22) RESPONSIVE - 1024
+   27) RESPONSIVE <=1024
    ========================================================================== */
 @media (max-width:1024px){
   .story-layout{
@@ -1193,10 +1342,18 @@ p{
   .gallery-item:first-child{
     grid-row:auto;
   }
+
+  .trust-strip{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .parallax-divider{
+    background-attachment:scroll;
+  }
 }
 
 /* ==========================================================================
-   23) RESPONSIVE - 760
+   28) RESPONSIVE <=760
    ========================================================================== */
 @media (max-width:760px){
   .top-strip-right{
@@ -1214,9 +1371,9 @@ p{
     top:78px;
     left:0;
     right:0;
+    padding:12px 1rem;
     background:#0f1522;
     border-bottom:1px solid var(--line);
-    padding:12px 1rem;
     flex-direction:column;
     align-items:flex-start;
     gap:12px;
@@ -1226,16 +1383,8 @@ p{
     display:flex;
   }
 
-  .nav-actions{
-    margin-left:auto;
-  }
-
   .hero-content h1{
-    font-size:clamp(38px,11vw,72px);
-  }
-
-  .hero-highlights{
-    gap:8px;
+    font-size:clamp(38px,11vw,74px);
   }
 
   .feature-grid{
@@ -1262,10 +1411,20 @@ p{
     flex-direction:column;
     align-items:flex-start;
   }
+
+  .sticky-cta-bar{
+    bottom:10px;
+  }
+
+  .sticky-cta-bar .btn{
+    font-size:11px;
+    letter-spacing:.06em;
+    padding:10px 8px;
+  }
 }
 
 /* ==========================================================================
-   24) RESPONSIVE - 520
+   29) RESPONSIVE <=520
    ========================================================================== */
 @media (max-width:520px){
   .container{
@@ -1288,6 +1447,18 @@ p{
     width:auto;
   }
 
+  .hero-actions-secondary{
+    width:100%;
+  }
+
+  .hero-actions-secondary .btn{
+    flex:1;
+  }
+
+  .trust-strip{
+    grid-template-columns:1fr;
+  }
+
   .nav-shell{
     min-height:72px;
   }
@@ -1296,10 +1467,19 @@ p{
     width:40px;
     height:40px;
   }
+
+  .sticky-cta-bar{
+    padding:6px;
+    gap:6px;
+  }
+
+  .back-to-top{
+    bottom:78px;
+  }
 }
 
 /* ==========================================================================
-   25) ACCESSIBILITY + REDUCED MOTION
+   30) REDUCED MOTION
    ========================================================================== */
 @media (prefers-reduced-motion:reduce){
   *,
@@ -1325,12 +1505,13 @@ p{
 }
 
 /* ==========================================================================
-   26) PRINT SAFETY
+   31) PRINT SAFE
    ========================================================================== */
 @media print{
   .site-header,
   .top-strip,
   .hero-section,
+  .sticky-cta-bar,
   .back-to-top,
   .lightbox,
   .scroll-progress-wrap,
@@ -1344,91 +1525,11 @@ p{
     color:#000;
   }
 
-  .panel{
-    box-shadow:none;
-    border:1px solid #ccc;
-    background:#fff;
-  }
-
   h1,h2,h3,h4{
     color:#000;
   }
-}
 
-/* ==========================================================================
-   27) EXTRA MICRO-INTERACTIONS
-   ========================================================================== */
-.panel,
-.menu-card,
-.feature-card,
-.faq-item,
-.gallery-item,
-.btn,
-.lang-wrap{
-  will-change:transform;
-}
-
-.panel:hover{
-  border-color:rgba(212,175,55,.26);
-}
-
-.faq-item[open]{
-  border-color:rgba(212,175,55,.32);
-  box-shadow:0 10px 26px rgba(0,0,0,.18);
-}
-
-.faq-item[open] summary{
-  color:var(--gold);
-}
-
-/* ==========================================================================
-   28) FORM VALID / INVALID VISUAL STATES
-   ========================================================================== */
-.field input.is-invalid,
-.field select.is-invalid,
-.field textarea.is-invalid{
-  border-color:var(--danger);
-  box-shadow:0 0 0 3px rgba(255,100,100,.15);
-}
-
-.field input.is-valid,
-.field select.is-valid,
-.field textarea.is-valid{
-  border-color:var(--success);
-  box-shadow:0 0 0 3px rgba(32,193,125,.12);
-}
-
-/* ==========================================================================
-   29) SKELETON LOADER STYLE (future extension)
-   ========================================================================== */
-.skeleton{
-  background:linear-gradient(
-    90deg,
-    rgba(255,255,255,.06) 25%,
-    rgba(255,255,255,.12) 37%,
-    rgba(255,255,255,.06) 63%
-  );
-  background-size:400% 100%;
-  animation:skeleton 1.2s ease infinite;
-}
-
-@keyframes skeleton{
-  0%{background-position:100% 50%;}
-  100%{background-position:0 50%;}
-}
-
-/* ==========================================================================
-   30) FINAL OVERRIDES
-   ========================================================================== */
-#reservation{
-  scroll-margin-top:92px;
-}
-
-#menu,
-#gallery,
-#testimonials,
-#faq,
-#contact,
-#story{
-  scroll-margin-top:92px;
-}
+  .panel{
+    background:#fff;
+    border:1px solid #ccc;
+*

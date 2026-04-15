@@ -1,3 +1,33 @@
+const repoBase = "/Delhi-darbar-Final-";
+const fallbackImage = `${repoBase}/fallback.jpg`;
+
+// Try multiple possible filenames/extensions for each slot
+const imageCandidates = {
+  hero1: [`${repoBase}/hero-1.jpg`, `${repoBase}/hero-1.jpeg`, `${repoBase}/hero-1.png`],
+  hero2: [`${repoBase}/hero-2.jpg`, `${repoBase}/hero-2.jpeg`, `${repoBase}/hero-2.png`],
+  hero3: [`${repoBase}/hero-3.jpg`, `${repoBase}/hero-3.jpeg`, `${repoBase}/hero-3.png`],
+
+  gallery1: [`${repoBase}/gallery-1.jpg`, `${repoBase}/gallery-1.jpeg`, `${repoBase}/gallery-1.png`],
+  gallery2: [`${repoBase}/gallery-2.jpg`, `${repoBase}/gallery-2.jpeg`, `${repoBase}/gallery-2.png`],
+  gallery3: [`${repoBase}/gallery-3.jpg`, `${repoBase}/gallery-3.jpeg`, `${repoBase}/gallery-3.png`],
+  gallery4: [`${repoBase}/gallery-4.jpg`, `${repoBase}/gallery-4.jpeg`, `${repoBase}/gallery-4.png`],
+
+  dish1: [`${repoBase}/dish-1.jpg`, `${repoBase}/dish-1.jpeg`, `${repoBase}/dish-1.png`],
+  dish2: [`${repoBase}/dish-2.jpg`, `${repoBase}/dish-2.jpeg`, `${repoBase}/dish-2.png`],
+  dish3: [`${repoBase}/dish-3.jpg`, `${repoBase}/dish-3.jpeg`, `${repoBase}/dish-3.png`],
+  dish4: [`${repoBase}/dish-4.jpg`, `${repoBase}/dish-4.jpeg`, `${repoBase}/dish-4.png`]
+};
+
+async function firstExisting(urls) {
+  for (const url of urls) {
+    try {
+      const res = await fetch(url, { method: "HEAD", cache: "no-store" });
+      if (res.ok) return url;
+    } catch (_) {}
+  }
+  return fallbackImage;
+}
+
 /* ==========================================================================
    DELHI DARBAAR - PREMIUM SCRIPT (PART 3)
    GitHub Pages project: /Delhi-darbar-Final-/

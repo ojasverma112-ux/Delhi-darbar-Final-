@@ -1,69 +1,23 @@
-const repoBase = "/Delhi-darbar-Final-";
-const fallbackImage = `${repoBase}/fallback.jpg`;
-
-// Try multiple possible filenames/extensions for each slot
-const imageCandidates = {
-  hero1: [`${repoBase}/hero-1.jpg`, `${repoBase}/hero-1.jpeg`, `${repoBase}/hero-1.png`],
-  hero2: [`${repoBase}/hero-2.jpg`, `${repoBase}/hero-2.jpeg`, `${repoBase}/hero-2.png`],
-  hero3: [`${repoBase}/hero-3.jpg`, `${repoBase}/hero-3.jpeg`, `${repoBase}/hero-3.png`],
-
-  gallery1: [`${repoBase}/gallery-1.jpg`, `${repoBase}/gallery-1.jpeg`, `${repoBase}/gallery-1.png`],
-  gallery2: [`${repoBase}/gallery-2.jpg`, `${repoBase}/gallery-2.jpeg`, `${repoBase}/gallery-2.png`],
-  gallery3: [`${repoBase}/gallery-3.jpg`, `${repoBase}/gallery-3.jpeg`, `${repoBase}/gallery-3.png`],
-  gallery4: [`${repoBase}/gallery-4.jpg`, `${repoBase}/gallery-4.jpeg`, `${repoBase}/gallery-4.png`],
-
-  dish1: [`${repoBase}/dish-1.jpg`, `${repoBase}/dish-1.jpeg`, `${repoBase}/dish-1.png`],
-  dish2: [`${repoBase}/dish-2.jpg`, `${repoBase}/dish-2.jpeg`, `${repoBase}/dish-2.png`],
-  dish3: [`${repoBase}/dish-3.jpg`, `${repoBase}/dish-3.jpeg`, `${repoBase}/dish-3.png`],
-  dish4: [`${repoBase}/dish-4.jpg`, `${repoBase}/dish-4.jpeg`, `${repoBase}/dish-4.png`]
-};
-
-async function firstExisting(urls) {
-  for (const url of urls) {
-    try {
-      const res = await fetch(url, { method: "HEAD", cache: "no-store" });
-      if (res.ok) return url;
-    } catch (_) {}
-  }
-  return fallbackImage;
-}
-
 /* ==========================================================================
-   DELHI DARBAAR - PREMIUM SCRIPT (PART 3)
-   GitHub Pages project: /Delhi-darbar-Final-/
+   DELHI DARBAAR - PREMIUM SCRIPT (FULL, PATCHED)
+   Includes:
+   - NL/EN language switch
+   - Hero slider
+   - Menu search/filter
+   - Image auto-detect (jpg/jpeg/png) with fallback
+   - Reservation validation + WhatsApp + Email fallback
+   - Reveal animations
+   - Gallery lightbox
+   - Testimonial slider
+   - Scroll progress + back-to-top
+   - Mobile nav
    ========================================================================== */
 
 (() => {
   "use strict";
 
   /* ==========================================================================
-     01) DOM HELPERS
-     ========================================================================== */
-  const $ = (selector, root = document) => root.querySelector(selector);
-  const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
-
-  const safeText = (value) => String(value ?? "").trim();
-
-  const setText = (selector, text) => {
-    const el = $(selector);
-    if (el) el.textContent = text;
-  };
-
-  const toggleClass = (el, className, force) => {
-    if (!el) return;
-    el.classList.toggle(className, force);
-  };
-
-  const debounce = (fn, delay = 200) => {
-    let timer = null;
-    return (...args) => {
-      clearTimeout(timer);
-      timer = setTimeout(() => fn(...args), delay);
-    };
-  };
-
-  /* ==========================================================================
-     02) GLOBAL CONFIG
+     01) GLOBAL CONFIG
      ========================================================================== */
   const CONFIG = {
     projectBase: "/Delhi-darbar-Final-",
@@ -75,7 +29,61 @@ async function firstExisting(urls) {
   };
 
   /* ==========================================================================
-     03) I18N (NL default + EN switch)
+     02) DOM HELPERS
+     ========================================================================== */
+  const $ = (selector, root = document) => root.querySelector(selector);
+  const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
+
+  const safeText = (value) => String(value ?? "").trim();
+
+  const debounce = (fn, delay = 200) => {
+    let timer = null;
+    return (...args) => {
+      clearTimeout(timer);
+      timer = setTimeout(() => fn(...args), delay);
+    };
+  };
+
+  function patchImageFallbacks() {
+    $$("img").forEach((img) => {
+      img.addEventListener("error", () => {
+        img.onerror = null;
+        img.src = CONFIG.fallbackImage;
+      });
+    });
+  }
+
+  /* ==========================================================================
+     03) IMAGE AUTO-DETECT (important patch)
+     ========================================================================== */
+  const imageCandidates = {
+    hero1: [`${CONFIG.projectBase}/hero-1.jpg`, `${CONFIG.projectBase}/hero-1.jpeg`, `${CONFIG.projectBase}/hero-1.png`],
+    hero2: [`${CONFIG.projectBase}/hero-2.jpg`, `${CONFIG.projectBase}/hero-2.jpeg`, `${CONFIG.projectBase}/hero-2.png`],
+    hero3: [`${CONFIG.projectBase}/hero-3.jpg`, `${CONFIG.projectBase}/hero-3.jpeg`, `${CONFIG.projectBase}/hero-3.png`],
+
+    gallery1: [`${CONFIG.projectBase}/gallery-1.jpg`, `${CONFIG.projectBase}/gallery-1.jpeg`, `${CONFIG.projectBase}/gallery-1.png`],
+    gallery2: [`${CONFIG.projectBase}/gallery-2.jpg`, `${CONFIG.projectBase}/gallery-2.jpeg`, `${CONFIG.projectBase}/gallery-2.png`],
+    gallery3: [`${CONFIG.projectBase}/gallery-3.jpg`, `${CONFIG.projectBase}/gallery-3.jpeg`, `${CONFIG.projectBase}/gallery-3.png`],
+    gallery4: [`${CONFIG.projectBase}/gallery-4.jpg`, `${CONFIG.projectBase}/gallery-4.jpeg`, `${CONFIG.projectBase}/gallery-4.png`],
+
+    dish1: [`${CONFIG.projectBase}/dish-1.jpg`, `${CONFIG.projectBase}/dish-1.jpeg`, `${CONFIG.projectBase}/dish-1.png`],
+    dish2: [`${CONFIG.projectBase}/dish-2.jpg`, `${CONFIG.projectBase}/dish-2.jpeg`, `${CONFIG.projectBase}/dish-2.png`],
+    dish3: [`${CONFIG.projectBase}/dish-3.jpg`, `${CONFIG.projectBase}/dish-3.jpeg`, `${CONFIG.projectBase}/dish-3.png`],
+    dish4: [`${CONFIG.projectBase}/dish-4.jpg`, `${CONFIG.projectBase}/dish-4.jpeg`, `${CONFIG.projectBase}/dish-4.png`]
+  };
+
+  async function firstExisting(urls) {
+    for (const url of urls) {
+      try {
+        const res = await fetch(url, { method: "HEAD", cache: "no-store" });
+        if (res.ok) return url;
+      } catch (_) {}
+    }
+    return CONFIG.fallbackImage;
+  }
+
+  /* ==========================================================================
+     04) I18N
      ========================================================================== */
   const I18N = {
     nl: {
@@ -168,10 +176,8 @@ async function firstExisting(urls) {
 
       search_placeholder: "Zoek gerecht...",
       menu_empty: "Geen gerechten gevonden voor deze zoekopdracht.",
-      gallery_view: "Bekijk",
       currency: "€"
     },
-
     en: {
       top_message: "Chef’s Royal Tasting Menu available tonight",
       nav_story: "About us",
@@ -262,255 +268,47 @@ async function firstExisting(urls) {
 
       search_placeholder: "Search dish...",
       menu_empty: "No dishes found for this search.",
-      gallery_view: "View",
       currency: "€"
     }
   };
 
   let currentLang = "nl";
-
-  const t = (key) => {
-    const table = I18N[currentLang] || I18N.nl;
-    return table[key] ?? key;
-  };
+  const t = (k) => (I18N[currentLang] && I18N[currentLang][k]) ? I18N[currentLang][k] : k;
 
   function applyLanguage(lang) {
     currentLang = I18N[lang] ? lang : "nl";
     document.documentElement.lang = currentLang;
 
-    $$("[data-i18n]").forEach((node) => {
-      const key = node.getAttribute("data-i18n");
-      node.textContent = t(key);
+    $$("[data-i18n]").forEach((el) => {
+      const key = el.getAttribute("data-i18n");
+      el.textContent = t(key);
     });
 
-    const menuSearchInput = $("#menuSearchInput");
-    if (menuSearchInput) menuSearchInput.placeholder = t("search_placeholder");
+    const searchInput = $("#menuSearchInput");
+    if (searchInput) searchInput.placeholder = t("search_placeholder");
 
-    // re-render dynamic sections that include language-dependent text
     renderMenuGrid();
     renderTestimonials();
-    updateGalleryViewLabel();
   }
 
   /* ==========================================================================
-     04) IMAGE SAFETY HELPERS
-     ========================================================================== */
-  function withFallbackSrc(imgEl) {
-    if (!imgEl) return;
-    imgEl.addEventListener("error", () => {
-      imgEl.onerror = null;
-      imgEl.src = CONFIG.fallbackImage;
-    });
-  }
-
-  function patchAllImageFallbacks() {
-    $$("img").forEach(withFallbackSrc);
-  }
-
-  function preloadImage(src) {
-    return new Promise((resolve) => {
-      const image = new Image();
-      image.onload = () => resolve({ ok: true, src });
-      image.onerror = () => resolve({ ok: false, src: CONFIG.fallbackImage });
-      image.src = src;
-    });
-  }
-
-  /* ==========================================================================
-     05) MENU DATA + LOGIC
-     ========================================================================== */
-  const MENU_ITEMS = [
-    {
-      id: 1,
-      name: "Butter Chicken",
-      category: "Chicken",
-      price: 16.5,
-      spice: 2,
-      image: `${CONFIG.projectBase}/dish-1.jpg`,
-      description: {
-        nl: "Romige tomatencurry met boter, kasoori methi en zachte kip.",
-        en: "Creamy tomato curry with butter, kasoori methi, and tender chicken."
-      }
-    },
-    {
-      id: 2,
-      name: "Paneer Tikka",
-      category: "Veg",
-      price: 13.0,
-      spice: 2,
-      image: `${CONFIG.projectBase}/dish-2.jpg`,
-      description: {
-        nl: "Gemarineerde paneer, gegrild in tandoor met rokerige aroma’s.",
-        en: "Marinated paneer grilled in tandoor with smoky aromas."
-      }
-    },
-    {
-      id: 3,
-      name: "Lamb Rogan Josh",
-      category: "Lamb",
-      price: 18.5,
-      spice: 3,
-      image: `${CONFIG.projectBase}/dish-3.jpg`,
-      description: {
-        nl: "Langzaam gegaard lamsgerecht in rijke Kashmiri saus.",
-        en: "Slow-cooked lamb in rich Kashmiri-style gravy."
-      }
-    },
-    {
-      id: 4,
-      name: "Chicken Biryani",
-      category: "Rice",
-      price: 15.5,
-      spice: 2,
-      image: `${CONFIG.projectBase}/dish-4.jpg`,
-      description: {
-        nl: "Aromatische basmatirijst met gekruide kip en saffraan.",
-        en: "Aromatic basmati rice with spiced chicken and saffron."
-      }
-    },
-    {
-      id: 5,
-      name: "Dal Makhani",
-      category: "Veg",
-      price: 12.0,
-      spice: 1,
-      image: `${CONFIG.projectBase}/dish-2.jpg`,
-      description: {
-        nl: "Langzaam gestoofde zwarte linzen met boter en room.",
-        en: "Slow-simmered black lentils with butter and cream."
-      }
-    },
-    {
-      id: 6,
-      name: "Garlic Naan",
-      category: "Bread",
-      price: 4.5,
-      spice: 0,
-      image: `${CONFIG.projectBase}/dish-1.jpg`,
-      description: {
-        nl: "Vers gebakken naan met knoflook en korianderboter.",
-        en: "Freshly baked naan with garlic and coriander butter."
-      }
-    }
-  ];
-
-  const spiceToLabel = (level) => {
-    if (level <= 0) return "Mild";
-    return "🌶️".repeat(level);
-  };
-
-  let activeCategory = "All";
-  let searchTerm = "";
-
-  function getAllCategories() {
-    const unique = new Set(MENU_ITEMS.map((item) => item.category));
-    return ["All", ...unique];
-  }
-
-  function filteredMenuItems() {
-    return MENU_ITEMS.filter((item) => {
-      const byCategory = activeCategory === "All" || item.category === activeCategory;
-      const fullText = `${item.name} ${item.description.nl} ${item.description.en} ${item.category}`.toLowerCase();
-      const bySearch = fullText.includes(searchTerm.toLowerCase());
-      return byCategory && bySearch;
-    });
-  }
-
-  function renderCategoryChips() {
-    const chipWrap = $("#categoryChips");
-    if (!chipWrap) return;
-
-    const categories = getAllCategories();
-
-    chipWrap.innerHTML = categories
-      .map((cat) => {
-        const active = cat === activeCategory ? "is-active" : "";
-        return `<button class="category-chip ${active}" data-category="${cat}">${cat}</button>`;
-      })
-      .join("");
-
-    $$("[data-category]", chipWrap).forEach((chip) => {
-      chip.addEventListener("click", () => {
-        activeCategory = chip.getAttribute("data-category") || "All";
-        renderCategoryChips();
-        renderMenuGrid();
-      });
-    });
-  }
-
-  function formatPrice(amount) {
-    return `${t("currency")}${Number(amount).toFixed(2)}`;
-  }
-
-  function renderMenuGrid() {
-    const grid = $("#menuGrid");
-    if (!grid) return;
-
-    const items = filteredMenuItems();
-
-    if (!items.length) {
-      grid.innerHTML = `
-        <article class="menu-card">
-          <div class="menu-body">
-            <h3>${t("menu_empty")}</h3>
-          </div>
-        </article>
-      `;
-      return;
-    }
-
-    grid.innerHTML = items
-      .map((item) => {
-        const desc = item.description[currentLang] || item.description.nl;
-        return `
-          <article class="menu-card reveal">
-            <div class="menu-media">
-              <img src="${item.image}" alt="${item.name}" onerror="this.onerror=null;this.src='${CONFIG.fallbackImage}'" />
-              <span class="menu-badge">${item.category}</span>
-            </div>
-            <div class="menu-body">
-              <div class="menu-row">
-                <h3>${item.name}</h3>
-                <span class="menu-price">${formatPrice(item.price)}</span>
-              </div>
-              <p class="menu-desc">${desc}</p>
-              <p class="menu-meta">${spiceToLabel(item.spice)}</p>
-            </div>
-          </article>
-        `;
-      })
-      .join("");
-
-    patchAllImageFallbacks();
-    reObserveReveal();
-  }
-
-  function initMenuSearch() {
-    const input = $("#menuSearchInput");
-    if (!input) return;
-
-    const onInput = debounce((event) => {
-      searchTerm = safeText(event.target.value);
-      renderMenuGrid();
-    }, 150);
-
-    input.addEventListener("input", onInput);
-  }
-
-  /* ==========================================================================
-     06) HERO SLIDER
+     05) HERO
      ========================================================================== */
   let heroIndex = 0;
   let heroTimer = null;
 
-  async function prepareHeroSlides() {
-    const slides = $$(".hero-slide");
-    for (const slide of slides) {
-      const bg = slide.getAttribute("data-bg");
-      if (!bg) continue;
-      const loaded = await preloadImage(bg);
-      slide.style.backgroundImage = `url('${loaded.src}')`;
-    }
+  async function setHeroImages() {
+    const hero1 = await firstExisting(imageCandidates.hero1);
+    const hero2 = await firstExisting(imageCandidates.hero2);
+    const hero3 = await firstExisting(imageCandidates.hero3);
+
+    const a = $("#heroA");
+    const b = $("#heroB");
+    const c = $("#heroC");
+
+    if (a) a.style.backgroundImage = `url('${hero1}')`;
+    if (b) b.style.backgroundImage = `url('${hero2}')`;
+    if (c) c.style.backgroundImage = `url('${hero3}')`;
   }
 
   function goHero(index) {
@@ -545,12 +343,123 @@ async function firstExisting(urls) {
     const downBtn = $("#heroDownBtn");
     if (downBtn) {
       downBtn.addEventListener("click", () => {
-        const story = $("#story");
-        if (story) story.scrollIntoView({ behavior: "smooth", block: "start" });
+        const target = $("#story");
+        if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
       });
     }
 
     startHeroAutoplay();
+  }
+
+  /* ==========================================================================
+     06) MENU
+     ========================================================================== */
+  const MENU_ITEMS = [
+    { id: 1, name: "Butter Chicken", category: "Chicken", price: 16.5, spice: 2, imageKey: "dish1", desc: { nl: "Romige tomatencurry met boter en zachte kip.", en: "Creamy tomato curry with butter and tender chicken." } },
+    { id: 2, name: "Paneer Tikka", category: "Veg", price: 13.0, spice: 2, imageKey: "dish2", desc: { nl: "Gemarineerde paneer, gegrild in tandoor.", en: "Marinated paneer grilled in tandoor." } },
+    { id: 3, name: "Lamb Rogan Josh", category: "Lamb", price: 18.5, spice: 3, imageKey: "dish3", desc: { nl: "Langzaam gegaard lamsgerecht in rijke saus.", en: "Slow-cooked lamb in rich aromatic gravy." } },
+    { id: 4, name: "Chicken Biryani", category: "Rice", price: 15.5, spice: 2, imageKey: "dish4", desc: { nl: "Aromatische basmatirijst met gekruide kip.", en: "Aromatic basmati rice with spiced chicken." } }
+  ];
+
+  let activeCategory = "All";
+  let searchTerm = "";
+
+  function spiceText(level) {
+    if (level <= 0) return "Mild";
+    return "🌶️".repeat(level);
+  }
+
+  function formatPrice(price) {
+    return `${t("currency")}${Number(price).toFixed(2)}`;
+  }
+
+  function renderCategoryChips() {
+    const wrap = $("#categoryChips");
+    if (!wrap) return;
+
+    const categories = ["All", ...new Set(MENU_ITEMS.map((item) => item.category))];
+
+    wrap.innerHTML = categories
+      .map((cat) => {
+        const active = cat === activeCategory ? "is-active" : "";
+        return `<button class="category-chip ${active}" data-category="${cat}">${cat}</button>`;
+      })
+      .join("");
+
+    $$("[data-category]", wrap).forEach((chip) => {
+      chip.addEventListener("click", () => {
+        activeCategory = chip.getAttribute("data-category") || "All";
+        renderCategoryChips();
+        renderMenuGrid();
+      });
+    });
+  }
+
+  function filteredMenu() {
+    return MENU_ITEMS.filter((item) => {
+      const byCategory = activeCategory === "All" || item.category === activeCategory;
+      const haystack = `${item.name} ${item.desc.nl} ${item.desc.en} ${item.category}`.toLowerCase();
+      const bySearch = haystack.includes(searchTerm.toLowerCase());
+      return byCategory && bySearch;
+    });
+  }
+
+  async function renderMenuGrid() {
+    const grid = $("#menuGrid");
+    if (!grid) return;
+
+    const items = filteredMenu();
+
+    if (!items.length) {
+      grid.innerHTML = `
+        <article class="menu-card">
+          <div class="menu-body">
+            <h3>${t("menu_empty")}</h3>
+          </div>
+        </article>
+      `;
+      return;
+    }
+
+    const cards = await Promise.all(
+      items.map(async (item) => {
+        const img = await firstExisting(imageCandidates[item.imageKey] || [CONFIG.fallbackImage]);
+        const desc = item.desc[currentLang] || item.desc.nl;
+        return `
+          <article class="menu-card reveal">
+            <div class="menu-media">
+              <img src="${img}" alt="${item.name}" onerror="this.onerror=null;this.src='${CONFIG.fallbackImage}'" />
+              <span class="menu-badge">${item.category}</span>
+            </div>
+            <div class="menu-body">
+              <div class="menu-row">
+                <h3>${item.name}</h3>
+                <span class="menu-price">${formatPrice(item.price)}</span>
+              </div>
+              <p class="menu-desc">${desc}</p>
+              <p class="menu-meta">${spiceText(item.spice)}</p>
+            </div>
+          </article>
+        `;
+      })
+    );
+
+    grid.innerHTML = cards.join("");
+    patchImageFallbacks();
+    observeRevealElements();
+  }
+
+  function initMenuSearch() {
+    const input = $("#menuSearchInput");
+    if (!input) return;
+
+    input.addEventListener(
+      "input",
+      debounce(async (e) => {
+        searchTerm = safeText(e.target.value);
+        await renderMenuGrid();
+      }, 150)
+    );
   }
 
   /* ==========================================================================
@@ -574,28 +483,28 @@ async function firstExisting(urls) {
 
   function renderTestimonials() {
     const track = $("#testimonialTrack");
-    const dotsWrap = $("#testimonialDots");
-    if (!track || !dotsWrap) return;
+    const dots = $("#testimonialDots");
+    if (!track || !dots) return;
 
     const list = TESTIMONIALS[currentLang] || TESTIMONIALS.nl;
 
     track.innerHTML = list
       .map(
         (item) => `
-        <article class="testimonial-card">
-          <div class="stars">★★★★★</div>
-          <p>${item.text}</p>
-          <small>— ${item.author}</small>
-        </article>
-      `
+      <article class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p>${item.text}</p>
+        <small>— ${item.author}</small>
+      </article>
+    `
       )
       .join("");
 
-    dotsWrap.innerHTML = list
-      .map((_, i) => `<button class="testimonial-dot ${i === testimonialIndex ? "is-active" : ""}" data-dot="${i}" aria-label="Go to review ${i + 1}"></button>`)
+    dots.innerHTML = list
+      .map((_, i) => `<button class="testimonial-dot ${i === testimonialIndex ? "is-active" : ""}" data-dot="${i}" aria-label="Review ${i + 1}"></button>`)
       .join("");
 
-    $$("[data-dot]", dotsWrap).forEach((dot) => {
+    $$("[data-dot]", dots).forEach((dot) => {
       dot.addEventListener("click", () => {
         testimonialIndex = Number(dot.getAttribute("data-dot") || 0);
         updateTestimonialPosition();
@@ -608,7 +517,6 @@ async function firstExisting(urls) {
   function updateTestimonialPosition() {
     const track = $("#testimonialTrack");
     if (!track) return;
-
     track.style.transform = `translateX(-${testimonialIndex * 100}%)`;
 
     $$(".testimonial-dot").forEach((dot, idx) => {
@@ -619,8 +527,8 @@ async function firstExisting(urls) {
   function startTestimonialAutoplay() {
     stopTestimonialAutoplay();
     testimonialTimer = setInterval(() => {
-      const total = (TESTIMONIALS[currentLang] || TESTIMONIALS.nl).length;
-      testimonialIndex = (testimonialIndex + 1) % total;
+      const list = TESTIMONIALS[currentLang] || TESTIMONIALS.nl;
+      testimonialIndex = (testimonialIndex + 1) % list.length;
       updateTestimonialPosition();
     }, CONFIG.testimonialInterval);
   }
@@ -644,24 +552,30 @@ async function firstExisting(urls) {
   /* ==========================================================================
      08) GALLERY LIGHTBOX
      ========================================================================== */
-  function updateGalleryViewLabel() {
-    // purely visual label in CSS ::after is static ("View"), keep as-is or
-    // optionally add aria text updates here if needed in future.
+  async function patchGalleryImages() {
+    const map = [
+      { selector: "#galleryGrid .gallery-item:nth-child(1) img", key: "gallery1" },
+      { selector: "#galleryGrid .gallery-item:nth-child(2) img", key: "gallery2" },
+      { selector: "#galleryGrid .gallery-item:nth-child(3) img", key: "gallery3" },
+      { selector: "#galleryGrid .gallery-item:nth-child(4) img", key: "gallery4" }
+    ];
+
+    for (const item of map) {
+      const el = $(item.selector);
+      if (!el) continue;
+      el.src = await firstExisting(imageCandidates[item.key]);
+    }
   }
 
-  function initGalleryLightbox() {
+  function initLightbox() {
     const lightbox = $("#lightbox");
     const lightboxImage = $("#lightboxImage");
-    const closeBtn = $("#lightboxClose");
-    const items = $$(".gallery-item img");
+    const lightboxClose = $("#lightboxClose");
+    if (!lightbox || !lightboxImage || !lightboxClose) return;
 
-    if (!lightbox || !lightboxImage || !closeBtn || !items.length) return;
-
-    items.forEach((img) => {
-      img.addEventListener("click", async () => {
-        const src = img.getAttribute("src") || CONFIG.fallbackImage;
-        const loaded = await preloadImage(src);
-        lightboxImage.src = loaded.src;
+    $$("#galleryGrid img").forEach((img) => {
+      img.addEventListener("click", () => {
+        lightboxImage.src = img.src || CONFIG.fallbackImage;
         lightbox.classList.add("is-open");
         lightbox.setAttribute("aria-hidden", "false");
         document.body.style.overflow = "hidden";
@@ -674,20 +588,18 @@ async function firstExisting(urls) {
       document.body.style.overflow = "";
     };
 
-    closeBtn.addEventListener("click", close);
+    lightboxClose.addEventListener("click", close);
     lightbox.addEventListener("click", (e) => {
       if (e.target === lightbox) close();
     });
 
     document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && lightbox.classList.contains("is-open")) {
-        close();
-      }
+      if (e.key === "Escape" && lightbox.classList.contains("is-open")) close();
     });
   }
 
   /* ==========================================================================
-     09) NAV + MOBILE MENU
+     09) NAV + QUICK ACTIONS
      ========================================================================== */
   function initMobileNav() {
     const toggle = $("#mobileMenuToggle");
@@ -699,20 +611,29 @@ async function firstExisting(urls) {
       toggle.setAttribute("aria-expanded", String(open));
     });
 
-    $$("a", nav).forEach((link) => {
-      link.addEventListener("click", () => {
+    $$("a", nav).forEach((a) => {
+      a.addEventListener("click", () => {
         nav.classList.remove("is-open");
         toggle.setAttribute("aria-expanded", "false");
       });
     });
   }
 
+  function initQuickReserve() {
+    const btn = $("#quickReserveBtn");
+    if (!btn) return;
+    btn.addEventListener("click", () => {
+      const target = $("#reservation");
+      if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  }
+
   /* ==========================================================================
-     10) REVEAL ON SCROLL
+     10) REVEAL
      ========================================================================== */
   let revealObserver = null;
 
-  function createRevealObserver() {
+  function observeRevealElements() {
     if (revealObserver) revealObserver.disconnect();
 
     revealObserver = new IntersectionObserver(
@@ -730,27 +651,22 @@ async function firstExisting(urls) {
     $$(".reveal").forEach((el) => revealObserver.observe(el));
   }
 
-  function reObserveReveal() {
-    createRevealObserver();
-  }
-
   /* ==========================================================================
-     11) FORM VALIDATION + RESERVATION FLOW
+     11) RESERVATION FORM
      ========================================================================== */
-  function setFieldError(fieldId, message = "") {
-    const errorEl = $(`[data-error-for="${fieldId}"]`);
-    const fieldEl = $(`#${fieldId}`);
+  function setError(fieldId, message = "") {
+    const error = $(`[data-error-for="${fieldId}"]`);
+    const input = $(`#${fieldId}`);
+    if (error) error.textContent = message;
 
-    if (errorEl) errorEl.textContent = message;
-
-    if (fieldEl) {
-      fieldEl.classList.remove("is-valid", "is-invalid");
-      if (message) fieldEl.classList.add("is-invalid");
-      else if (fieldEl.value.trim()) fieldEl.classList.add("is-valid");
+    if (input) {
+      input.classList.remove("is-valid", "is-invalid");
+      if (message) input.classList.add("is-invalid");
+      else if (input.value.trim()) input.classList.add("is-valid");
     }
   }
 
-  function validateReservationForm() {
+  function validateForm() {
     const name = safeText($("#resName")?.value);
     const email = safeText($("#resEmail")?.value);
     const phone = safeText($("#resPhone")?.value);
@@ -758,51 +674,50 @@ async function firstExisting(urls) {
     const time = safeText($("#resTime")?.value);
     const guests = safeText($("#resGuests")?.value);
 
-    let isValid = true;
+    let ok = true;
 
-    // reset
-    ["resName", "resEmail", "resPhone", "resDate", "resTime", "resGuests"].forEach((id) => setFieldError(id, ""));
+    ["resName", "resEmail", "resPhone", "resDate", "resTime", "resGuests"].forEach((id) => setError(id, ""));
 
     if (!name) {
-      setFieldError("resName", t("err_required"));
-      isValid = false;
+      setError("resName", t("err_required"));
+      ok = false;
     }
 
     if (!email) {
-      setFieldError("resEmail", t("err_required"));
-      isValid = false;
+      setError("resEmail", t("err_required"));
+      ok = false;
     } else if (!/^\S+@\S+\.\S+$/.test(email)) {
-      setFieldError("resEmail", t("err_email"));
-      isValid = false;
+      setError("resEmail", t("err_email"));
+      ok = false;
     }
 
     if (!phone) {
-      setFieldError("resPhone", t("err_required"));
-      isValid = false;
+      setError("resPhone", t("err_required"));
+      ok = false;
     } else if (!/^[0-9+\s\-()]{6,}$/.test(phone)) {
-      setFieldError("resPhone", t("err_phone"));
-      isValid = false;
+      setError("resPhone", t("err_phone"));
+      ok = false;
     }
 
     if (!date) {
-      setFieldError("resDate", t("err_date"));
-      isValid = false;
+      setError("resDate", t("err_date"));
+      ok = false;
     }
 
     if (!time) {
-      setFieldError("resTime", t("err_time"));
-      isValid = false;
+      setError("resTime", t("err_time"));
+      ok = false;
     }
 
     if (!guests) {
-      setFieldError("resGuests", t("err_guests"));
-      isValid = false;
+      setError("resGuests", t("err_guests"));
+      ok = false;
     }
 
-    return isValid;
+    return ok;
   }
 
-  function getReservationPayload() {
+  function reservationPayload() {
     return {
       name: safeText($("#resName")?.value),
       email: safeText($("#resEmail")?.value),
@@ -815,61 +730,62 @@ async function firstExisting(urls) {
     };
   }
 
-  function buildWhatsappMessage(payload) {
+  function buildWhatsAppText(data) {
     const lines =
       currentLang === "nl"
         ? [
             "Nieuwe reservering - Delhi Darbaar",
-            `Naam: ${payload.name}`,
-            `E-mail: ${payload.email}`,
-            `Telefoon: ${payload.phone}`,
-            `Datum: ${payload.date}`,
-            `Tijd: ${payload.time}`,
-            `Gasten: ${payload.guests}`,
-            `Gelegenheid: ${payload.occasion}`,
-            `Opmerkingen: ${payload.notes}`
+            `Naam: ${data.name}`,
+            `E-mail: ${data.email}`,
+            `Telefoon: ${data.phone}`,
+            `Datum: ${data.date}`,
+            `Tijd: ${data.time}`,
+            `Gasten: ${data.guests}`,
+            `Gelegenheid: ${data.occasion}`,
+            `Opmerkingen: ${data.notes}`
           ]
         : [
             "New reservation - Delhi Darbaar",
-            `Name: ${payload.name}`,
-            `Email: ${payload.email}`,
-            `Phone: ${payload.phone}`,
-            `Date: ${payload.date}`,
-            `Time: ${payload.time}`,
-            `Guests: ${payload.guests}`,
-            `Occasion: ${payload.occasion}`,
-            `Notes: ${payload.notes}`
+            `Name: ${data.name}`,
+            `Email: ${data.email}`,
+            `Phone: ${data.phone}`,
+            `Date: ${data.date}`,
+            `Time: ${data.time}`,
+            `Guests: ${data.guests}`,
+            `Occasion: ${data.occasion}`,
+            `Notes: ${data.notes}`
           ];
 
     return encodeURIComponent(lines.join("\n"));
   }
 
-  function buildMailto(payload) {
+  function buildMailto(data) {
     const subject = encodeURIComponent(currentLang === "nl" ? "Nieuwe reservering" : "New reservation");
-    const bodyLines =
-      currentLang === "nl"
+    const body = encodeURIComponent(
+      (currentLang === "nl"
         ? [
-            `Naam: ${payload.name}`,
-            `E-mail: ${payload.email}`,
-            `Telefoon: ${payload.phone}`,
-            `Datum: ${payload.date}`,
-            `Tijd: ${payload.time}`,
-            `Gasten: ${payload.guests}`,
-            `Gelegenheid: ${payload.occasion}`,
-            `Opmerkingen: ${payload.notes}`
+            `Naam: ${data.name}`,
+            `E-mail: ${data.email}`,
+            `Telefoon: ${data.phone}`,
+            `Datum: ${data.date}`,
+            `Tijd: ${data.time}`,
+            `Gasten: ${data.guests}`,
+            `Gelegenheid: ${data.occasion}`,
+            `Opmerkingen: ${data.notes}`
           ]
         : [
-            `Name: ${payload.name}`,
-            `Email: ${payload.email}`,
-            `Phone: ${payload.phone}`,
-            `Date: ${payload.date}`,
-            `Time: ${payload.time}`,
-            `Guests: ${payload.guests}`,
-            `Occasion: ${payload.occasion}`,
-            `Notes: ${payload.notes}`
-          ];
+            `Name: ${data.name}`,
+            `Email: ${data.email}`,
+            `Phone: ${data.phone}`,
+            `Date: ${data.date}`,
+            `Time: ${data.time}`,
+            `Guests: ${data.guests}`,
+            `Occasion: ${data.occasion}`,
+            `Notes: ${data.notes}`
+          ]
+      ).join("\n")
+    );
 
-    const body = encodeURIComponent(bodyLines.join("\n"));
     return `mailto:${CONFIG.emailTarget}?subject=${subject}&body=${body}`;
   }
 
@@ -883,16 +799,16 @@ async function firstExisting(urls) {
     form.addEventListener("submit", (e) => {
       e.preventDefault();
 
-      if (!validateReservationForm()) {
+      if (!validateForm()) {
         status.textContent = t("status_error");
         status.classList.remove("is-success");
         status.classList.add("is-danger");
         return;
       }
 
-      const payload = getReservationPayload();
-      const message = buildWhatsappMessage(payload);
-      const url = `https://wa.me/${CONFIG.whatsappNumber}?text=${message}`;
+      const payload = reservationPayload();
+      const msg = buildWhatsAppText(payload);
+      const url = `https://wa.me/${CONFIG.whatsappNumber}?text=${msg}`;
 
       status.textContent = t("status_ok_whatsapp");
       status.classList.remove("is-danger");
@@ -903,140 +819,118 @@ async function firstExisting(urls) {
 
     if (emailBtn) {
       emailBtn.addEventListener("click", () => {
-        if (!validateReservationForm()) {
+        if (!validateForm()) {
           status.textContent = t("status_error");
           status.classList.remove("is-success");
           status.classList.add("is-danger");
           return;
         }
 
-        const payload = getReservationPayload();
-        const mailto = buildMailto(payload);
+        const payload = reservationPayload();
+        window.location.href = buildMailto(payload);
 
         status.textContent = t("status_ok_email");
         status.classList.remove("is-danger");
         status.classList.add("is-success");
-
-        window.location.href = mailto;
       });
     }
   }
 
   /* ==========================================================================
-     12) SCROLL PROGRESS + BACK TO TOP
+     12) SCROLL UI
      ========================================================================== */
-  function initScrollUI() {
+  function initScrollProgressAndTop() {
     const progress = $("#scrollProgress");
-    const backBtn = $("#backToTopBtn");
+    const topBtn = $("#backToTopBtn");
 
-    const update = () => {
+    const onScroll = () => {
       const doc = document.documentElement;
       const max = doc.scrollHeight - doc.clientHeight;
-      const pct = max > 0 ? (doc.scrollTop / max) * 100 : 0;
+      const percent = max > 0 ? (doc.scrollTop / max) * 100 : 0;
 
-      if (progress) progress.style.width = `${pct}%`;
-
-      if (backBtn) {
-        backBtn.classList.toggle("is-visible", doc.scrollTop > 480);
-      }
+      if (progress) progress.style.width = `${percent}%`;
+      if (topBtn) topBtn.classList.toggle("is-visible", doc.scrollTop > 450);
     };
 
-    window.addEventListener("scroll", update, { passive: true });
-    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
 
-    if (backBtn) {
-      backBtn.addEventListener("click", () => {
+    if (topBtn) {
+      topBtn.addEventListener("click", () => {
         window.scrollTo({ top: 0, behavior: "smooth" });
       });
     }
   }
 
   /* ==========================================================================
-     13) CURSOR GLOW PARALLAX
+     13) CURSOR GLOW
      ========================================================================== */
   function initCursorGlow() {
     const glow = $("#cursorGlow");
     if (!glow) return;
 
-    const onMove = (e) => {
+    window.addEventListener("mousemove", (e) => {
       glow.style.transform = `translate(${e.clientX - 140}px, ${e.clientY - 140}px)`;
-    };
-
-    window.addEventListener("mousemove", onMove);
-  }
-
-  /* ==========================================================================
-     14) QUICK RESERVE + NAV SHORTCUTS
-     ========================================================================== */
-  function initQuickActions() {
-    const quickReserveBtn = $("#quickReserveBtn");
-    if (quickReserveBtn) {
-      quickReserveBtn.addEventListener("click", () => {
-        const target = $("#reservation");
-        if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
-      });
-    }
-  }
-
-  /* ==========================================================================
-     15) LANGUAGE SWITCH
-     ========================================================================== */
-  function initLanguageSwitch() {
-    const switchEl = $("#langSwitch");
-    if (!switchEl) return;
-
-    switchEl.value = "nl";
-    applyLanguage("nl");
-
-    switchEl.addEventListener("change", () => {
-      applyLanguage(switchEl.value);
     });
   }
 
   /* ==========================================================================
-     16) YEAR FOOTER
+     14) LANGUAGE SWITCHER
      ========================================================================== */
-  function setCurrentYear() {
+  function initLanguageSwitch() {
+    const switcher = $("#langSwitch");
+    if (!switcher) return;
+
+    switcher.value = "nl";
+    applyLanguage("nl");
+
+    switcher.addEventListener("change", () => {
+      applyLanguage(switcher.value);
+    });
+  }
+
+  /* ==========================================================================
+     15) FOOTER YEAR
+     ========================================================================== */
+  function setFooterYear() {
     const year = $("#year");
     if (year) year.textContent = String(new Date().getFullYear());
   }
 
   /* ==========================================================================
-     17) LOADER SAFETY
+     16) LOADER SAFETY
      ========================================================================== */
   function hideBootLoader() {
     const boot = $("#bootLoader");
-    if (!boot) return;
-    boot.classList.add("hide");
+    if (boot) boot.classList.add("hide");
   }
 
   function initLoaderSafety() {
     hideBootLoader();
     window.addEventListener("load", hideBootLoader);
-    setTimeout(hideBootLoader, 2200);
+    setTimeout(hideBootLoader, 2500);
   }
 
   /* ==========================================================================
-     18) FAQ ENHANCEMENT (single-open mode optional)
+     17) OPTIONAL: GOOGLE REVIEWS BUTTON HOOK
+     (add a button in HTML with id="googleReviewsBtn" if needed)
      ========================================================================== */
-  function initFaqBehavior() {
-    const faqs = $$(".faq-item");
-    if (!faqs.length) return;
-
-    faqs.forEach((faq) => {
-      faq.addEventListener("toggle", () => {
-        if (!faq.open) return;
-        faqs.forEach((other) => {
-          if (other !== faq) other.open = false;
-        });
-      });
+  function initGoogleReviewsButton() {
+    const btn = $("#googleReviewsBtn");
+    if (!btn) return;
+    btn.addEventListener("click", () => {
+      window.open(
+        "https://www.google.com/maps/search/?api=1&query=Delhi+Darbaar+Hilversum",
+        "_blank",
+        "noopener,noreferrer"
+      );
     });
   }
 
   /* ==========================================================================
-     19) HERO / TESTIMONIAL VISIBILITY PAUSE
+     18) PAGE VISIBILITY HANDLING
      ========================================================================== */
-  function initVisibilityPause() {
+  function initVisibilityHandling() {
     document.addEventListener("visibilitychange", () => {
       if (document.hidden) {
         stopHeroAutoplay();
@@ -1049,35 +943,36 @@ async function firstExisting(urls) {
   }
 
   /* ==========================================================================
-     20) INIT
+     19) INIT
      ========================================================================== */
   async function init() {
     initLoaderSafety();
 
     initLanguageSwitch();
     initMobileNav();
-    initQuickActions();
+    initQuickReserve();
 
-    await prepareHeroSlides();
+    await setHeroImages();
     initHero();
 
     renderCategoryChips();
-    renderMenuGrid();
+    await renderMenuGrid();
     initMenuSearch();
 
+    await patchGalleryImages();
+    patchImageFallbacks();
+    initLightbox();
+
     initTestimonials();
-    initGalleryLightbox();
-
     initReservationForm();
-    initFaqBehavior();
 
-    createRevealObserver();
-    initScrollUI();
+    observeRevealElements();
+    initScrollProgressAndTop();
     initCursorGlow();
-    initVisibilityPause();
+    initGoogleReviewsButton();
 
-    patchAllImageFallbacks();
-    setCurrentYear();
+    initVisibilityHandling();
+    setFooterYear();
 
     hideBootLoader();
   }

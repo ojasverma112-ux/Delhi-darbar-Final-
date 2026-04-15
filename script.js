@@ -1,60 +1,54 @@
 /* ==========================================================================
-   DELHI DARBAAR - PREMIUM SCRIPT (FULL, PATCHED)
-   Includes:
-   - NL/EN language switch
-   - Hero slider
-   - Menu search/filter
-   - Image auto-detect (jpg/jpeg/png) with fallback
-   - Reservation validation + WhatsApp + Email fallback
-   - Reveal animations
-   - Gallery lightbox
-   - Testimonial slider
-   - Scroll progress + back-to-top
-   - Mobile nav
+   DELHI DARBAAR V3 - PREMIUM SCRIPT (PART 3/3)
+   Critical fixes included:
+   - Robust image resolver using Image() (NOT fetch HEAD)
+   - GitHub Pages safe pathing
+   - Real Google Reviews + Uber Eats links integrated in HTML
    ========================================================================== */
 
 (() => {
   "use strict";
 
   /* ==========================================================================
-     01) GLOBAL CONFIG
+     01) CONFIG
      ========================================================================== */
   const CONFIG = {
     projectBase: "/Delhi-darbar-Final-",
+    fallbackImage: "/Delhi-darbar-Final-/fallback.jpg",
     whatsappNumber: "31613533612",
     emailTarget: "info@delhidarbaar.nl",
-    fallbackImage: "/Delhi-darbar-Final-/fallback.jpg",
     heroInterval: 5200,
-    testimonialInterval: 4600
+    testimonialInterval: 5000
   };
 
   /* ==========================================================================
-     02) DOM HELPERS
+     02) HELPERS
      ========================================================================== */
-  const $ = (selector, root = document) => root.querySelector(selector);
-  const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
+  const $ = (sel, root = document) => root.querySelector(sel);
+  const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+  const safe = (v) => String(v ?? "").trim();
 
-  const safeText = (value) => String(value ?? "").trim();
-
-  const debounce = (fn, delay = 200) => {
-    let timer = null;
+  const debounce = (fn, wait = 150) => {
+    let t = null;
     return (...args) => {
-      clearTimeout(timer);
-      timer = setTimeout(() => fn(...args), delay);
+      clearTimeout(t);
+      t = setTimeout(() => fn(...args), wait);
     };
   };
 
-  function patchImageFallbacks() {
-    $$("img").forEach((img) => {
-      img.addEventListener("error", () => {
-        img.onerror = null;
-        img.src = CONFIG.fallbackImage;
-      });
-    });
+  function setYear() {
+    const y = $("#year");
+    if (y) y.textContent = String(new Date().getFullYear());
+  }
+
+  function hideBootLoader() {
+    const boot = $("#bootLoader");
+    if (boot) boot.classList.add("hide");
   }
 
   /* ==========================================================================
-     03) IMAGE AUTO-DETECT (important patch)
+     03) IMAGE RESOLUTION (FIXED)
+     Using Image() check, not fetch HEAD
      ========================================================================== */
   const imageCandidates = {
     hero1: [`${CONFIG.projectBase}/hero-1.jpg`, `${CONFIG.projectBase}/hero-1.jpeg`, `${CONFIG.projectBase}/hero-1.png`],
@@ -72,14 +66,30 @@
     dish4: [`${CONFIG.projectBase}/dish-4.jpg`, `${CONFIG.projectBase}/dish-4.jpeg`, `${CONFIG.projectBase}/dish-4.png`]
   };
 
+  async function imageExists(url) {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.onload = () => resolve(true);
+      img.onerror = () => resolve(false);
+      img.src = `${url}?v=${Date.now()}`; // cache-bust
+    });
+  }
+
   async function firstExisting(urls) {
     for (const url of urls) {
-      try {
-        const res = await fetch(url, { method: "HEAD", cache: "no-store" });
-        if (res.ok) return url;
-      } catch (_) {}
+      const ok = await imageExists(url);
+      if (ok) return url;
     }
     return CONFIG.fallbackImage;
+  }
+
+  function patchImageFallbacks() {
+    $$("img").forEach((img) => {
+      img.addEventListener("error", () => {
+        img.onerror = null;
+        img.src = CONFIG.fallbackImage;
+      });
+    });
   }
 
   /* ==========================================================================
@@ -105,6 +115,11 @@
       hero_badge_fresh: "Dagelijks verse bereiding",
       hero_badge_tandoor: "Authentieke tandoor smaak",
 
+      trust_rating: "Gemiddelde waardering",
+      trust_fresh: "Dagelijks vers",
+      trust_authentic: "Traditionele recepturen",
+      trust_local: "Lokaal geliefd",
+
       story_kicker: "Ons Verhaal",
       story_title: "Traditie en Smaak in Perfecte Balans",
       story_p1: "Delhi Darbaar combineert authentieke Indiase en Mughlai smaken met een moderne, verfijnde presentatie.",
@@ -125,9 +140,6 @@
 
       review_kicker: "Ervaringen",
       review_title: "Wat onze gasten zeggen",
-      review_1_text: "Beste butter chicken die ik in Nederland heb geproefd. Perfecte balans.",
-      review_2_text: "Elegante sfeer, snelle service en echt authentieke smaken.",
-      review_3_text: "Ideaal voor familie-etentjes en speciale gelegenheden.",
 
       res_kicker: "Reserveren",
       res_title: "Reserveringssysteem",
@@ -162,6 +174,7 @@
       hours_text: "Ma-Do 13:00–22:00 · Vr-Za 13:00–22:30 · Zondag gesloten",
       hours_cta: "Reserveer je tafel",
       footer_note: "Premium Indiase smaakbeleving",
+      sticky_book: "Reserveer",
 
       status_ok_whatsapp: "Reservering voorbereid. WhatsApp wordt geopend...",
       status_ok_email: "E-mailvenster wordt geopend...",
@@ -175,7 +188,7 @@
       err_guests: "Kies aantal gasten.",
 
       search_placeholder: "Zoek gerecht...",
-      menu_empty: "Geen gerechten gevonden voor deze zoekopdracht.",
+      menu_empty: "Geen gerechten gevonden.",
       currency: "€"
     },
     en: {
@@ -197,6 +210,11 @@
       hero_badge_fresh: "Freshly prepared daily",
       hero_badge_tandoor: "Authentic tandoor flavor",
 
+      trust_rating: "Average rating",
+      trust_fresh: "Fresh daily",
+      trust_authentic: "Traditional recipes",
+      trust_local: "Loved in Hilversum",
+
       story_kicker: "Our Story",
       story_title: "Tradition and Flavor in Perfect Balance",
       story_p1: "Delhi Darbaar combines authentic Indian and Mughlai flavors with a refined modern presentation.",
@@ -217,13 +235,10 @@
 
       review_kicker: "Guest Reviews",
       review_title: "What our guests say",
-      review_1_text: "Best butter chicken I’ve tasted in the Netherlands. Perfect balance.",
-      review_2_text: "Elegant ambience, fast service, and truly authentic flavor.",
-      review_3_text: "Ideal for family dinners and special occasions.",
 
       res_kicker: "Reservation",
       res_title: "Reservation System",
-      res_text: "Fill in your details. After submitting, WhatsApp opens with your reservation details.",
+      res_text: "Fill your details. After submit, WhatsApp opens with reservation info.",
       res_note: "Prefer email? Use the email button below the form.",
       f_name: "Name",
       f_email: "Email",
@@ -241,11 +256,11 @@
       res_submit: "Send via WhatsApp",
       res_email: "Send via Email",
 
-      faq_title: "Frequently Asked Questions",
+      faq_title: "Frequently asked questions",
       faq_q1: "Is reservation required?",
       faq_a1: "Reservations are strongly recommended, especially on weekends.",
       faq_q2: "Do you have vegetarian options?",
-      faq_a2: "Yes, we offer an extensive selection of vegetarian dishes.",
+      faq_a2: "Yes, we have an extensive vegetarian menu.",
       faq_q3: "Do you offer takeaway?",
       faq_a3: "Yes, takeaway is available during opening hours.",
 
@@ -254,20 +269,21 @@
       hours_text: "Mon-Thu 13:00–22:00 · Fri-Sat 13:00–22:30 · Sunday closed",
       hours_cta: "Reserve your table",
       footer_note: "Premium Indian dining experience",
+      sticky_book: "Reserve",
 
       status_ok_whatsapp: "Reservation prepared. Opening WhatsApp...",
       status_ok_email: "Opening email client...",
-      status_error: "Please check the fields and try again.",
+      status_error: "Please check fields and try again.",
 
       err_required: "This field is required.",
-      err_email: "Please enter a valid email address.",
-      err_phone: "Please enter a valid phone number.",
-      err_date: "Please choose a valid date.",
-      err_time: "Please choose a valid time.",
-      err_guests: "Please choose number of guests.",
+      err_email: "Enter a valid email.",
+      err_phone: "Enter a valid phone number.",
+      err_date: "Choose a valid date.",
+      err_time: "Choose a valid time.",
+      err_guests: "Choose number of guests.",
 
       search_placeholder: "Search dish...",
-      menu_empty: "No dishes found for this search.",
+      menu_empty: "No dishes found.",
       currency: "€"
     }
   };
@@ -284,10 +300,10 @@
       el.textContent = t(key);
     });
 
-    const searchInput = $("#menuSearchInput");
-    if (searchInput) searchInput.placeholder = t("search_placeholder");
+    const search = $("#menuSearchInput");
+    if (search) search.placeholder = t("search_placeholder");
 
-    renderMenuGrid();
+    renderMenu();
     renderTestimonials();
   }
 
@@ -298,24 +314,24 @@
   let heroTimer = null;
 
   async function setHeroImages() {
-    const hero1 = await firstExisting(imageCandidates.hero1);
-    const hero2 = await firstExisting(imageCandidates.hero2);
-    const hero3 = await firstExisting(imageCandidates.hero3);
-
     const a = $("#heroA");
     const b = $("#heroB");
     const c = $("#heroC");
+
+    const hero1 = await firstExisting(imageCandidates.hero1);
+    const hero2 = await firstExisting(imageCandidates.hero2);
+    const hero3 = await firstExisting(imageCandidates.hero3);
 
     if (a) a.style.backgroundImage = `url('${hero1}')`;
     if (b) b.style.backgroundImage = `url('${hero2}')`;
     if (c) c.style.backgroundImage = `url('${hero3}')`;
   }
 
-  function goHero(index) {
+  function goHero(i) {
     const slides = $$(".hero-slide");
     if (!slides.length) return;
     slides.forEach((s) => s.classList.remove("is-active"));
-    heroIndex = (index + slides.length) % slides.length;
+    heroIndex = (i + slides.length) % slides.length;
     slides[heroIndex].classList.add("is-active");
   }
 
@@ -323,147 +339,195 @@
     goHero(heroIndex + 1);
   }
 
-  function startHeroAutoplay() {
-    stopHeroAutoplay();
+  function startHero() {
+    stopHero();
     heroTimer = setInterval(nextHero, CONFIG.heroInterval);
   }
 
-  function stopHeroAutoplay() {
+  function stopHero() {
     if (heroTimer) clearInterval(heroTimer);
     heroTimer = null;
   }
 
-  function initHero() {
+  function initHeroControls() {
     const hero = $(".hero-section");
-    if (!hero) return;
+    if (hero) {
+      hero.addEventListener("mouseenter", stopHero);
+      hero.addEventListener("mouseleave", startHero);
+    }
 
-    hero.addEventListener("mouseenter", stopHeroAutoplay);
-    hero.addEventListener("mouseleave", startHeroAutoplay);
-
-    const downBtn = $("#heroDownBtn");
-    if (downBtn) {
-      downBtn.addEventListener("click", () => {
-        const target = $("#story");
-        if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+    const down = $("#heroDownBtn");
+    if (down) {
+      down.addEventListener("click", () => {
+        const next = $("#story");
+        if (next) next.scrollIntoView({ behavior: "smooth", block: "start" });
       });
     }
 
-    startHeroAutoplay();
+    startHero();
   }
 
   /* ==========================================================================
-     06) MENU
+     06) STORY/GALLERY IMAGE PATCH
+     ========================================================================== */
+  async function patchStaticImages() {
+    const map = [
+      { id: "#storyImg1", key: "gallery1" },
+      { id: "#storyImg2", key: "gallery2" },
+      { id: "#storyImg3", key: "gallery3" },
+      { id: "#galleryImg1", key: "gallery1" },
+      { id: "#galleryImg2", key: "gallery2" },
+      { id: "#galleryImg3", key: "gallery3" },
+      { id: "#galleryImg4", key: "gallery4" }
+    ];
+
+    for (const item of map) {
+      const el = $(item.id);
+      if (!el) continue;
+      el.src = await firstExisting(imageCandidates[item.key]);
+    }
+  }
+
+  /* ==========================================================================
+     07) MENU
      ========================================================================== */
   const MENU_ITEMS = [
-    { id: 1, name: "Butter Chicken", category: "Chicken", price: 16.5, spice: 2, imageKey: "dish1", desc: { nl: "Romige tomatencurry met boter en zachte kip.", en: "Creamy tomato curry with butter and tender chicken." } },
-    { id: 2, name: "Paneer Tikka", category: "Veg", price: 13.0, spice: 2, imageKey: "dish2", desc: { nl: "Gemarineerde paneer, gegrild in tandoor.", en: "Marinated paneer grilled in tandoor." } },
-    { id: 3, name: "Lamb Rogan Josh", category: "Lamb", price: 18.5, spice: 3, imageKey: "dish3", desc: { nl: "Langzaam gegaard lamsgerecht in rijke saus.", en: "Slow-cooked lamb in rich aromatic gravy." } },
-    { id: 4, name: "Chicken Biryani", category: "Rice", price: 15.5, spice: 2, imageKey: "dish4", desc: { nl: "Aromatische basmatirijst met gekruide kip.", en: "Aromatic basmati rice with spiced chicken." } }
+    {
+      id: 1,
+      name: "Butter Chicken",
+      category: "Chicken",
+      price: 16.5,
+      spice: 2,
+      imageKey: "dish1",
+      desc: {
+        nl: "Romige tomatencurry met boter en zachte kip.",
+        en: "Creamy tomato curry with butter and tender chicken."
+      }
+    },
+    {
+      id: 2,
+      name: "Paneer Tikka",
+      category: "Veg",
+      price: 13.0,
+      spice: 2,
+      imageKey: "dish2",
+      desc: {
+        nl: "Gemarineerde paneer, gegrild in tandoor.",
+        en: "Marinated paneer grilled in tandoor."
+      }
+    },
+    {
+      id: 3,
+      name: "Lamb Rogan Josh",
+      category: "Lamb",
+      price: 18.5,
+      spice: 3,
+      imageKey: "dish3",
+      desc: {
+        nl: "Langzaam gegaard lamsgerecht in rijke saus.",
+        en: "Slow-cooked lamb in rich aromatic gravy."
+      }
+    },
+    {
+      id: 4,
+      name: "Chicken Biryani",
+      category: "Rice",
+      price: 15.5,
+      spice: 2,
+      imageKey: "dish4",
+      desc: {
+        nl: "Aromatische basmatirijst met gekruide kip.",
+        en: "Aromatic basmati rice with spiced chicken."
+      }
+    }
   ];
 
   let activeCategory = "All";
-  let searchTerm = "";
+  let menuSearch = "";
 
-  function spiceText(level) {
-    if (level <= 0) return "Mild";
-    return "🌶️".repeat(level);
+  function priceLabel(p) {
+    return `${t("currency")}${Number(p).toFixed(2)}`;
   }
 
-  function formatPrice(price) {
-    return `${t("currency")}${Number(price).toFixed(2)}`;
+  function spiceLabel(level) {
+    return level > 0 ? "🌶️".repeat(level) : "Mild";
   }
 
   function renderCategoryChips() {
     const wrap = $("#categoryChips");
     if (!wrap) return;
 
-    const categories = ["All", ...new Set(MENU_ITEMS.map((item) => item.category))];
-
+    const categories = ["All", ...new Set(MENU_ITEMS.map((x) => x.category))];
     wrap.innerHTML = categories
-      .map((cat) => {
-        const active = cat === activeCategory ? "is-active" : "";
-        return `<button class="category-chip ${active}" data-category="${cat}">${cat}</button>`;
-      })
+      .map((c) => `<button class="category-chip ${c === activeCategory ? "is-active" : ""}" data-cat="${c}">${c}</button>`)
       .join("");
 
-    $$("[data-category]", wrap).forEach((chip) => {
-      chip.addEventListener("click", () => {
-        activeCategory = chip.getAttribute("data-category") || "All";
+    $$("[data-cat]", wrap).forEach((btn) => {
+      btn.addEventListener("click", () => {
+        activeCategory = btn.getAttribute("data-cat") || "All";
         renderCategoryChips();
-        renderMenuGrid();
+        renderMenu();
       });
     });
   }
 
   function filteredMenu() {
     return MENU_ITEMS.filter((item) => {
-      const byCategory = activeCategory === "All" || item.category === activeCategory;
-      const haystack = `${item.name} ${item.desc.nl} ${item.desc.en} ${item.category}`.toLowerCase();
-      const bySearch = haystack.includes(searchTerm.toLowerCase());
-      return byCategory && bySearch;
+      const byCat = activeCategory === "All" || item.category === activeCategory;
+      const text = `${item.name} ${item.desc.nl} ${item.desc.en} ${item.category}`.toLowerCase();
+      const bySearch = text.includes(menuSearch.toLowerCase());
+      return byCat && bySearch;
     });
   }
 
-  async function renderMenuGrid() {
+  async function renderMenu() {
     const grid = $("#menuGrid");
     if (!grid) return;
 
-    const items = filteredMenu();
+    const list = filteredMenu();
 
-    if (!items.length) {
-      grid.innerHTML = `
-        <article class="menu-card">
-          <div class="menu-body">
-            <h3>${t("menu_empty")}</h3>
-          </div>
-        </article>
-      `;
+    if (!list.length) {
+      grid.innerHTML = `<article class="menu-card"><div class="menu-body"><h3>${t("menu_empty")}</h3></div></article>`;
       return;
     }
 
-    const cards = await Promise.all(
-      items.map(async (item) => {
-        const img = await firstExisting(imageCandidates[item.imageKey] || [CONFIG.fallbackImage]);
-        const desc = item.desc[currentLang] || item.desc.nl;
-        return `
-          <article class="menu-card reveal">
-            <div class="menu-media">
-              <img src="${img}" alt="${item.name}" onerror="this.onerror=null;this.src='${CONFIG.fallbackImage}'" />
-              <span class="menu-badge">${item.category}</span>
+    const cards = await Promise.all(list.map(async (item) => {
+      const img = await firstExisting(imageCandidates[item.imageKey] || [CONFIG.fallbackImage]);
+      const desc = item.desc[currentLang] || item.desc.nl;
+      return `
+        <article class="menu-card reveal">
+          <div class="menu-media">
+            <img src="${img}" alt="${item.name}" onerror="this.onerror=null;this.src='${CONFIG.fallbackImage}'" />
+            <span class="menu-badge">${item.category}</span>
+          </div>
+          <div class="menu-body">
+            <div class="menu-row">
+              <h3>${item.name}</h3>
+              <span class="menu-price">${priceLabel(item.price)}</span>
             </div>
-            <div class="menu-body">
-              <div class="menu-row">
-                <h3>${item.name}</h3>
-                <span class="menu-price">${formatPrice(item.price)}</span>
-              </div>
-              <p class="menu-desc">${desc}</p>
-              <p class="menu-meta">${spiceText(item.spice)}</p>
-            </div>
-          </article>
-        `;
-      })
-    );
+            <p class="menu-desc">${desc}</p>
+            <p class="menu-meta">${spiceLabel(item.spice)}</p>
+          </div>
+        </article>
+      `;
+    }));
 
     grid.innerHTML = cards.join("");
-    patchImageFallbacks();
-    observeRevealElements();
+    observeReveal();
   }
 
   function initMenuSearch() {
     const input = $("#menuSearchInput");
     if (!input) return;
 
-    input.addEventListener(
-      "input",
-      debounce(async (e) => {
-        searchTerm = safeText(e.target.value);
-        await renderMenuGrid();
-      }, 150)
-    );
+    input.addEventListener("input", debounce(async (e) => {
+      menuSearch = safe(e.target.value);
+      await renderMenu();
+    }, 120));
   }
 
   /* ==========================================================================
-     07) TESTIMONIALS
+     08) TESTIMONIALS
      ========================================================================== */
   const TESTIMONIALS = {
     nl: [
@@ -473,133 +537,112 @@
     ],
     en: [
       { text: "Best butter chicken I’ve tasted in the Netherlands. Perfect balance.", author: "Aarav M." },
-      { text: "Elegant ambience, fast service, and truly authentic flavor.", author: "Sofia K." },
-      { text: "Ideal for family dinners and special occasions.", author: "Luca D." }
+      { text: "Elegant ambience, fast service and truly authentic flavors.", author: "Sofia K." },
+      { text: "Perfect for family dinners and special occasions.", author: "Luca D." }
     ]
   };
 
-  let testimonialIndex = 0;
-  let testimonialTimer = null;
+  let tIndex = 0;
+  let tTimer = null;
 
   function renderTestimonials() {
     const track = $("#testimonialTrack");
-    const dots = $("#testimonialDots");
-    if (!track || !dots) return;
+    const dotsWrap = $("#testimonialDots");
+    if (!track || !dotsWrap) return;
 
-    const list = TESTIMONIALS[currentLang] || TESTIMONIALS.nl;
+    const data = TESTIMONIALS[currentLang] || TESTIMONIALS.nl;
 
-    track.innerHTML = list
-      .map(
-        (item) => `
+    track.innerHTML = data.map((d) => `
       <article class="testimonial-card">
         <div class="stars">★★★★★</div>
-        <p>${item.text}</p>
-        <small>— ${item.author}</small>
+        <p>${d.text}</p>
+        <small>— ${d.author}</small>
       </article>
-    `
-      )
+    `).join("");
+
+    dotsWrap.innerHTML = data
+      .map((_, i) => `<button class="testimonial-dot ${i === tIndex ? "is-active" : ""}" data-dot="${i}" aria-label="testimonial ${i+1}"></button>`)
       .join("");
 
-    dots.innerHTML = list
-      .map((_, i) => `<button class="testimonial-dot ${i === testimonialIndex ? "is-active" : ""}" data-dot="${i}" aria-label="Review ${i + 1}"></button>`)
-      .join("");
-
-    $$("[data-dot]", dots).forEach((dot) => {
+    $$("[data-dot]", dotsWrap).forEach((dot) => {
       dot.addEventListener("click", () => {
-        testimonialIndex = Number(dot.getAttribute("data-dot") || 0);
-        updateTestimonialPosition();
+        tIndex = Number(dot.getAttribute("data-dot") || 0);
+        updateTestimonials();
       });
     });
 
-    updateTestimonialPosition();
+    updateTestimonials();
   }
 
-  function updateTestimonialPosition() {
+  function updateTestimonials() {
     const track = $("#testimonialTrack");
     if (!track) return;
-    track.style.transform = `translateX(-${testimonialIndex * 100}%)`;
+    track.style.transform = `translateX(-${tIndex * 100}%)`;
 
-    $$(".testimonial-dot").forEach((dot, idx) => {
-      dot.classList.toggle("is-active", idx === testimonialIndex);
+    $$(".testimonial-dot").forEach((d, idx) => {
+      d.classList.toggle("is-active", idx === tIndex);
     });
   }
 
-  function startTestimonialAutoplay() {
-    stopTestimonialAutoplay();
-    testimonialTimer = setInterval(() => {
-      const list = TESTIMONIALS[currentLang] || TESTIMONIALS.nl;
-      testimonialIndex = (testimonialIndex + 1) % list.length;
-      updateTestimonialPosition();
+  function startTestimonials() {
+    stopTestimonials();
+    tTimer = setInterval(() => {
+      const len = (TESTIMONIALS[currentLang] || TESTIMONIALS.nl).length;
+      tIndex = (tIndex + 1) % len;
+      updateTestimonials();
     }, CONFIG.testimonialInterval);
   }
 
-  function stopTestimonialAutoplay() {
-    if (testimonialTimer) clearInterval(testimonialTimer);
-    testimonialTimer = null;
+  function stopTestimonials() {
+    if (tTimer) clearInterval(tTimer);
+    tTimer = null;
   }
 
   function initTestimonials() {
     const slider = $(".testimonial-slider");
     if (!slider) return;
-
     renderTestimonials();
-    startTestimonialAutoplay();
-
-    slider.addEventListener("mouseenter", stopTestimonialAutoplay);
-    slider.addEventListener("mouseleave", startTestimonialAutoplay);
+    startTestimonials();
+    slider.addEventListener("mouseenter", stopTestimonials);
+    slider.addEventListener("mouseleave", startTestimonials);
   }
 
   /* ==========================================================================
-     08) GALLERY LIGHTBOX
+     09) LIGHTBOX
      ========================================================================== */
-  async function patchGalleryImages() {
-    const map = [
-      { selector: "#galleryGrid .gallery-item:nth-child(1) img", key: "gallery1" },
-      { selector: "#galleryGrid .gallery-item:nth-child(2) img", key: "gallery2" },
-      { selector: "#galleryGrid .gallery-item:nth-child(3) img", key: "gallery3" },
-      { selector: "#galleryGrid .gallery-item:nth-child(4) img", key: "gallery4" }
-    ];
-
-    for (const item of map) {
-      const el = $(item.selector);
-      if (!el) continue;
-      el.src = await firstExisting(imageCandidates[item.key]);
-    }
-  }
-
   function initLightbox() {
     const lightbox = $("#lightbox");
-    const lightboxImage = $("#lightboxImage");
-    const lightboxClose = $("#lightboxClose");
-    if (!lightbox || !lightboxImage || !lightboxClose) return;
+    const image = $("#lightboxImage");
+    const close = $("#lightboxClose");
+    if (!lightbox || !image || !close) return;
 
     $$("#galleryGrid img").forEach((img) => {
       img.addEventListener("click", () => {
-        lightboxImage.src = img.src || CONFIG.fallbackImage;
+        image.src = img.src || CONFIG.fallbackImage;
         lightbox.classList.add("is-open");
         lightbox.setAttribute("aria-hidden", "false");
         document.body.style.overflow = "hidden";
       });
     });
 
-    const close = () => {
+    const closeBox = () => {
       lightbox.classList.remove("is-open");
       lightbox.setAttribute("aria-hidden", "true");
       document.body.style.overflow = "";
     };
 
-    lightboxClose.addEventListener("click", close);
+    close.addEventListener("click", closeBox);
     lightbox.addEventListener("click", (e) => {
-      if (e.target === lightbox) close();
+      if (e.target === lightbox) closeBox();
     });
 
     document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && lightbox.classList.contains("is-open")) close();
+      if (e.key === "Escape" && lightbox.classList.contains("is-open")) closeBox();
     });
   }
 
   /* ==========================================================================
-     09) NAV + QUICK ACTIONS
+     10) NAV / QUICK BUTTONS
      ========================================================================== */
   function initMobileNav() {
     const toggle = $("#mobileMenuToggle");
@@ -623,177 +666,124 @@
     const btn = $("#quickReserveBtn");
     if (!btn) return;
     btn.addEventListener("click", () => {
-      const target = $("#reservation");
-      if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+      const r = $("#reservation");
+      if (r) r.scrollIntoView({ behavior: "smooth", block: "start" });
     });
   }
 
   /* ==========================================================================
-     10) REVEAL
+     11) FORM
      ========================================================================== */
-  let revealObserver = null;
-
-  function observeRevealElements() {
-    if (revealObserver) revealObserver.disconnect();
-
-    revealObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("is-visible");
-            revealObserver.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.16 }
-    );
-
-    $$(".reveal").forEach((el) => revealObserver.observe(el));
-  }
-
-  /* ==========================================================================
-     11) RESERVATION FORM
-     ========================================================================== */
-  function setError(fieldId, message = "") {
-    const error = $(`[data-error-for="${fieldId}"]`);
+  function setError(fieldId, msg = "") {
+    const err = $(`[data-error-for="${fieldId}"]`);
     const input = $(`#${fieldId}`);
-    if (error) error.textContent = message;
 
+    if (err) err.textContent = msg;
     if (input) {
       input.classList.remove("is-valid", "is-invalid");
-      if (message) input.classList.add("is-invalid");
-      else if (input.value.trim()) input.classList.add("is-valid");
+      if (msg) input.classList.add("is-invalid");
+      else if (safe(input.value)) input.classList.add("is-valid");
     }
   }
 
   function validateForm() {
-    const name = safeText($("#resName")?.value);
-    const email = safeText($("#resEmail")?.value);
-    const phone = safeText($("#resPhone")?.value);
-    const date = safeText($("#resDate")?.value);
-    const time = safeText($("#resTime")?.value);
-    const guests = safeText($("#resGuests")?.value);
+    const name = safe($("#resName")?.value);
+    const email = safe($("#resEmail")?.value);
+    const phone = safe($("#resPhone")?.value);
+    const date = safe($("#resDate")?.value);
+    const time = safe($("#resTime")?.value);
+    const guests = safe($("#resGuests")?.value);
 
     let ok = true;
-
     ["resName", "resEmail", "resPhone", "resDate", "resTime", "resGuests"].forEach((id) => setError(id, ""));
 
-    if (!name) {
-      setError("resName", t("err_required"));
-      ok = false;
-    }
+    if (!name) { setError("resName", t("err_required")); ok = false; }
+    if (!email) { setError("resEmail", t("err_required")); ok = false; }
+    else if (!/^\S+@\S+\.\S+$/.test(email)) { setError("resEmail", t("err_email")); ok = false; }
 
-    if (!email) {
-      setError("resEmail", t("err_required"));
-      ok = false;
-    } else if (!/^\S+@\S+\.\S+$/.test(email)) {
-      setError("resEmail", t("err_email"));
-      ok = false;
-    }
+    if (!phone) { setError("resPhone", t("err_required")); ok = false; }
+    else if (!/^[0-9+\s\-()]{6,}$/.test(phone)) { setError("resPhone", t("err_phone")); ok = false; }
 
-    if (!phone) {
-      setError("resPhone", t("err_required"));
-      ok = false;
-    } else if (!/^[0-9+\s\-()]{6,}$/.test(phone)) {
-      setError("resPhone", t("err_phone"));
-      ok = false;
-    }
-
-    if (!date) {
-      setError("resDate", t("err_date"));
-      ok = false;
-    }
-
-    if (!time) {
-      setError("resTime", t("err_time"));
-      ok = false;
-    }
-
-    if (!guests) {
-      setError("resGuests", t("err_guests"));
-      ok = false;
-    }
+    if (!date) { setError("resDate", t("err_date")); ok = false; }
+    if (!time) { setError("resTime", t("err_time")); ok = false; }
+    if (!guests) { setError("resGuests", t("err_guests")); ok = false; }
 
     return ok;
   }
 
-  function reservationPayload() {
+  function reservationData() {
     return {
-      name: safeText($("#resName")?.value),
-      email: safeText($("#resEmail")?.value),
-      phone: safeText($("#resPhone")?.value),
-      date: safeText($("#resDate")?.value),
-      time: safeText($("#resTime")?.value),
-      guests: safeText($("#resGuests")?.value),
-      occasion: safeText($("#resOccasion")?.value) || "-",
-      notes: safeText($("#resNotes")?.value) || "-"
+      name: safe($("#resName")?.value),
+      email: safe($("#resEmail")?.value),
+      phone: safe($("#resPhone")?.value),
+      date: safe($("#resDate")?.value),
+      time: safe($("#resTime")?.value),
+      guests: safe($("#resGuests")?.value),
+      occasion: safe($("#resOccasion")?.value) || "-",
+      notes: safe($("#resNotes")?.value) || "-"
     };
   }
 
-  function buildWhatsAppText(data) {
-    const lines =
-      currentLang === "nl"
-        ? [
-            "Nieuwe reservering - Delhi Darbaar",
-            `Naam: ${data.name}`,
-            `E-mail: ${data.email}`,
-            `Telefoon: ${data.phone}`,
-            `Datum: ${data.date}`,
-            `Tijd: ${data.time}`,
-            `Gasten: ${data.guests}`,
-            `Gelegenheid: ${data.occasion}`,
-            `Opmerkingen: ${data.notes}`
-          ]
-        : [
-            "New reservation - Delhi Darbaar",
-            `Name: ${data.name}`,
-            `Email: ${data.email}`,
-            `Phone: ${data.phone}`,
-            `Date: ${data.date}`,
-            `Time: ${data.time}`,
-            `Guests: ${data.guests}`,
-            `Occasion: ${data.occasion}`,
-            `Notes: ${data.notes}`
-          ];
-
+  function whatsappText(d) {
+    const lines = currentLang === "nl"
+      ? [
+          "Nieuwe reservering - Delhi Darbaar",
+          `Naam: ${d.name}`,
+          `E-mail: ${d.email}`,
+          `Telefoon: ${d.phone}`,
+          `Datum: ${d.date}`,
+          `Tijd: ${d.time}`,
+          `Gasten: ${d.guests}`,
+          `Gelegenheid: ${d.occasion}`,
+          `Opmerkingen: ${d.notes}`
+        ]
+      : [
+          "New reservation - Delhi Darbaar",
+          `Name: ${d.name}`,
+          `Email: ${d.email}`,
+          `Phone: ${d.phone}`,
+          `Date: ${d.date}`,
+          `Time: ${d.time}`,
+          `Guests: ${d.guests}`,
+          `Occasion: ${d.occasion}`,
+          `Notes: ${d.notes}`
+        ];
     return encodeURIComponent(lines.join("\n"));
   }
 
-  function buildMailto(data) {
+  function mailtoLink(d) {
     const subject = encodeURIComponent(currentLang === "nl" ? "Nieuwe reservering" : "New reservation");
     const body = encodeURIComponent(
       (currentLang === "nl"
         ? [
-            `Naam: ${data.name}`,
-            `E-mail: ${data.email}`,
-            `Telefoon: ${data.phone}`,
-            `Datum: ${data.date}`,
-            `Tijd: ${data.time}`,
-            `Gasten: ${data.guests}`,
-            `Gelegenheid: ${data.occasion}`,
-            `Opmerkingen: ${data.notes}`
+            `Naam: ${d.name}`,
+            `E-mail: ${d.email}`,
+            `Telefoon: ${d.phone}`,
+            `Datum: ${d.date}`,
+            `Tijd: ${d.time}`,
+            `Gasten: ${d.guests}`,
+            `Gelegenheid: ${d.occasion}`,
+            `Opmerkingen: ${d.notes}`
           ]
         : [
-            `Name: ${data.name}`,
-            `Email: ${data.email}`,
-            `Phone: ${data.phone}`,
-            `Date: ${data.date}`,
-            `Time: ${data.time}`,
-            `Guests: ${data.guests}`,
-            `Occasion: ${data.occasion}`,
-            `Notes: ${data.notes}`
-          ]
-      ).join("\n")
+            `Name: ${d.name}`,
+            `Email: ${d.email}`,
+            `Phone: ${d.phone}`,
+            `Date: ${d.date}`,
+            `Time: ${d.time}`,
+            `Guests: ${d.guests}`,
+            `Occasion: ${d.occasion}`,
+            `Notes: ${d.notes}`
+          ]).join("\n")
     );
 
     return `mailto:${CONFIG.emailTarget}?subject=${subject}&body=${body}`;
   }
 
-  function initReservationForm() {
+  function initForm() {
     const form = $("#reservationForm");
     const status = $("#reservationStatus");
     const emailBtn = $("#emailFallbackBtn");
-
     if (!form || !status) return;
 
     form.addEventListener("submit", (e) => {
@@ -806,15 +796,14 @@
         return;
       }
 
-      const payload = reservationPayload();
-      const msg = buildWhatsAppText(payload);
-      const url = `https://wa.me/${CONFIG.whatsappNumber}?text=${msg}`;
+      const d = reservationData();
+      const wa = `https://wa.me/${CONFIG.whatsappNumber}?text=${whatsappText(d)}`;
 
       status.textContent = t("status_ok_whatsapp");
       status.classList.remove("is-danger");
       status.classList.add("is-success");
 
-      window.open(url, "_blank", "noopener,noreferrer");
+      window.open(wa, "_blank", "noopener,noreferrer");
     });
 
     if (emailBtn) {
@@ -826,8 +815,8 @@
           return;
         }
 
-        const payload = reservationPayload();
-        window.location.href = buildMailto(payload);
+        const d = reservationData();
+        window.location.href = mailtoLink(d);
 
         status.textContent = t("status_ok_email");
         status.classList.remove("is-danger");
@@ -839,17 +828,19 @@
   /* ==========================================================================
      12) SCROLL UI
      ========================================================================== */
-  function initScrollProgressAndTop() {
+  function initScrollUI() {
     const progress = $("#scrollProgress");
     const topBtn = $("#backToTopBtn");
+    const sticky = $("#stickyCtaBar");
 
     const onScroll = () => {
       const doc = document.documentElement;
       const max = doc.scrollHeight - doc.clientHeight;
-      const percent = max > 0 ? (doc.scrollTop / max) * 100 : 0;
+      const pct = max > 0 ? (doc.scrollTop / max) * 100 : 0;
 
-      if (progress) progress.style.width = `${percent}%`;
-      if (topBtn) topBtn.classList.toggle("is-visible", doc.scrollTop > 450);
+      if (progress) progress.style.width = `${pct}%`;
+      if (topBtn) topBtn.classList.toggle("is-visible", doc.scrollTop > 420);
+      if (sticky) sticky.style.opacity = doc.scrollTop > 120 ? "1" : ".95";
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -875,106 +866,102 @@
   }
 
   /* ==========================================================================
-     14) LANGUAGE SWITCHER
+     14) REVEAL OBSERVER
      ========================================================================== */
-  function initLanguageSwitch() {
-    const switcher = $("#langSwitch");
-    if (!switcher) return;
+  let revealObserver = null;
 
-    switcher.value = "nl";
+  function observeReveal() {
+    if (revealObserver) revealObserver.disconnect();
+
+    revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.16 });
+
+    $$(".reveal").forEach((el) => revealObserver.observe(el));
+  }
+
+  /* ==========================================================================
+     15) FAQ single-open
+     ========================================================================== */
+  function initFaq() {
+    const items = $$(".faq-item");
+    if (!items.length) return;
+    items.forEach((it) => {
+      it.addEventListener("toggle", () => {
+        if (!it.open) return;
+        items.forEach((other) => {
+          if (other !== it) other.open = false;
+        });
+      });
+    });
+  }
+
+  /* ==========================================================================
+     16) LANGUAGE SWITCH
+     ========================================================================== */
+  function initLanguage() {
+    const sw = $("#langSwitch");
+    if (!sw) return;
+    sw.value = "nl";
     applyLanguage("nl");
-
-    switcher.addEventListener("change", () => {
-      applyLanguage(switcher.value);
-    });
+    sw.addEventListener("change", () => applyLanguage(sw.value));
   }
 
   /* ==========================================================================
-     15) FOOTER YEAR
-     ========================================================================== */
-  function setFooterYear() {
-    const year = $("#year");
-    if (year) year.textContent = String(new Date().getFullYear());
-  }
-
-  /* ==========================================================================
-     16) LOADER SAFETY
-     ========================================================================== */
-  function hideBootLoader() {
-    const boot = $("#bootLoader");
-    if (boot) boot.classList.add("hide");
-  }
-
-  function initLoaderSafety() {
-    hideBootLoader();
-    window.addEventListener("load", hideBootLoader);
-    setTimeout(hideBootLoader, 2500);
-  }
-
-  /* ==========================================================================
-     17) OPTIONAL: GOOGLE REVIEWS BUTTON HOOK
-     (add a button in HTML with id="googleReviewsBtn" if needed)
-     ========================================================================== */
-  function initGoogleReviewsButton() {
-    const btn = $("#googleReviewsBtn");
-    if (!btn) return;
-    btn.addEventListener("click", () => {
-      window.open(
-        "https://www.google.com/maps/search/?api=1&query=Delhi+Darbaar+Hilversum",
-        "_blank",
-        "noopener,noreferrer"
-      );
-    });
-  }
-
-  /* ==========================================================================
-     18) PAGE VISIBILITY HANDLING
+     17) VISIBILITY HANDLING
      ========================================================================== */
   function initVisibilityHandling() {
     document.addEventListener("visibilitychange", () => {
       if (document.hidden) {
-        stopHeroAutoplay();
-        stopTestimonialAutoplay();
+        stopHero();
+        stopTestimonials();
       } else {
-        startHeroAutoplay();
-        startTestimonialAutoplay();
+        startHero();
+        startTestimonials();
       }
     });
   }
 
   /* ==========================================================================
-     19) INIT
+     18) INIT
      ========================================================================== */
   async function init() {
-    initLoaderSafety();
+    hideBootLoader();
 
-    initLanguageSwitch();
+    initLanguage();
     initMobileNav();
     initQuickReserve();
 
     await setHeroImages();
-    initHero();
+    await patchStaticImages();
+    initHeroControls();
 
     renderCategoryChips();
-    await renderMenuGrid();
+    await renderMenu();
     initMenuSearch();
 
-    await patchGalleryImages();
     patchImageFallbacks();
     initLightbox();
 
     initTestimonials();
-    initReservationForm();
+    initForm();
+    initFaq();
 
-    observeRevealElements();
-    initScrollProgressAndTop();
+    observeReveal();
+    initScrollUI();
     initCursorGlow();
-    initGoogleReviewsButton();
 
     initVisibilityHandling();
-    setFooterYear();
+    setYear();
 
     hideBootLoader();
+    window.addEventListener("load", hideBootLoader);
+    setTimeout(hideBootLoader, 2500);
   }
 
   if (document.readyState === "loading") {

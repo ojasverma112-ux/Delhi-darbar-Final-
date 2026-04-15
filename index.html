@@ -2,32 +2,34 @@
 <html lang="nl">
 <head>
   <!-- ========================================= -->
-  <!-- BASIC META                                -->
+  <!-- DELHI DARBAAR V3 - PREMIUM (PART 1/3)     -->
   <!-- ========================================= -->
+
+  <!-- Core meta -->
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta
     name="viewport"
     content="width=device-width, initial-scale=1.0, viewport-fit=cover"
   />
-  <title>Delhi Darbaar Hilversum | Premium Indian Dining Experience</title>
-  <meta
-    name="description"
-    content="Delhi Darbaar Hilversum - Premium Indiase keuken, luxe sfeer, online reserveringssysteem, meertalige website (NL/EN)."
-  />
   <meta name="theme-color" content="#0b0d12" />
   <meta name="format-detection" content="telephone=no" />
+
+  <!-- SEO -->
+  <title>Delhi Darbaar Hilversum | Premium Indiaas Restaurant</title>
+  <meta
+    name="description"
+    content="Delhi Darbaar Hilversum - Premium Indiaas restaurant met reserveringssysteem, galerij, menu en echte Google reviews."
+  />
   <meta property="og:title" content="Delhi Darbaar Hilversum" />
   <meta
     property="og:description"
-    content="Authentieke Indiase smaken in een premium setting."
+    content="Authentieke Indiase smaken, luxe sfeer en warme gastvrijheid in Hilversum."
   />
   <meta property="og:type" content="website" />
   <meta property="og:image" content="/Delhi-darbar-Final-/hero-1.jpg" />
 
-  <!-- ========================================= -->
-  <!-- FONTS                                     -->
-  <!-- ========================================= -->
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
@@ -35,51 +37,40 @@
     rel="stylesheet"
   />
 
-  <!-- ========================================= -->
-  <!-- STYLESHEET                                -->
-  <!-- IMPORTANT: project path for GitHub Pages  -->
-  <!-- ========================================= -->
+  <!-- CSS -->
   <link rel="stylesheet" href="/Delhi-darbar-Final-/styles.css" />
 
-  <!-- ========================================= -->
-  <!-- BOOT FALLBACK (never fully unstyled)      -->
-  <!-- ========================================= -->
+  <!-- Boot fallback style -->
   <style>
     html, body { margin: 0; padding: 0; background: #0b0d12; color: #f5f7ff; }
     body { font-family: Arial, sans-serif; }
     #bootLoader {
-      position: fixed; inset: 0; z-index: 99999;
-      display: grid; place-items: center;
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      display: grid;
+      place-items: center;
       background: #090b10;
       color: #fff;
-      font-size: 14px;
-      letter-spacing: 0.08em;
       text-transform: uppercase;
+      letter-spacing: .08em;
+      font-size: 13px;
     }
     #bootLoader.hide { display: none; }
   </style>
 </head>
 <body>
   <!-- ========================================= -->
-  <!-- BOOT LOADER                               -->
+  <!-- GLOBAL LAYERS                              -->
   <!-- ========================================= -->
-  <div id="bootLoader" aria-live="polite">Loading Delhi Darbaar...</div>
+  <div id="bootLoader">Loading Delhi Darbaar V3...</div>
 
-  <!-- ========================================= -->
-  <!-- CURSOR GLOW (fancy effect layer)          -->
-  <!-- ========================================= -->
   <div id="cursorGlow" class="cursor-glow" aria-hidden="true"></div>
 
-  <!-- ========================================= -->
-  <!-- SCROLL PROGRESS BAR                       -->
-  <!-- ========================================= -->
   <div class="scroll-progress-wrap" aria-hidden="true">
     <div id="scrollProgress" class="scroll-progress"></div>
   </div>
 
-  <!-- ========================================= -->
-  <!-- AMBIENT BACKGROUND LAYERS                 -->
-  <!-- ========================================= -->
   <div class="ambient-layer" aria-hidden="true">
     <span class="ambient-orb ambient-orb-a"></span>
     <span class="ambient-orb ambient-orb-b"></span>
@@ -89,7 +80,7 @@
   </div>
 
   <!-- ========================================= -->
-  <!-- TOP ANNOUNCEMENT BAR                      -->
+  <!-- TOP INFO STRIP                             -->
   <!-- ========================================= -->
   <div class="top-strip">
     <div class="container top-strip-inner">
@@ -104,7 +95,7 @@
   </div>
 
   <!-- ========================================= -->
-  <!-- HEADER / NAV                              -->
+  <!-- HEADER / NAV                               -->
   <!-- ========================================= -->
   <header class="site-header" id="home">
     <nav class="container nav-shell">
@@ -153,17 +144,15 @@
   </header>
 
   <!-- ========================================= -->
-  <!-- MAIN                                      -->
+  <!-- HERO                                       -->
   <!-- ========================================= -->
   <main>
-    <!-- ======================================= -->
-    <!-- HERO                                   -->
-    <!-- ======================================= -->
     <section class="hero-section section-bleed">
       <div class="hero-slides" id="heroSlides">
-        <div class="hero-slide is-active" data-bg="/Delhi-darbar-Final-/hero-1.jpg"></div>
-        <div class="hero-slide" data-bg="/Delhi-darbar-Final-/hero-2.jpg"></div>
-        <div class="hero-slide" data-bg="/Delhi-darbar-Final-/hero-3.jpg"></div>
+        <!-- JS fills backgrounds safely -->
+        <div class="hero-slide is-active" id="heroA" data-key="hero1"></div>
+        <div class="hero-slide" id="heroB" data-key="hero2"></div>
+        <div class="hero-slide" id="heroC" data-key="hero3"></div>
       </div>
 
       <div class="hero-overlay"></div>
@@ -176,12 +165,8 @@
         </p>
 
         <div class="hero-buttons">
-          <a href="#reservation" class="btn btn-primary" data-i18n="hero_cta_reserve">
-            Reserveer Nu
-          </a>
-          <a href="#menu" class="btn btn-outline" data-i18n="hero_cta_menu">
-            Bekijk Menu
-          </a>
+          <a href="#reservation" class="btn btn-primary" data-i18n="hero_cta_reserve">Reserveer Nu</a>
+          <a href="#menu" class="btn btn-outline" data-i18n="hero_cta_menu">Bekijk Menu</a>
         </div>
 
         <div class="hero-highlights">
@@ -189,16 +174,58 @@
           <span data-i18n="hero_badge_fresh">Dagelijks verse bereiding</span>
           <span data-i18n="hero_badge_tandoor">Authentieke tandoor smaak</span>
         </div>
+
+        <div class="hero-actions-secondary">
+          <a
+            id="googleReviewsBtn"
+            class="btn btn-outline"
+            href="https://share.google/Uf3ZmKgW9fJFOXmPP"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Google Reviews
+          </a>
+          <a
+            class="btn btn-ghost"
+            href="https://www.ubereats.com/nl/store/delhi-darbaar-indiaas-restaurant/ZreIMyHhQma4YGTfFjBAnQ"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Order via Uber Eats
+          </a>
+        </div>
       </div>
 
-      <button id="heroDownBtn" class="hero-down-btn" aria-label="Scroll down">
-        ↓
-      </button>
+      <button id="heroDownBtn" class="hero-down-btn" aria-label="Scroll down">↓</button>
     </section>
 
-    <!-- ======================================= -->
-    <!-- STORY / ABOUT                          -->
-    <!-- ======================================= -->
+    <!-- ========================================= -->
+    <!-- TRUST BADGES                               -->
+    <!-- ========================================= -->
+    <section class="section trust-strip-section">
+      <div class="container trust-strip reveal">
+        <div class="trust-item">
+          <strong>4.9★</strong>
+          <span data-i18n="trust_rating">Gemiddelde waardering</span>
+        </div>
+        <div class="trust-item">
+          <strong>100%</strong>
+          <span data-i18n="trust_fresh">Dagelijks vers</span>
+        </div>
+        <div class="trust-item">
+          <strong>Authentiek</strong>
+          <span data-i18n="trust_authentic">Traditionele recepturen</span>
+        </div>
+        <div class="trust-item">
+          <strong>Hilversum</strong>
+          <span data-i18n="trust_local">Lokaal geliefd</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================= -->
+    <!-- STORY / ABOUT                              -->
+    <!-- ========================================= -->
     <section class="section" id="story">
       <div class="container story-layout">
         <article class="panel reveal">
@@ -234,6 +261,7 @@
         <aside class="story-media reveal">
           <figure class="story-img story-img-lg">
             <img
+              id="storyImg1"
               src="/Delhi-darbar-Final-/gallery-1.jpg"
               alt="Delhi Darbaar ambiance"
               onerror="this.onerror=null;this.src='/Delhi-darbar-Final-/fallback.jpg';"
@@ -241,13 +269,15 @@
           </figure>
           <figure class="story-img">
             <img
+              id="storyImg2"
               src="/Delhi-darbar-Final-/gallery-2.jpg"
-              alt="Delhi Darbaar dish"
+              alt="Delhi Darbaar cuisine"
               onerror="this.onerror=null;this.src='/Delhi-darbar-Final-/fallback.jpg';"
             />
           </figure>
           <figure class="story-img">
             <img
+              id="storyImg3"
               src="/Delhi-darbar-Final-/gallery-3.jpg"
               alt="Delhi Darbaar interior"
               onerror="this.onerror=null;this.src='/Delhi-darbar-Final-/fallback.jpg';"
@@ -257,9 +287,9 @@
       </div>
     </section>
 
-    <!-- ======================================= -->
-    <!-- MENU SECTION                           -->
-    <!-- ======================================= -->
+    <!-- ========================================= -->
+    <!-- MENU                                       -->
+    <!-- ========================================= -->
     <section class="section section-dark" id="menu">
       <div class="container">
         <div class="section-head reveal">
@@ -273,7 +303,7 @@
               class="search-input"
               type="text"
               placeholder="Zoek gerecht..."
-              aria-label="Search menu"
+              aria-label="Search menu items"
             />
           </div>
         </div>
@@ -283,9 +313,23 @@
       </div>
     </section>
 
-    <!-- ======================================= -->
-    <!-- GALLERY                                -->
-    <!-- ======================================= -->
+    <!-- ========================================= -->
+    <!-- PARALLAX DIVIDER (fancy block)            -->
+    <!-- ========================================= -->
+    <section class="section parallax-divider-section">
+      <div class="parallax-divider">
+        <div class="container parallax-content reveal">
+          <h2 data-i18n="parallax_title">Royal Flavors, Modern Elegance</h2>
+          <p data-i18n="parallax_text">
+            Een culinaire reis van India naar Hilversum, met passie bereid.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================= -->
+    <!-- GALLERY                                    -->
+    <!-- ========================================= -->
     <section class="section" id="gallery">
       <div class="container">
         <div class="section-head reveal">
@@ -297,40 +341,24 @@
 
         <div id="galleryGrid" class="gallery-grid reveal">
           <figure class="gallery-item">
-            <img
-              src="/Delhi-darbar-Final-/gallery-1.jpg"
-              alt="Gallery image 1"
-              onerror="this.onerror=null;this.src='/Delhi-darbar-Final-/fallback.jpg';"
-            />
+            <img id="galleryImg1" src="/Delhi-darbar-Final-/gallery-1.jpg" alt="Gallery image 1" />
           </figure>
           <figure class="gallery-item">
-            <img
-              src="/Delhi-darbar-Final-/gallery-2.jpg"
-              alt="Gallery image 2"
-              onerror="this.onerror=null;this.src='/Delhi-darbar-Final-/fallback.jpg';"
-            />
+            <img id="galleryImg2" src="/Delhi-darbar-Final-/gallery-2.jpg" alt="Gallery image 2" />
           </figure>
           <figure class="gallery-item">
-            <img
-              src="/Delhi-darbar-Final-/gallery-3.jpg"
-              alt="Gallery image 3"
-              onerror="this.onerror=null;this.src='/Delhi-darbar-Final-/fallback.jpg';"
-            />
+            <img id="galleryImg3" src="/Delhi-darbar-Final-/gallery-3.jpg" alt="Gallery image 3" />
           </figure>
           <figure class="gallery-item">
-            <img
-              src="/Delhi-darbar-Final-/gallery-4.jpg"
-              alt="Gallery image 4"
-              onerror="this.onerror=null;this.src='/Delhi-darbar-Final-/fallback.jpg';"
-            />
+            <img id="galleryImg4" src="/Delhi-darbar-Final-/gallery-4.jpg" alt="Gallery image 4" />
           </figure>
         </div>
       </div>
     </section>
 
-    <!-- ======================================= -->
-    <!-- TESTIMONIALS                           -->
-    <!-- ======================================= -->
+    <!-- ========================================= -->
+    <!-- REVIEWS / TESTIMONIALS                    -->
+    <!-- ========================================= -->
     <section class="section section-dark" id="testimonials">
       <div class="container">
         <div class="section-head reveal">
@@ -338,42 +366,39 @@
             <p class="kicker" data-i18n="review_kicker">Ervaringen</p>
             <h2 data-i18n="review_title">Wat onze gasten zeggen</h2>
           </div>
+          <div class="review-links">
+            <a
+              class="btn btn-outline"
+              href="https://share.google/Uf3ZmKgW9fJFOXmPP"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Open Google Reviews
+            </a>
+          </div>
         </div>
 
         <div class="testimonial-slider reveal">
           <div id="testimonialTrack" class="testimonial-track">
-            <article class="testimonial-card">
-              <div class="stars">★★★★★</div>
-              <p data-i18n="review_1_text">
-                Beste butter chicken die ik in Nederland heb geproefd. Perfecte balans.
-              </p>
-              <small>— Aarav M.</small>
-            </article>
-
-            <article class="testimonial-card">
-              <div class="stars">★★★★★</div>
-              <p data-i18n="review_2_text">
-                Elegante sfeer, snelle service en echt authentieke smaken.
-              </p>
-              <small>— Sofia K.</small>
-            </article>
-
-            <article class="testimonial-card">
-              <div class="stars">★★★★★</div>
-              <p data-i18n="review_3_text">
-                Ideaal voor familie-etentjes en speciale gelegenheden.
-              </p>
-              <small>— Luca D.</small>
-            </article>
+            <!-- JS renders cards -->
           </div>
           <div id="testimonialDots" class="testimonial-dots"></div>
+        </div>
+
+        <div class="reviews-embed reveal">
+          <iframe
+            title="Delhi Darbaar map"
+            src="https://www.google.com/maps?q=Delhi+Darbaar+Hilversum&output=embed"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+          ></iframe>
         </div>
       </div>
     </section>
 
-    <!-- ======================================= -->
-    <!-- RESERVATION                            -->
-    <!-- ======================================= -->
+    <!-- ========================================= -->
+    <!-- RESERVATION                                -->
+    <!-- ========================================= -->
     <section class="section" id="reservation">
       <div class="container reservation-layout">
         <article class="panel reveal">
@@ -382,6 +407,7 @@
           <p data-i18n="res_text">
             Vul je gegevens in. Na verzenden openen we WhatsApp met alle reserveringsdetails.
           </p>
+
           <ul class="res-list">
             <li>📍 Havenstraat 75, 1211 KH Hilversum</li>
             <li>📞 +31 613 53 36 12</li>
@@ -389,9 +415,26 @@
           </ul>
 
           <div class="res-note">
-            <p data-i18n="res_note">
-              Liever per e-mail? Gebruik de e-mail knop onder het formulier.
-            </p>
+            <p data-i18n="res_note">Liever per e-mail? Gebruik de e-mail knop onder het formulier.</p>
+          </div>
+
+          <div class="res-cta-grid">
+            <a
+              class="btn btn-outline"
+              href="https://share.google/Uf3ZmKgW9fJFOXmPP"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Echte Google Reviews
+            </a>
+            <a
+              class="btn btn-ghost"
+              href="https://www.ubereats.com/nl/store/delhi-darbaar-indiaas-restaurant/ZreIMyHhQma4YGTfFjBAnQ"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Bestel op Uber Eats
+            </a>
           </div>
         </article>
 
@@ -457,12 +500,8 @@
           </div>
 
           <div class="field field-full form-actions">
-            <button type="submit" class="btn btn-primary" data-i18n="res_submit">
-              Verstuur via WhatsApp
-            </button>
-            <button type="button" id="emailFallbackBtn" class="btn btn-outline" data-i18n="res_email">
-              Verstuur via E-mail
-            </button>
+            <button type="submit" class="btn btn-primary" data-i18n="res_submit">Verstuur via WhatsApp</button>
+            <button type="button" id="emailFallbackBtn" class="btn btn-outline" data-i18n="res_email">Verstuur via E-mail</button>
           </div>
 
           <p id="reservationStatus" class="reservation-status" aria-live="polite"></p>
@@ -470,9 +509,9 @@
       </div>
     </section>
 
-    <!-- ======================================= -->
-    <!-- FAQ                                    -->
-    <!-- ======================================= -->
+    <!-- ========================================= -->
+    <!-- FAQ                                        -->
+    <!-- ========================================= -->
     <section class="section section-dark" id="faq">
       <div class="container">
         <div class="section-head reveal">
@@ -485,31 +524,25 @@
         <div class="faq-list reveal">
           <details class="faq-item">
             <summary data-i18n="faq_q1">Is reserveren verplicht?</summary>
-            <p data-i18n="faq_a1">
-              Reserveren wordt sterk aanbevolen, vooral in het weekend.
-            </p>
+            <p data-i18n="faq_a1">Reserveren wordt sterk aanbevolen, vooral in het weekend.</p>
           </details>
 
           <details class="faq-item">
             <summary data-i18n="faq_q2">Hebben jullie vegetarische opties?</summary>
-            <p data-i18n="faq_a2">
-              Ja, wij hebben een uitgebreid aanbod aan vegetarische gerechten.
-            </p>
+            <p data-i18n="faq_a2">Ja, wij hebben een uitgebreid aanbod aan vegetarische gerechten.</p>
           </details>
 
           <details class="faq-item">
             <summary data-i18n="faq_q3">Doen jullie ook afhalen?</summary>
-            <p data-i18n="faq_a3">
-              Ja, afhalen is mogelijk tijdens openingstijden.
-            </p>
+            <p data-i18n="faq_a3">Ja, afhalen is mogelijk tijdens openingstijden.</p>
           </details>
         </div>
       </div>
     </section>
 
-    <!-- ======================================= -->
-    <!-- CONTACT                                -->
-    <!-- ======================================= -->
+    <!-- ========================================= -->
+    <!-- CONTACT                                    -->
+    <!-- ========================================= -->
     <section class="section" id="contact">
       <div class="container contact-layout reveal">
         <article class="panel">
@@ -522,19 +555,25 @@
 
         <article class="panel">
           <h2 data-i18n="hours_title">Openingstijden</h2>
-          <p data-i18n="hours_text">
-            Ma-Do 13:00–22:00 · Vr-Za 13:00–22:30 · Zondag gesloten
-          </p>
-          <a href="#reservation" class="btn btn-primary" data-i18n="hours_cta">
-            Reserveer je tafel
-          </a>
+          <p data-i18n="hours_text">Ma-Do 13:00–22:00 · Vr-Za 13:00–22:30 · Zondag gesloten</p>
+          <div class="contact-actions">
+            <a href="#reservation" class="btn btn-primary" data-i18n="hours_cta">Reserveer je tafel</a>
+            <a
+              class="btn btn-outline"
+              href="https://www.ubereats.com/nl/store/delhi-darbaar-indiaas-restaurant/ZreIMyHhQma4YGTfFjBAnQ"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Uber Eats
+            </a>
+          </div>
         </article>
       </div>
     </section>
   </main>
 
   <!-- ========================================= -->
-  <!-- FOOTER                                    -->
+  <!-- FOOTER                                     -->
   <!-- ========================================= -->
   <footer class="site-footer">
     <div class="container footer-inner">
@@ -544,13 +583,32 @@
   </footer>
 
   <!-- ========================================= -->
-  <!-- BACK TO TOP BUTTON                        -->
+  <!-- STICKY CTA BAR                             -->
   <!-- ========================================= -->
+  <div class="sticky-cta-bar" id="stickyCtaBar">
+    <a href="#reservation" class="btn btn-primary" data-i18n="sticky_book">Reserveer</a>
+    <a
+      class="btn btn-outline"
+      href="https://share.google/Uf3ZmKgW9fJFOXmPP"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      Reviews
+    </a>
+    <a
+      class="btn btn-ghost"
+      href="https://www.ubereats.com/nl/store/delhi-darbaar-indiaas-restaurant/ZreIMyHhQma4YGTfFjBAnQ"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      Uber Eats
+    </a>
+  </div>
+
+  <!-- Back to top -->
   <button id="backToTopBtn" class="back-to-top" aria-label="Back to top">↑</button>
 
-  <!-- ========================================= -->
-  <!-- LIGHTBOX                                  -->
-  <!-- ========================================= -->
+  <!-- Lightbox -->
   <div id="lightbox" class="lightbox" aria-hidden="true">
     <button id="lightboxClose" class="lightbox-close" aria-label="Close lightbox">✕</button>
     <img
@@ -561,11 +619,8 @@
     />
   </div>
 
-  <!-- ========================================= -->
-  <!-- SCRIPT BOOTSTRAP                          -->
-  <!-- ========================================= -->
+  <!-- Boot safety -->
   <script>
-    // absolute safety to avoid stuck loader
     window.addEventListener("load", function () {
       var boot = document.getElementById("bootLoader");
       if (boot) boot.classList.add("hide");
@@ -573,10 +628,10 @@
     setTimeout(function () {
       var boot = document.getElementById("bootLoader");
       if (boot) boot.classList.add("hide");
-    }, 3000);
+    }, 3500);
   </script>
 
-  <!-- IMPORTANT: project-path JS for GitHub Pages -->
+  <!-- JS -->
   <script defer src="/Delhi-darbar-Final-/script.js"></script>
 </body>
 </html>

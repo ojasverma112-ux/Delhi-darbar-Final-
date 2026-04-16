@@ -1,79 +1,47 @@
 <!doctype html>
 <html lang="nl" data-theme="dark">
 <head>
-  <!-- ==========================================================================
-    DELHI DARBAAR HILVERSUM - V4 PREMIUM FINAL
-    FILE 1/4: index.html
-    - Semantic structure
-    - Accessibility-first
-    - Data-driven placeholders (menu-data.js)
-    - Production-ready shell for GitHub Pages + future WordPress hooks
-  ========================================================================== -->
-
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0b0f18" />
+  <meta name="format-detection" content="telephone=no" />
 
   <title>Delhi Darbaar Hilversum | Premium Indian Restaurant</title>
   <meta
     name="description"
-    content="Delhi Darbaar Hilversum - Premium Indian / Mughlai / Afghani dining, online menu, reservations, delivery and real reviews."
+    content="Delhi Darbaar Hilversum - Premium Indian / Mughlai / Afghani dining with online menu, reservations and delivery."
   />
-  <meta name="theme-color" content="#0b0f18" />
-  <meta name="format-detection" content="telephone=no" />
-  <meta name="color-scheme" content="dark light" />
 
-  <!-- Open Graph -->
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Delhi Darbaar Hilversum" />
-  <meta
-    property="og:description"
-    content="Luxury dining experience with authentic Indian flavors in Hilversum."
-  />
+  <meta property="og:description" content="Luxury dining experience with authentic Indian flavors in Hilversum." />
   <meta property="og:image" content="/Delhi-darbar-Final-/hero-1.jpg" />
-  <meta property="og:locale" content="nl_NL" />
 
-  <!-- Preconnect -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-
-  <!-- Fonts -->
   <link
     href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Inter:wght@400;500;600;700;800;900&display=swap"
     rel="stylesheet"
   />
 
-  <!-- Styles -->
   <link rel="stylesheet" href="/Delhi-darbar-Final-/styles.css" />
 
-  <!-- Boot CSS fallback -->
   <style>
-    html, body { margin: 0; padding: 0; background: #0b0f18; color: #f2f6ff; }
+    html, body { margin:0; padding:0; background:#0b0f18; color:#f2f6ff; }
     body { font-family: Inter, Arial, sans-serif; }
-    #bootLoader {
-      position: fixed;
-      inset: 0;
-      z-index: 999999;
-      display: grid;
-      place-items: center;
-      background: #090d15;
-      color: #fff;
-      text-transform: uppercase;
-      letter-spacing: .09em;
-      font-size: 12px;
+    #bootLoader{
+      position:fixed; inset:0; z-index:999999;
+      display:grid; place-items:center;
+      background:#090d15; color:#fff;
+      text-transform:uppercase; letter-spacing:.09em; font-size:12px;
     }
-    #bootLoader.hide { opacity: 0; visibility: hidden; pointer-events: none; transition: all .3s ease; }
+    #bootLoader.hide{ opacity:0; visibility:hidden; pointer-events:none; transition:all .3s ease; }
   </style>
 </head>
 <body>
-  <!-- ==========================================================================
-    A11Y helpers
-  ========================================================================== -->
   <a class="skip-link" href="#mainContent">Skip to main content</a>
 
-  <!-- ==========================================================================
-    Global Layers
-  ========================================================================== -->
   <div id="bootLoader" role="status" aria-live="polite">Loading Delhi Darbaar...</div>
   <div id="cursorGlow" class="cursor-glow" aria-hidden="true"></div>
 
@@ -89,10 +57,6 @@
     <span class="ambient-noise"></span>
   </div>
 
-  <!-- ==========================================================================
-    Top Info / Notices
-    Text is populated from menu-data.js notices + i18n fallback in script.js
-  ========================================================================== -->
   <section class="top-strip" aria-label="Restaurant quick information">
     <div class="container top-strip-inner">
       <div class="top-strip-left">
@@ -108,15 +72,10 @@
   <section class="notice-strip" aria-label="Delivery notices">
     <div class="container notice-strip-inner">
       <p id="minOrderText">MINIMUM ORDER FOR HOME DELIVERY IS €20</p>
-      <p id="onlineOrderNoteText">
-        Minimum Online Food Order for Delivery is €20, Delivery Service Fee is €2.50
-      </p>
+      <p id="onlineOrderNoteText">Minimum Online Food Order for Delivery is €20, Delivery Service Fee is €2.50</p>
     </div>
   </section>
 
-  <!-- ==========================================================================
-    Header / Navigation
-  ========================================================================== -->
   <header class="site-header" id="home">
     <nav class="container nav-shell" aria-label="Primary navigation">
       <a href="#home" class="brand" aria-label="Delhi Darbaar home">
@@ -126,7 +85,7 @@
           class="brand-logo"
           loading="eager"
           decoding="async"
-          onerror="this.onerror=null;this.src='/Delhi-darbar-Final-/fallback.jpg';"
+          onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=300&q=80';"
         />
         <span class="brand-text">Delhi Darbaar</span>
       </a>
@@ -168,20 +127,13 @@
     </nav>
   </header>
 
-  <!-- ==========================================================================
-    Main
-  ========================================================================== -->
   <main id="mainContent">
-    <!-- ========================================================================
-      HERO
-    ======================================================================== -->
     <section class="hero-section section-bleed" aria-label="Hero">
       <div class="hero-slides" id="heroSlides">
         <div class="hero-slide is-active" id="heroA" data-image-key="hero1" aria-hidden="true"></div>
         <div class="hero-slide" id="heroB" data-image-key="hero2" aria-hidden="true"></div>
         <div class="hero-slide" id="heroC" data-image-key="hero3" aria-hidden="true"></div>
       </div>
-
       <div class="hero-overlay" aria-hidden="true"></div>
 
       <div class="container hero-content reveal">
@@ -192,12 +144,8 @@
         </p>
 
         <div class="hero-buttons">
-          <a href="#reservationSection" class="btn btn-primary" data-i18n="hero_cta_reserve">
-            Reserveer Nu
-          </a>
-          <a href="#menuSection" class="btn btn-outline" data-i18n="hero_cta_menu">
-            Bekijk Menu
-          </a>
+          <a href="#reservationSection" class="btn btn-primary" data-i18n="hero_cta_reserve">Reserveer Nu</a>
+          <a href="#menuSection" class="btn btn-outline" data-i18n="hero_cta_menu">Bekijk Menu</a>
         </div>
 
         <div class="hero-highlights">
@@ -207,36 +155,14 @@
         </div>
 
         <div class="hero-actions-secondary">
-          <a
-            id="googleReviewsBtn"
-            class="btn btn-outline"
-            href="https://share.google/Uf3ZmKgW9fJFOXmPP"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Google Reviews
-          </a>
-
-          <a
-            id="uberEatsBtn"
-            class="btn btn-ghost"
-            href="https://www.ubereats.com/nl/store/delhi-darbaar-indiaas-restaurant/ZreIMyHhQma4YGTfFjBAnQ"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Uber Eats
-          </a>
+          <a id="googleReviewsBtn" class="btn btn-outline" href="https://share.google/Uf3ZmKgW9fJFOXmPP" target="_blank" rel="noopener noreferrer">Google Reviews</a>
+          <a id="uberEatsBtn" class="btn btn-ghost" href="https://www.ubereats.com/nl/store/delhi-darbaar-indiaas-restaurant/ZreIMyHhQma4YGTfFjBAnQ" target="_blank" rel="noopener noreferrer">Uber Eats</a>
         </div>
       </div>
 
-      <button id="heroDownBtn" class="hero-down-btn" type="button" aria-label="Scroll down">
-        ↓
-      </button>
+      <button id="heroDownBtn" class="hero-down-btn" type="button" aria-label="Scroll down">↓</button>
     </section>
 
-    <!-- ========================================================================
-      TRUST STRIP
-    ======================================================================== -->
     <section class="section trust-strip-section" aria-label="Trust highlights">
       <div class="container trust-strip reveal">
         <article class="trust-item"><strong>4.9★</strong><span data-i18n="trust_rating">Gemiddelde waardering</span></article>
@@ -246,58 +172,30 @@
       </div>
     </section>
 
-    <!-- ========================================================================
-      STORY
-    ======================================================================== -->
     <section class="section" id="story" aria-label="About Delhi Darbaar">
       <div class="container story-layout">
         <article class="panel reveal">
           <p class="kicker" data-i18n="story_kicker">Ons Verhaal</p>
           <h2 data-i18n="story_title">Traditie en Smaak in Perfecte Balans</h2>
-          <p data-i18n="story_p1">
-            Delhi Darbaar combineert authentieke Indiase en Mughlai smaken met een moderne, verfijnde presentatie.
-          </p>
-          <p data-i18n="story_p2">
-            Met jarenlange culinaire ervaring en verse ingrediënten serveren wij gerechten vol diepte en karakter.
-          </p>
+          <p data-i18n="story_p1">Delhi Darbaar combineert authentieke Indiase en Mughlai smaken met een moderne, verfijnde presentatie.</p>
+          <p data-i18n="story_p2">Met jarenlange culinaire ervaring en verse ingrediënten serveren wij gerechten vol diepte en karakter.</p>
 
           <div class="feature-grid">
-            <article class="feature-card">
-              <h3 data-i18n="feature1_title">Verse kruiden</h3>
-              <p data-i18n="feature1_text">Dagelijks vers gemalen voor maximale aroma.</p>
-            </article>
-            <article class="feature-card">
-              <h3 data-i18n="feature2_title">Tandoor specialiteiten</h3>
-              <p data-i18n="feature2_text">Traditioneel gegrild met rijke rooksmaak.</p>
-            </article>
-            <article class="feature-card">
-              <h3 data-i18n="feature3_title">Premium ingrediënten</h3>
-              <p data-i18n="feature3_text">Kwaliteit staat centraal in elk gerecht.</p>
-            </article>
-            <article class="feature-card">
-              <h3 data-i18n="feature4_title">Warme service</h3>
-              <p data-i18n="feature4_text">Gastvrijheid zoals je die mag verwachten.</p>
-            </article>
+            <article class="feature-card"><h3 data-i18n="feature1_title">Verse kruiden</h3><p data-i18n="feature1_text">Dagelijks vers gemalen voor maximale aroma.</p></article>
+            <article class="feature-card"><h3 data-i18n="feature2_title">Tandoor specialiteiten</h3><p data-i18n="feature2_text">Traditioneel gegrild met rijke rooksmaak.</p></article>
+            <article class="feature-card"><h3 data-i18n="feature3_title">Premium ingrediënten</h3><p data-i18n="feature3_text">Kwaliteit staat centraal in elk gerecht.</p></article>
+            <article class="feature-card"><h3 data-i18n="feature4_title">Warme service</h3><p data-i18n="feature4_text">Gastvrijheid zoals je die mag verwachten.</p></article>
           </div>
         </article>
 
         <aside class="story-media reveal" aria-label="Story gallery">
-          <figure class="story-img story-img-lg">
-            <img id="storyImg1" src="/Delhi-darbar-Final-/gallery-1.jpg" alt="Restaurant ambiance" loading="lazy" decoding="async" />
-          </figure>
-          <figure class="story-img">
-            <img id="storyImg2" src="/Delhi-darbar-Final-/gallery-2.jpg" alt="Signature food presentation" loading="lazy" decoding="async" />
-          </figure>
-          <figure class="story-img">
-            <img id="storyImg3" src="/Delhi-darbar-Final-/gallery-3.jpg" alt="Interior seating" loading="lazy" decoding="async" />
-          </figure>
+          <figure class="story-img story-img-lg"><img id="storyImg1" src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1400&q=80" alt="Restaurant ambiance" loading="lazy" decoding="async"></figure>
+          <figure class="story-img"><img id="storyImg2" src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1400&q=80" alt="Food presentation" loading="lazy" decoding="async"></figure>
+          <figure class="story-img"><img id="storyImg3" src="https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=1400&q=80" alt="Interior seating" loading="lazy" decoding="async"></figure>
         </aside>
       </div>
     </section>
 
-    <!-- ========================================================================
-      MENU SECTION
-    ======================================================================== -->
     <section class="section section-dark" id="menuSection" aria-label="Online menu">
       <div class="container">
         <div class="section-head reveal">
@@ -305,97 +203,51 @@
             <p class="kicker" data-i18n="menu_kicker">Royal Menu</p>
             <h2 data-i18n="menu_title">Populaire Gerechten</h2>
           </div>
-
           <div class="menu-tools">
-            <input
-              id="menuSearchInput"
-              class="search-input"
-              type="search"
-              placeholder="Zoek gerecht..."
-              aria-label="Search dishes"
-            />
+            <input id="menuSearchInput" class="search-input" type="search" placeholder="Zoek gerecht..." aria-label="Search dishes" />
           </div>
         </div>
 
-        <div
-          id="categoryChips"
-          class="category-chips reveal"
-          role="tablist"
-          aria-label="Menu categories"
-        ></div>
-
+        <div id="categoryChips" class="category-chips reveal" role="tablist" aria-label="Menu categories"></div>
         <div id="menuGrid" class="menu-grid reveal" aria-live="polite"></div>
       </div>
     </section>
 
-    <!-- ========================================================================
-      DELIVERY / ONLINE ORDER CTA
-    ======================================================================== -->
     <section class="section order-cta-section" aria-label="Online order call to action">
       <div class="container order-cta-card reveal">
         <div class="order-cta-copy">
           <p class="kicker" data-i18n="online_order_kicker">Online Food Order</p>
           <h2 data-i18n="online_order_title">Bestel Snel en Gemakkelijk</h2>
-          <p data-i18n="online_order_text">
-            Minimum online delivery order is €20. Delivery service fee is €2.50.
-          </p>
+          <p data-i18n="online_order_text">Minimum online delivery order is €20. Delivery service fee is €2.50</p>
         </div>
         <div class="order-cta-actions">
-          <a
-            class="btn btn-primary"
-            href="https://www.ubereats.com/nl/store/delhi-darbaar-indiaas-restaurant/ZreIMyHhQma4YGTfFjBAnQ"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Order on Uber Eats
-          </a>
-          <button id="openCartBtn" type="button" class="btn btn-outline">
-            Open Cart
-          </button>
+          <a class="btn btn-primary" href="https://www.ubereats.com/nl/store/delhi-darbaar-indiaas-restaurant/ZreIMyHhQma4YGTfFjBAnQ" target="_blank" rel="noopener noreferrer">Order on Uber Eats</a>
+          <button id="openCartBtn" type="button" class="btn btn-outline">Open Cart</button>
         </div>
       </div>
     </section>
 
-    <!-- ========================================================================
-      GALLERY
-    ======================================================================== -->
     <section class="section" id="gallerySection" aria-label="Photo gallery">
       <div class="container">
         <div class="section-head reveal">
-          <div>
-            <p class="kicker" data-i18n="gallery_kicker">Sfeer</p>
-            <h2 data-i18n="gallery_title">Galerij</h2>
-          </div>
+          <div><p class="kicker" data-i18n="gallery_kicker">Sfeer</p><h2 data-i18n="gallery_title">Galerij</h2></div>
         </div>
 
         <div id="galleryGrid" class="gallery-grid reveal">
-          <figure class="gallery-item"><img id="galleryImg1" src="/Delhi-darbar-Final-/gallery-1.jpg" alt="Gallery image 1" loading="lazy" decoding="async" /></figure>
-          <figure class="gallery-item"><img id="galleryImg2" src="/Delhi-darbar-Final-/gallery-2.jpg" alt="Gallery image 2" loading="lazy" decoding="async" /></figure>
-          <figure class="gallery-item"><img id="galleryImg3" src="/Delhi-darbar-Final-/gallery-3.jpg" alt="Gallery image 3" loading="lazy" decoding="async" /></figure>
-          <figure class="gallery-item"><img id="galleryImg4" src="/Delhi-darbar-Final-/gallery-4.jpg" alt="Gallery image 4" loading="lazy" decoding="async" /></figure>
+          <figure class="gallery-item"><img id="galleryImg1" src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=1400&q=80" alt="Gallery image 1" loading="lazy" decoding="async"></figure>
+          <figure class="gallery-item"><img id="galleryImg2" src="https://images.unsplash.com/photo-1544148103-0773bf10d330?auto=format&fit=crop&w=1400&q=80" alt="Gallery image 2" loading="lazy" decoding="async"></figure>
+          <figure class="gallery-item"><img id="galleryImg3" src="https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?auto=format&fit=crop&w=1400&q=80" alt="Gallery image 3" loading="lazy" decoding="async"></figure>
+          <figure class="gallery-item"><img id="galleryImg4" src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1400&q=80" alt="Gallery image 4" loading="lazy" decoding="async"></figure>
         </div>
       </div>
     </section>
 
-    <!-- ========================================================================
-      REVIEWS / TESTIMONIALS
-    ======================================================================== -->
     <section class="section section-dark" id="reviewsSection" aria-label="Guest reviews">
       <div class="container">
         <div class="section-head reveal">
-          <div>
-            <p class="kicker" data-i18n="review_kicker">Ervaringen</p>
-            <h2 data-i18n="review_title">Wat onze gasten zeggen</h2>
-          </div>
+          <div><p class="kicker" data-i18n="review_kicker">Ervaringen</p><h2 data-i18n="review_title">Wat onze gasten zeggen</h2></div>
           <div class="review-links">
-            <a
-              class="btn btn-outline"
-              href="https://share.google/Uf3ZmKgW9fJFOXmPP"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Open Google Reviews
-            </a>
+            <a class="btn btn-outline" href="https://share.google/Uf3ZmKgW9fJFOXmPP" target="_blank" rel="noopener noreferrer">Open Google Reviews</a>
           </div>
         </div>
 
@@ -405,27 +257,13 @@
         </div>
 
         <div class="reviews-embed reveal">
-          <iframe
-            title="Delhi Darbaar location map"
-            src="https://www.google.com/maps?q=Delhi+Darbaar+Hilversum&output=embed"
-            loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade"
-          ></iframe>
+          <iframe title="Delhi Darbaar location map" src="https://www.google.com/maps?q=Delhi+Darbaar+Hilversum&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
       </div>
     </section>
 
-    <!-- ========================================================================
-      CART DRAWER + CHECKOUT (frontend-ready, backend hook in script.js)
-    ======================================================================== -->
-    <aside
-      id="cartDrawer"
-      class="cart-drawer"
-      aria-hidden="true"
-      aria-label="Shopping cart drawer"
-    >
+    <aside id="cartDrawer" class="cart-drawer" aria-hidden="true" aria-label="Shopping cart drawer">
       <div class="cart-backdrop" id="cartBackdrop"></div>
-
       <div class="cart-panel" role="dialog" aria-modal="true" aria-labelledby="cartTitle">
         <header class="cart-header">
           <h2 id="cartTitle">Your Cart</h2>
@@ -449,29 +287,17 @@
             </div>
 
             <div class="checkout-grid">
-              <div class="checkout-row">
-                <label for="checkoutName" data-i18n="f_name">Name</label>
-                <input id="checkoutName" type="text" autocomplete="name" />
-              </div>
-              <div class="checkout-row">
-                <label for="checkoutPhone" data-i18n="f_phone">Phone</label>
-                <input id="checkoutPhone" type="tel" autocomplete="tel" />
-              </div>
-              <div class="checkout-row">
-                <label for="checkoutEmail" data-i18n="f_email">Email</label>
-                <input id="checkoutEmail" type="email" autocomplete="email" />
-              </div>
-              <div class="checkout-row">
-                <label for="checkoutAddress">Address</label>
-                <input id="checkoutAddress" type="text" autocomplete="street-address" />
-              </div>
+              <div class="checkout-row"><label for="checkoutName" data-i18n="f_name">Name</label><input id="checkoutName" type="text" autocomplete="name"></div>
+              <div class="checkout-row"><label for="checkoutPhone" data-i18n="f_phone">Phone</label><input id="checkoutPhone" type="tel" autocomplete="tel"></div>
+              <div class="checkout-row"><label for="checkoutEmail" data-i18n="f_email">Email</label><input id="checkoutEmail" type="email" autocomplete="email"></div>
+              <div class="checkout-row"><label for="checkoutAddress">Address</label><input id="checkoutAddress" type="text" autocomplete="street-address"></div>
             </div>
 
             <fieldset class="payment-methods">
               <legend data-i18n="checkout_payment_method">Payment Method</legend>
-              <label><input type="radio" name="paymentMethod" value="ideal" checked /> iDEAL</label>
-              <label><input type="radio" name="paymentMethod" value="card" /> Credit Card</label>
-              <label><input type="radio" name="paymentMethod" value="cash" /> Cash at Pickup</label>
+              <label><input type="radio" name="paymentMethod" value="ideal" checked> iDEAL</label>
+              <label><input type="radio" name="paymentMethod" value="card"> Credit Card</label>
+              <label><input type="radio" name="paymentMethod" value="cash"> Cash at Pickup</label>
             </fieldset>
 
             <div class="checkout-summary" id="checkoutSummary">
@@ -481,7 +307,7 @@
             </div>
 
             <label class="terms-check">
-              <input id="checkoutTerms" type="checkbox" />
+              <input id="checkoutTerms" type="checkbox">
               <span data-i18n="checkout_terms">I agree to terms and privacy policy.</span>
             </label>
 
@@ -492,59 +318,30 @@
       </div>
     </aside>
 
-    <!-- ========================================================================
-      RESERVATION
-    ======================================================================== -->
     <section class="section" id="reservationSection" aria-label="Table reservation">
       <div class="container reservation-layout">
         <article class="panel reveal">
           <p class="kicker" data-i18n="res_kicker">Reserveren</p>
           <h2 data-i18n="res_title">Reserveringssysteem</h2>
-          <p data-i18n="res_text">
-            Vul je gegevens in. Na verzenden openen we WhatsApp met alle reserveringsdetails.
-          </p>
+          <p data-i18n="res_text">Vul je gegevens in. Na verzenden openen we WhatsApp met alle reserveringsdetails.</p>
           <ul class="res-list">
             <li>📍 Havenstraat 75, 1211 KH Hilversum</li>
             <li>📞 +31 613 53 36 12</li>
             <li>✉️ info@delhidarbaar.nl</li>
           </ul>
-          <div class="res-note">
-            <p data-i18n="res_note">Liever per e-mail? Gebruik de e-mail knop onder het formulier.</p>
-          </div>
+          <div class="res-note"><p data-i18n="res_note">Liever per e-mail? Gebruik de e-mail knop onder het formulier.</p></div>
         </article>
 
         <form id="reservationForm" class="panel reservation-form reveal" novalidate>
-          <div class="field">
-            <label for="resName" data-i18n="f_name">Naam</label>
-            <input id="resName" name="resName" type="text" required />
-            <small class="error" data-error-for="resName"></small>
-          </div>
-          <div class="field">
-            <label for="resEmail" data-i18n="f_email">E-mail</label>
-            <input id="resEmail" name="resEmail" type="email" required />
-            <small class="error" data-error-for="resEmail"></small>
-          </div>
-          <div class="field">
-            <label for="resPhone" data-i18n="f_phone">Telefoon</label>
-            <input id="resPhone" name="resPhone" type="tel" required />
-            <small class="error" data-error-for="resPhone"></small>
-          </div>
-          <div class="field">
-            <label for="resDate" data-i18n="f_date">Datum</label>
-            <input id="resDate" name="resDate" type="date" required />
-            <small class="error" data-error-for="resDate"></small>
-          </div>
-          <div class="field">
-            <label for="resTime" data-i18n="f_time">Tijd</label>
-            <input id="resTime" name="resTime" type="time" required />
-            <small class="error" data-error-for="resTime"></small>
-          </div>
+          <div class="field"><label for="resName" data-i18n="f_name">Naam</label><input id="resName" name="resName" type="text" required><small class="error" data-error-for="resName"></small></div>
+          <div class="field"><label for="resEmail" data-i18n="f_email">E-mail</label><input id="resEmail" name="resEmail" type="email" required><small class="error" data-error-for="resEmail"></small></div>
+          <div class="field"><label for="resPhone" data-i18n="f_phone">Telefoon</label><input id="resPhone" name="resPhone" type="tel" required><small class="error" data-error-for="resPhone"></small></div>
+          <div class="field"><label for="resDate" data-i18n="f_date">Datum</label><input id="resDate" name="resDate" type="date" required><small class="error" data-error-for="resDate"></small></div>
+          <div class="field"><label for="resTime" data-i18n="f_time">Tijd</label><input id="resTime" name="resTime" type="time" required><small class="error" data-error-for="resTime"></small></div>
           <div class="field">
             <label for="resGuests" data-i18n="f_guests">Aantal gasten</label>
             <select id="resGuests" name="resGuests" required>
-              <option value="">--</option>
-              <option>1</option><option>2</option><option>3</option>
-              <option>4</option><option>5</option><option>6+</option>
+              <option value="">--</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6+</option>
             </select>
             <small class="error" data-error-for="resGuests"></small>
           </div>
@@ -560,10 +357,7 @@
             </select>
           </div>
 
-          <div class="field field-full">
-            <label for="resNotes" data-i18n="f_notes">Opmerkingen</label>
-            <textarea id="resNotes" name="resNotes" rows="4"></textarea>
-          </div>
+          <div class="field field-full"><label for="resNotes" data-i18n="f_notes">Opmerkingen</label><textarea id="resNotes" name="resNotes" rows="4"></textarea></div>
 
           <div class="field field-full form-actions">
             <button type="submit" class="btn btn-primary" data-i18n="res_submit">Verstuur via WhatsApp</button>
@@ -575,35 +369,17 @@
       </div>
     </section>
 
-    <!-- ========================================================================
-      FAQ
-    ======================================================================== -->
     <section class="section section-dark" id="faqSection" aria-label="Frequently asked questions">
       <div class="container">
-        <div class="section-head reveal">
-          <div><p class="kicker">FAQ</p><h2 data-i18n="faq_title">Veelgestelde vragen</h2></div>
-        </div>
-
+        <div class="section-head reveal"><div><p class="kicker">FAQ</p><h2 data-i18n="faq_title">Veelgestelde vragen</h2></div></div>
         <div class="faq-list reveal">
-          <details class="faq-item">
-            <summary data-i18n="faq_q1">Is reserveren verplicht?</summary>
-            <p data-i18n="faq_a1">Reserveren wordt sterk aanbevolen, vooral in het weekend.</p>
-          </details>
-          <details class="faq-item">
-            <summary data-i18n="faq_q2">Hebben jullie vegetarische opties?</summary>
-            <p data-i18n="faq_a2">Ja, wij hebben een uitgebreid aanbod aan vegetarische gerechten.</p>
-          </details>
-          <details class="faq-item">
-            <summary data-i18n="faq_q3">Doen jullie ook afhalen?</summary>
-            <p data-i18n="faq_a3">Ja, afhalen is mogelijk tijdens openingstijden.</p>
-          </details>
+          <details class="faq-item"><summary data-i18n="faq_q1">Is reserveren verplicht?</summary><p data-i18n="faq_a1">Reserveren wordt sterk aanbevolen, vooral in het weekend.</p></details>
+          <details class="faq-item"><summary data-i18n="faq_q2">Hebben jullie vegetarische opties?</summary><p data-i18n="faq_a2">Ja, wij hebben een uitgebreid aanbod aan vegetarische gerechten.</p></details>
+          <details class="faq-item"><summary data-i18n="faq_q3">Doen jullie ook afhalen?</summary><p data-i18n="faq_a3">Ja, afhalen is mogelijk tijdens openingstijden.</p></details>
         </div>
       </div>
     </section>
 
-    <!-- ========================================================================
-      CONTACT
-    ======================================================================== -->
     <section class="section" id="contactSection" aria-label="Contact section">
       <div class="container contact-layout reveal">
         <article class="panel">
@@ -619,23 +395,13 @@
           <p data-i18n="hours_text">Ma-Do 13:00–22:00 · Vr-Za 13:00–22:30 · Zondag gesloten</p>
           <div class="contact-actions">
             <a href="#reservationSection" class="btn btn-primary" data-i18n="hours_cta">Reserveer je tafel</a>
-            <a
-              class="btn btn-outline"
-              href="https://www.ubereats.com/nl/store/delhi-darbaar-indiaas-restaurant/ZreIMyHhQma4YGTfFjBAnQ"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Uber Eats
-            </a>
+            <a class="btn btn-outline" href="https://www.ubereats.com/nl/store/delhi-darbaar-indiaas-restaurant/ZreIMyHhQma4YGTfFjBAnQ" target="_blank" rel="noopener noreferrer">Uber Eats</a>
           </div>
         </article>
       </div>
     </section>
   </main>
 
-  <!-- ==========================================================================
-    Footer
-  ========================================================================== -->
   <footer class="site-footer">
     <div class="container footer-inner">
       <p>© <span id="year"></span> Delhi Darbaar Hilversum</p>
@@ -643,30 +409,14 @@
     </div>
   </footer>
 
-  <!-- ==========================================================================
-    Sticky CTA
-  ========================================================================== -->
   <div class="sticky-cta-bar" id="stickyCtaBar" aria-label="Quick actions">
     <a href="#reservationSection" class="btn btn-primary" data-i18n="sticky_book">Reserveer</a>
     <button id="stickyOpenCartBtn" type="button" class="btn btn-outline">Cart</button>
-    <a
-      class="btn btn-ghost"
-      href="https://www.ubereats.com/nl/store/delhi-darbaar-indiaas-restaurant/ZreIMyHhQma4YGTfFjBAnQ"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      Uber Eats
-    </a>
+    <a class="btn btn-ghost" href="https://www.ubereats.com/nl/store/delhi-darbaar-indiaas-restaurant/ZreIMyHhQma4YGTfFjBAnQ" target="_blank" rel="noopener noreferrer">Uber Eats</a>
   </div>
 
-  <!-- ==========================================================================
-    Back To Top
-  ========================================================================== -->
   <button id="backToTopBtn" class="back-to-top" type="button" aria-label="Back to top">↑</button>
 
-  <!-- ==========================================================================
-    Lightbox
-  ========================================================================== -->
   <div id="lightbox" class="lightbox" aria-hidden="true">
     <button id="lightboxClose" class="lightbox-close" type="button" aria-label="Close lightbox">✕</button>
     <img
@@ -675,13 +425,10 @@
       alt="Expanded gallery image"
       loading="lazy"
       decoding="async"
-      onerror="this.onerror=null;this.src='/Delhi-darbar-Final-/fallback.jpg';"
+      onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1400&q=80';"
     />
   </div>
 
-  <!-- ==========================================================================
-    JSON-LD basic schema
-  ========================================================================== -->
   <script type="application/ld+json">
     {
       "@context":"https://schema.org",
@@ -699,7 +446,6 @@
     }
   </script>
 
-  <!-- Boot safety -->
   <script>
     window.addEventListener("load", function () {
       var boot = document.getElementById("bootLoader");
@@ -707,18 +453,11 @@
     });
     setTimeout(function () {
       var boot = document.getElementById("bootLoader");
-      if (<script>
-  window.addEventListener("load", function () {
-    var boot = document.getElementById("bootLoader");
-    if (boot) boot.classList.add("hide");
-  });
-  setTimeout(function () {
-    var boot = document.getElementById("bootLoader");
-    if (boot) boot.classList.add("hide");
-  }, 3500);
-</script>
+      if (boot) boot.classList.add("hide");
+    }, 3500);
+  </script>
 
-<script src="/Delhi-darbar-Final-/menu-data.js"></script>
-<script defer src="/Delhi-darbar-Final-/script.js"></script>
+  <script src="/Delhi-darbar-Final-/menu-data.js"></script>
+  <script defer src="/Delhi-darbar-Final-/script.js"></script>
 </body>
 </html>

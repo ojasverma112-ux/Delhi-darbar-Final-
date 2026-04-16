@@ -1,463 +1,590 @@
-<!doctype html>
-<html lang="nl" data-theme="dark">
+<!DOCTYPE html>
+<html lang="en">
 <head>
+  <!-- =========================
+       BASIC META
+  ========================== -->
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="theme-color" content="#0b0f18" />
-  <meta name="format-detection" content="telephone=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Delhi Darbaar Hilversum | Premium Indian Restaurant</title>
+  <!-- =========================
+       SEO
+  ========================== -->
+  <title>Delhi Darbaar Hilversum | Premium Indian Dining Experience</title>
   <meta
     name="description"
-    content="Delhi Darbaar Hilversum - Premium Indian / Mughlai / Afghani dining with online menu, reservations and delivery."
+    content="Delhi Darbaar Hilversum - A premium Indian dining website experience with immersive visuals, elegant menu design, and modern interactions."
   />
+  <meta
+    name="keywords"
+    content="Delhi Darbaar, Hilversum, Indian restaurant, Indian food, curry, biryani, mango lassi, dine in, takeaway"
+  />
+  <meta name="author" content="Delhi Darbaar Frontend Rebuild" />
 
+  <!-- Open Graph -->
+  <meta property="og:title" content="Delhi Darbaar Hilversum | Premium Indian Dining Experience" />
+  <meta property="og:description" content="Discover signature dishes, immersive visuals, and a refined modern restaurant website for Delhi Darbaar Hilversum." />
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Delhi Darbaar Hilversum" />
-  <meta property="og:description" content="Luxury dining experience with authentic Indian flavors in Hilversum." />
-  <meta property="og:image" content="/Delhi-darbar-Final-/hero-1.jpg" />
+  <meta property="og:image" content="./assets/brand/og-cover.jpg" />
+  <meta property="og:url" content="https://delhidarbaar.nl/" />
 
+  <!-- =========================
+       FONTS
+  ========================== -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Inter:wght@400;500;600;700;800;900&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap"
     rel="stylesheet"
   />
 
-  <link rel="stylesheet" href="/Delhi-darbar-Final-/styles.css" />
+  <!-- =========================
+       ICONS
+  ========================== -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    referrerpolicy="no-referrer"
+  />
 
-  <style>
-    html, body { margin:0; padding:0; background:#0b0f18; color:#f2f6ff; }
-    body { font-family: Inter, Arial, sans-serif; }
-    #bootLoader{
-      position:fixed; inset:0; z-index:999999;
-      display:grid; place-items:center;
-      background:#090d15; color:#fff;
-      text-transform:uppercase; letter-spacing:.09em; font-size:12px;
-    }
-    #bootLoader.hide{ opacity:0; visibility:hidden; pointer-events:none; transition:all .3s ease; }
-  </style>
+  <!-- =========================
+       STYLES
+  ========================== -->
+  <link rel="stylesheet" href="./styles.css" />
 </head>
-<body>
-  <a class="skip-link" href="#mainContent">Skip to main content</a>
 
-  <div id="bootLoader" role="status" aria-live="polite">Loading Delhi Darbaar...</div>
+<body>
+  <!-- =========================================================
+       GLOBAL BACKGROUND FX LAYERS
+  ========================================================== -->
+  <div class="bg-noise" aria-hidden="true"></div>
+  <div class="bg-gradient-orb orb-1" aria-hidden="true"></div>
+  <div class="bg-gradient-orb orb-2" aria-hidden="true"></div>
+  <div class="bg-gradient-orb orb-3" aria-hidden="true"></div>
   <div id="cursorGlow" class="cursor-glow" aria-hidden="true"></div>
 
-  <div class="scroll-progress-wrap" aria-hidden="true">
-    <div id="scrollProgress" class="scroll-progress"></div>
-  </div>
+  <!-- =========================================================
+       PAGE WRAPPER
+  ========================================================== -->
+  <div class="page-wrap">
+    <!-- =======================================================
+         HEADER / NAVBAR
+    ======================================================== -->
+    <header class="site-header" id="siteHeader">
+      <div class="container nav-container">
+        <a href="#home" class="brand" aria-label="Delhi Darbaar Home">
+          <span class="brand-mark">DD</span>
+          <span class="brand-text">
+            Delhi Darbaar
+            <small>Hilversum</small>
+          </span>
+        </a>
 
-  <div class="ambient-layer" aria-hidden="true">
-    <span class="ambient-orb ambient-orb-a"></span>
-    <span class="ambient-orb ambient-orb-b"></span>
-    <span class="ambient-orb ambient-orb-c"></span>
-    <span class="ambient-grid"></span>
-    <span class="ambient-noise"></span>
-  </div>
-
-  <section class="top-strip" aria-label="Restaurant quick information">
-    <div class="container top-strip-inner">
-      <div class="top-strip-left">
-        <span id="topAddress">📍 Havenstraat 75, 1211 KH Hilversum</span>
-        <span id="topPhone">📞 +31 613 53 36 12</span>
-      </div>
-      <div class="top-strip-right">
-        <span id="openHoursText">WE ARE OPEN MON TO SAT FROM 13:00 TO 22:00 HRS</span>
-      </div>
-    </div>
-  </section>
-
-  <section class="notice-strip" aria-label="Delivery notices">
-    <div class="container notice-strip-inner">
-      <p id="minOrderText">MINIMUM ORDER FOR HOME DELIVERY IS €20</p>
-      <p id="onlineOrderNoteText">Minimum Online Food Order for Delivery is €20, Delivery Service Fee is €2.50</p>
-    </div>
-  </section>
-
-  <header class="site-header" id="home">
-    <nav class="container nav-shell" aria-label="Primary navigation">
-      <a href="#home" class="brand" aria-label="Delhi Darbaar home">
-        <img
-          src="/Delhi-darbar-Final-/logo.png"
-          alt="Delhi Darbaar logo"
-          class="brand-logo"
-          loading="eager"
-          decoding="async"
-          onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=300&q=80';"
-        />
-        <span class="brand-text">Delhi Darbaar</span>
-      </a>
-
-      <button
-        id="mobileMenuToggle"
-        class="mobile-menu-toggle"
-        type="button"
-        aria-label="Open menu"
-        aria-expanded="false"
-        aria-controls="mainNav"
-      >
-        <span aria-hidden="true">☰</span>
-      </button>
-
-      <ul id="mainNav" class="main-nav">
-        <li><a href="#story" data-i18n="nav_story">Over ons</a></li>
-        <li><a href="#menuSection" data-i18n="nav_menu">Menu</a></li>
-        <li><a href="#gallerySection" data-i18n="nav_gallery">Galerij</a></li>
-        <li><a href="#reviewsSection" data-i18n="nav_reviews">Reviews</a></li>
-        <li><a href="#reservationSection" data-i18n="nav_reservation">Reserveren</a></li>
-        <li><a href="#faqSection" data-i18n="nav_faq">FAQ</a></li>
-        <li><a href="#contactSection" data-i18n="nav_contact">Contact</a></li>
-      </ul>
-
-      <div class="nav-actions">
-        <label class="lang-wrap" for="langSwitch" aria-label="Language switcher">
-          <span aria-hidden="true">🌐</span>
-          <select id="langSwitch" class="lang-switch" name="lang">
-            <option value="nl">NL</option>
-            <option value="en">EN</option>
-          </select>
-        </label>
-
-        <button id="quickReserveBtn" class="btn btn-ghost" type="button" data-i18n="nav_book">
-          Boek nu
-        </button>
-      </div>
-    </nav>
-  </header>
-
-  <main id="mainContent">
-    <section class="hero-section section-bleed" aria-label="Hero">
-      <div class="hero-slides" id="heroSlides">
-        <div class="hero-slide is-active" id="heroA" data-image-key="hero1" aria-hidden="true"></div>
-        <div class="hero-slide" id="heroB" data-image-key="hero2" aria-hidden="true"></div>
-        <div class="hero-slide" id="heroC" data-image-key="hero3" aria-hidden="true"></div>
-      </div>
-      <div class="hero-overlay" aria-hidden="true"></div>
-
-      <div class="container hero-content reveal">
-        <p class="hero-kicker" data-i18n="hero_kicker">Authentieke Noord-Indiase Keuken</p>
-        <h1 data-i18n="hero_title">Een Smaak van Koninklijke Klasse</h1>
-        <p class="hero-subtext" data-i18n="hero_sub">
-          Traditionele recepten, rijke kruiden en warme gastvrijheid in het hart van Hilversum.
-        </p>
-
-        <div class="hero-buttons">
-          <a href="#reservationSection" class="btn btn-primary" data-i18n="hero_cta_reserve">Reserveer Nu</a>
-          <a href="#menuSection" class="btn btn-outline" data-i18n="hero_cta_menu">Bekijk Menu</a>
-        </div>
-
-        <div class="hero-highlights">
-          <span>⭐ 4.9</span>
-          <span data-i18n="hero_badge_fresh">Dagelijks verse bereiding</span>
-          <span data-i18n="hero_badge_tandoor">Authentieke tandoor smaak</span>
-        </div>
-
-        <div class="hero-actions-secondary">
-          <a id="googleReviewsBtn" class="btn btn-outline" href="https://share.google/Uf3ZmKgW9fJFOXmPP" target="_blank" rel="noopener noreferrer">Google Reviews</a>
-          <a id="uberEatsBtn" class="btn btn-ghost" href="https://www.ubereats.com/nl/store/delhi-darbaar-indiaas-restaurant/ZreIMyHhQma4YGTfFjBAnQ" target="_blank" rel="noopener noreferrer">Uber Eats</a>
-        </div>
-      </div>
-
-      <button id="heroDownBtn" class="hero-down-btn" type="button" aria-label="Scroll down">↓</button>
-    </section>
-
-    <section class="section trust-strip-section" aria-label="Trust highlights">
-      <div class="container trust-strip reveal">
-        <article class="trust-item"><strong>4.9★</strong><span data-i18n="trust_rating">Gemiddelde waardering</span></article>
-        <article class="trust-item"><strong>100%</strong><span data-i18n="trust_fresh">Dagelijks vers</span></article>
-        <article class="trust-item"><strong>Authentiek</strong><span data-i18n="trust_authentic">Traditionele recepturen</span></article>
-        <article class="trust-item"><strong>Hilversum</strong><span data-i18n="trust_local">Lokaal geliefd</span></article>
-      </div>
-    </section>
-
-    <section class="section" id="story" aria-label="About Delhi Darbaar">
-      <div class="container story-layout">
-        <article class="panel reveal">
-          <p class="kicker" data-i18n="story_kicker">Ons Verhaal</p>
-          <h2 data-i18n="story_title">Traditie en Smaak in Perfecte Balans</h2>
-          <p data-i18n="story_p1">Delhi Darbaar combineert authentieke Indiase en Mughlai smaken met een moderne, verfijnde presentatie.</p>
-          <p data-i18n="story_p2">Met jarenlange culinaire ervaring en verse ingrediënten serveren wij gerechten vol diepte en karakter.</p>
-
-          <div class="feature-grid">
-            <article class="feature-card"><h3 data-i18n="feature1_title">Verse kruiden</h3><p data-i18n="feature1_text">Dagelijks vers gemalen voor maximale aroma.</p></article>
-            <article class="feature-card"><h3 data-i18n="feature2_title">Tandoor specialiteiten</h3><p data-i18n="feature2_text">Traditioneel gegrild met rijke rooksmaak.</p></article>
-            <article class="feature-card"><h3 data-i18n="feature3_title">Premium ingrediënten</h3><p data-i18n="feature3_text">Kwaliteit staat centraal in elk gerecht.</p></article>
-            <article class="feature-card"><h3 data-i18n="feature4_title">Warme service</h3><p data-i18n="feature4_text">Gastvrijheid zoals je die mag verwachten.</p></article>
-          </div>
-        </article>
-
-        <aside class="story-media reveal" aria-label="Story gallery">
-          <figure class="story-img story-img-lg"><img id="storyImg1" src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1400&q=80" alt="Restaurant ambiance" loading="lazy" decoding="async"></figure>
-          <figure class="story-img"><img id="storyImg2" src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1400&q=80" alt="Food presentation" loading="lazy" decoding="async"></figure>
-          <figure class="story-img"><img id="storyImg3" src="https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=1400&q=80" alt="Interior seating" loading="lazy" decoding="async"></figure>
-        </aside>
-      </div>
-    </section>
-
-    <section class="section section-dark" id="menuSection" aria-label="Online menu">
-      <div class="container">
-        <div class="section-head reveal">
-          <div>
-            <p class="kicker" data-i18n="menu_kicker">Royal Menu</p>
-            <h2 data-i18n="menu_title">Populaire Gerechten</h2>
-          </div>
-          <div class="menu-tools">
-            <input id="menuSearchInput" class="search-input" type="search" placeholder="Zoek gerecht..." aria-label="Search dishes" />
-          </div>
-        </div>
-
-        <div id="categoryChips" class="category-chips reveal" role="tablist" aria-label="Menu categories"></div>
-        <div id="menuGrid" class="menu-grid reveal" aria-live="polite"></div>
-      </div>
-    </section>
-
-    <section class="section order-cta-section" aria-label="Online order call to action">
-      <div class="container order-cta-card reveal">
-        <div class="order-cta-copy">
-          <p class="kicker" data-i18n="online_order_kicker">Online Food Order</p>
-          <h2 data-i18n="online_order_title">Bestel Snel en Gemakkelijk</h2>
-          <p data-i18n="online_order_text">Minimum online delivery order is €20. Delivery service fee is €2.50</p>
-        </div>
-        <div class="order-cta-actions">
-          <a class="btn btn-primary" href="https://www.ubereats.com/nl/store/delhi-darbaar-indiaas-restaurant/ZreIMyHhQma4YGTfFjBAnQ" target="_blank" rel="noopener noreferrer">Order on Uber Eats</a>
-          <button id="openCartBtn" type="button" class="btn btn-outline">Open Cart</button>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="gallerySection" aria-label="Photo gallery">
-      <div class="container">
-        <div class="section-head reveal">
-          <div><p class="kicker" data-i18n="gallery_kicker">Sfeer</p><h2 data-i18n="gallery_title">Galerij</h2></div>
-        </div>
-
-        <div id="galleryGrid" class="gallery-grid reveal">
-          <figure class="gallery-item"><img id="galleryImg1" src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=1400&q=80" alt="Gallery image 1" loading="lazy" decoding="async"></figure>
-          <figure class="gallery-item"><img id="galleryImg2" src="https://images.unsplash.com/photo-1544148103-0773bf10d330?auto=format&fit=crop&w=1400&q=80" alt="Gallery image 2" loading="lazy" decoding="async"></figure>
-          <figure class="gallery-item"><img id="galleryImg3" src="https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?auto=format&fit=crop&w=1400&q=80" alt="Gallery image 3" loading="lazy" decoding="async"></figure>
-          <figure class="gallery-item"><img id="galleryImg4" src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1400&q=80" alt="Gallery image 4" loading="lazy" decoding="async"></figure>
-        </div>
-      </div>
-    </section>
-
-    <section class="section section-dark" id="reviewsSection" aria-label="Guest reviews">
-      <div class="container">
-        <div class="section-head reveal">
-          <div><p class="kicker" data-i18n="review_kicker">Ervaringen</p><h2 data-i18n="review_title">Wat onze gasten zeggen</h2></div>
-          <div class="review-links">
-            <a class="btn btn-outline" href="https://share.google/Uf3ZmKgW9fJFOXmPP" target="_blank" rel="noopener noreferrer">Open Google Reviews</a>
-          </div>
-        </div>
-
-        <div class="testimonial-slider reveal" aria-roledescription="carousel">
-          <div id="testimonialTrack" class="testimonial-track"></div>
-          <div id="testimonialDots" class="testimonial-dots"></div>
-        </div>
-
-        <div class="reviews-embed reveal">
-          <iframe title="Delhi Darbaar location map" src="https://www.google.com/maps?q=Delhi+Darbaar+Hilversum&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-        </div>
-      </div>
-    </section>
-
-    <aside id="cartDrawer" class="cart-drawer" aria-hidden="true" aria-label="Shopping cart drawer">
-      <div class="cart-backdrop" id="cartBackdrop"></div>
-      <div class="cart-panel" role="dialog" aria-modal="true" aria-labelledby="cartTitle">
-        <header class="cart-header">
-          <h2 id="cartTitle">Your Cart</h2>
-          <button id="cartCloseBtn" type="button" class="icon-btn" aria-label="Close cart">✕</button>
-        </header>
-
-        <div class="cart-body">
-          <div id="cartItems" class="cart-items" aria-live="polite">
-            <p class="cart-empty" data-i18n="cart_empty">No products in the cart.</p>
-          </div>
-
-          <section class="checkout-section">
-            <h3 data-i18n="checkout_title">Checkout</h3>
-
-            <div class="checkout-row">
-              <label for="orderModeSelect" data-i18n="checkout_order_mode">Order Type</label>
-              <select id="orderModeSelect">
-                <option value="delivery" data-i18n="checkout_delivery">Delivery</option>
-                <option value="pickup" data-i18n="checkout_pickup">Pickup</option>
-              </select>
-            </div>
-
-            <div class="checkout-grid">
-              <div class="checkout-row"><label for="checkoutName" data-i18n="f_name">Name</label><input id="checkoutName" type="text" autocomplete="name"></div>
-              <div class="checkout-row"><label for="checkoutPhone" data-i18n="f_phone">Phone</label><input id="checkoutPhone" type="tel" autocomplete="tel"></div>
-              <div class="checkout-row"><label for="checkoutEmail" data-i18n="f_email">Email</label><input id="checkoutEmail" type="email" autocomplete="email"></div>
-              <div class="checkout-row"><label for="checkoutAddress">Address</label><input id="checkoutAddress" type="text" autocomplete="street-address"></div>
-            </div>
-
-            <fieldset class="payment-methods">
-              <legend data-i18n="checkout_payment_method">Payment Method</legend>
-              <label><input type="radio" name="paymentMethod" value="ideal" checked> iDEAL</label>
-              <label><input type="radio" name="paymentMethod" value="card"> Credit Card</label>
-              <label><input type="radio" name="paymentMethod" value="cash"> Cash at Pickup</label>
-            </fieldset>
-
-            <div class="checkout-summary" id="checkoutSummary">
-              <div><span data-i18n="checkout_subtotal">Subtotal</span><strong id="checkoutSubtotal">€0.00</strong></div>
-              <div><span data-i18n="checkout_delivery_fee">Delivery Fee</span><strong id="checkoutDeliveryFee">€2.50</strong></div>
-              <div class="total"><span data-i18n="checkout_total">Total</span><strong id="checkoutTotal">€0.00</strong></div>
-            </div>
-
-            <label class="terms-check">
-              <input id="checkoutTerms" type="checkbox">
-              <span data-i18n="checkout_terms">I agree to terms and privacy policy.</span>
-            </label>
-
-            <button id="placeOrderBtn" type="button" class="btn btn-primary">Place Order</button>
-            <p id="checkoutStatus" class="checkout-status" aria-live="polite"></p>
-          </section>
-        </div>
-      </div>
-    </aside>
-
-    <section class="section" id="reservationSection" aria-label="Table reservation">
-      <div class="container reservation-layout">
-        <article class="panel reveal">
-          <p class="kicker" data-i18n="res_kicker">Reserveren</p>
-          <h2 data-i18n="res_title">Reserveringssysteem</h2>
-          <p data-i18n="res_text">Vul je gegevens in. Na verzenden openen we WhatsApp met alle reserveringsdetails.</p>
-          <ul class="res-list">
-            <li>📍 Havenstraat 75, 1211 KH Hilversum</li>
-            <li>📞 +31 613 53 36 12</li>
-            <li>✉️ info@delhidarbaar.nl</li>
+        <nav class="main-nav" id="mainNav" aria-label="Primary Navigation">
+          <ul>
+            <li><a href="#home" data-nav>Home</a></li>
+            <li><a href="#about" data-nav>About</a></li>
+            <li><a href="#menu" data-nav>Menu</a></li>
+            <li><a href="#experience" data-nav>Experience</a></li>
+            <li><a href="#gallery" data-nav>Gallery</a></li>
+            <li><a href="#contact" data-nav>Contact</a></li>
           </ul>
-          <div class="res-note"><p data-i18n="res_note">Liever per e-mail? Gebruik de e-mail knop onder het formulier.</p></div>
-        </article>
+        </nav>
 
-        <form id="reservationForm" class="panel reservation-form reveal" novalidate>
-          <div class="field"><label for="resName" data-i18n="f_name">Naam</label><input id="resName" name="resName" type="text" required><small class="error" data-error-for="resName"></small></div>
-          <div class="field"><label for="resEmail" data-i18n="f_email">E-mail</label><input id="resEmail" name="resEmail" type="email" required><small class="error" data-error-for="resEmail"></small></div>
-          <div class="field"><label for="resPhone" data-i18n="f_phone">Telefoon</label><input id="resPhone" name="resPhone" type="tel" required><small class="error" data-error-for="resPhone"></small></div>
-          <div class="field"><label for="resDate" data-i18n="f_date">Datum</label><input id="resDate" name="resDate" type="date" required><small class="error" data-error-for="resDate"></small></div>
-          <div class="field"><label for="resTime" data-i18n="f_time">Tijd</label><input id="resTime" name="resTime" type="time" required><small class="error" data-error-for="resTime"></small></div>
-          <div class="field">
-            <label for="resGuests" data-i18n="f_guests">Aantal gasten</label>
-            <select id="resGuests" name="resGuests" required>
-              <option value="">--</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6+</option>
-            </select>
-            <small class="error" data-error-for="resGuests"></small>
-          </div>
-
-          <div class="field field-full">
-            <label for="resOccasion" data-i18n="f_occasion">Gelegenheid</label>
-            <select id="resOccasion" name="resOccasion">
-              <option value="" data-i18n="occasion_none">Geen specifieke gelegenheid</option>
-              <option value="birthday" data-i18n="occasion_birthday">Verjaardag</option>
-              <option value="anniversary" data-i18n="occasion_anniversary">Jubileum</option>
-              <option value="business" data-i18n="occasion_business">Zakelijk diner</option>
-              <option value="other" data-i18n="occasion_other">Anders</option>
-            </select>
-          </div>
-
-          <div class="field field-full"><label for="resNotes" data-i18n="f_notes">Opmerkingen</label><textarea id="resNotes" name="resNotes" rows="4"></textarea></div>
-
-          <div class="field field-full form-actions">
-            <button type="submit" class="btn btn-primary" data-i18n="res_submit">Verstuur via WhatsApp</button>
-            <button type="button" id="emailFallbackBtn" class="btn btn-outline" data-i18n="res_email">Verstuur via E-mail</button>
-          </div>
-
-          <p id="reservationStatus" class="reservation-status" aria-live="polite"></p>
-        </form>
-      </div>
-    </section>
-
-    <section class="section section-dark" id="faqSection" aria-label="Frequently asked questions">
-      <div class="container">
-        <div class="section-head reveal"><div><p class="kicker">FAQ</p><h2 data-i18n="faq_title">Veelgestelde vragen</h2></div></div>
-        <div class="faq-list reveal">
-          <details class="faq-item"><summary data-i18n="faq_q1">Is reserveren verplicht?</summary><p data-i18n="faq_a1">Reserveren wordt sterk aanbevolen, vooral in het weekend.</p></details>
-          <details class="faq-item"><summary data-i18n="faq_q2">Hebben jullie vegetarische opties?</summary><p data-i18n="faq_a2">Ja, wij hebben een uitgebreid aanbod aan vegetarische gerechten.</p></details>
-          <details class="faq-item"><summary data-i18n="faq_q3">Doen jullie ook afhalen?</summary><p data-i18n="faq_a3">Ja, afhalen is mogelijk tijdens openingstijden.</p></details>
+        <div class="nav-actions">
+          <a href="#menu" class="btn btn-sm btn-gold">Order Now</a>
+          <button
+            class="menu-toggle"
+            id="menuToggle"
+            aria-label="Toggle Mobile Menu"
+            aria-expanded="false"
+            aria-controls="mobileMenu"
+          >
+            <span></span><span></span><span></span>
+          </button>
         </div>
       </div>
-    </section>
 
-    <section class="section" id="contactSection" aria-label="Contact section">
-      <div class="container contact-layout reveal">
-        <article class="panel">
-          <h2 data-i18n="contact_title">Contact</h2>
-          <p id="contactBrand">Delhi Darbaar Hilversum</p>
-          <p id="contactAddress">Havenstraat 75, 1211 KH Hilversum</p>
-          <p id="contactPhone">+31 613 53 36 12</p>
-          <p id="contactEmail">info@delhidarbaar.nl</p>
-        </article>
-
-        <article class="panel">
-          <h2 data-i18n="hours_title">Openingstijden</h2>
-          <p data-i18n="hours_text">Ma-Do 13:00–22:00 · Vr-Za 13:00–22:30 · Zondag gesloten</p>
-          <div class="contact-actions">
-            <a href="#reservationSection" class="btn btn-primary" data-i18n="hours_cta">Reserveer je tafel</a>
-            <a class="btn btn-outline" href="https://www.ubereats.com/nl/store/delhi-darbaar-indiaas-restaurant/ZreIMyHhQma4YGTfFjBAnQ" target="_blank" rel="noopener noreferrer">Uber Eats</a>
-          </div>
-        </article>
+      <!-- Mobile Menu -->
+      <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+        <ul>
+          <li><a href="#home" data-mobile-nav>Home</a></li>
+          <li><a href="#about" data-mobile-nav>About</a></li>
+          <li><a href="#menu" data-mobile-nav>Menu</a></li>
+          <li><a href="#experience" data-mobile-nav>Experience</a></li>
+          <li><a href="#gallery" data-mobile-nav>Gallery</a></li>
+          <li><a href="#contact" data-mobile-nav>Contact</a></li>
+        </ul>
       </div>
-    </section>
-  </main>
+    </header>
 
-  <footer class="site-footer">
-    <div class="container footer-inner">
-      <p>© <span id="year"></span> Delhi Darbaar Hilversum</p>
-      <p data-i18n="footer_note">Premium Indiase smaakbeleving</p>
-    </div>
-  </footer>
+    <!-- =======================================================
+         MAIN
+    ======================================================== -->
+    <main>
+      <!-- =====================================================
+           HERO SECTION
+      ====================================================== -->
+      <section class="hero section" id="home">
+        <div class="hero-media-layer" aria-hidden="true">
+          <img
+            src="./assets/hero/hero-food-dark.jpg"
+            alt=""
+            class="hero-bg-image"
+          />
+          <div class="hero-overlay"></div>
+          <div class="hero-grid"></div>
+        </div>
 
-  <div class="sticky-cta-bar" id="stickyCtaBar" aria-label="Quick actions">
-    <a href="#reservationSection" class="btn btn-primary" data-i18n="sticky_book">Reserveer</a>
-    <button id="stickyOpenCartBtn" type="button" class="btn btn-outline">Cart</button>
-    <a class="btn btn-ghost" href="https://www.ubereats.com/nl/store/delhi-darbaar-indiaas-restaurant/ZreIMyHhQma4YGTfFjBAnQ" target="_blank" rel="noopener noreferrer">Uber Eats</a>
+        <div class="container hero-content">
+          <p class="eyebrow reveal">Authentic Indian Fine Dining in Hilversum</p>
+          <h1 class="hero-title reveal">
+            Crafted Flavors.<br />
+            Cinematic Experience.
+          </h1>
+          <p class="hero-subtitle reveal">
+            Welcome to the new Delhi Darbaar digital experience —
+            where rich tradition meets modern elegance, with immersive visuals,
+            smooth motion, and premium storytelling for every dish.
+          </p>
+
+          <div class="hero-cta reveal">
+            <a href="#menu" class="btn btn-gold btn-lg">Explore Signature Dishes</a>
+            <a href="#gallery" class="btn btn-glass btn-lg">View Gallery</a>
+          </div>
+
+          <div class="hero-stats reveal">
+            <article>
+              <h3>20+</h3>
+              <p>Signature Dishes</p>
+            </article>
+            <article>
+              <h3>4.8★</h3>
+              <p>Guest Experience</p>
+            </article>
+            <article>
+              <h3>100%</h3>
+              <p>Flavor Focused</p>
+            </article>
+          </div>
+        </div>
+
+        <!-- Floating decorative cards -->
+        <div class="hero-float-card float-a tilt" aria-hidden="true">
+          <p>Chef Special</p>
+          <h4>Dal Makhni</h4>
+        </div>
+        <div class="hero-float-card float-b tilt" aria-hidden="true">
+          <p>Refreshing</p>
+          <h4>Mango Lassi</h4>
+        </div>
+        <div class="hero-float-card float-c tilt" aria-hidden="true">
+          <p>Guest Favorite</p>
+          <h4>Butter Chicken</h4>
+        </div>
+      </section>
+
+      <!-- =====================================================
+           ABOUT SECTION
+      ====================================================== -->
+      <section class="about section" id="about">
+        <div class="about-bg-3d" aria-hidden="true">
+          <img src="./assets/about/mango-lassi-splash.jpg" alt="" />
+          <div class="about-bg-overlay"></div>
+        </div>
+
+        <div class="container about-layout">
+          <div class="about-copy reveal">
+            <p class="eyebrow">About Restaurant</p>
+            <h2>A modern stage for timeless Indian cuisine</h2>
+            <p>
+              Located in Hilversum, Delhi Darbaar blends warm hospitality with
+              bold Indian flavor. This redesigned website captures that spirit
+              through premium visuals, elevated typography, and fluid, 3D-inspired motion.
+            </p>
+            <p>
+              Every interaction is designed to feel luxurious —
+              from dish discovery to gallery browsing to reservation intent.
+            </p>
+            <div class="about-actions">
+              <a href="#contact" class="btn btn-gold">Reserve a Table</a>
+              <a href="#experience" class="btn btn-glass">Why We’re Different</a>
+            </div>
+          </div>
+
+          <div class="about-feature-grid">
+            <article class="feature-card reveal tilt">
+              <i class="fa-solid fa-seedling"></i>
+              <h3>Fresh Ingredients</h3>
+              <p>Daily prep with carefully balanced spices and aromatics.</p>
+            </article>
+            <article class="feature-card reveal tilt">
+              <i class="fa-solid fa-fire-burner"></i>
+              <h3>Tandoor Excellence</h3>
+              <p>Charred flavor, deep marinades, and authentic texture.</p>
+            </article>
+            <article class="feature-card reveal tilt">
+              <i class="fa-solid fa-champagne-glasses"></i>
+              <h3>Signature Drinks</h3>
+              <p>Mango lassi and pairings crafted for complete meals.</p>
+            </article>
+            <article class="feature-card reveal tilt">
+              <i class="fa-solid fa-star"></i>
+              <h3>Premium Ambience</h3>
+              <p>Elegant atmosphere for lunch, dinner, and special evenings.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================
+           MENU SECTION
+      ====================================================== -->
+      <section class="menu section" id="menu">
+        <div class="container">
+          <div class="section-head reveal">
+            <p class="eyebrow">Signature Menu</p>
+            <h2>Curated Favorites</h2>
+            <p>
+              Dish visuals are mapped intentionally to match each menu item
+              (e.g., Dal Makhni image for Dal Makhni, Mango Lassi image for Mango Lassi).
+            </p>
+          </div>
+
+          <!-- Category chips -->
+          <div class="menu-chips reveal">
+            <button class="chip active" data-filter="all">All</button>
+            <button class="chip" data-filter="veg">Vegetarian</button>
+            <button class="chip" data-filter="nonveg">Non-Veg</button>
+            <button class="chip" data-filter="rice">Rice</button>
+            <button class="chip" data-filter="drinks">Drinks</button>
+          </div>
+
+          <div class="menu-grid">
+            <!-- DAL MAKHNI -->
+            <article class="dish-card reveal tilt" data-category="veg">
+              <div class="dish-image-wrap">
+                <img src="./assets/dishes/dal-makhni.jpg" alt="Dal Makhni" />
+                <span class="dish-badge">Vegetarian</span>
+              </div>
+              <div class="dish-content">
+                <h3>Dal Makhni</h3>
+                <p>Slow-cooked black lentils in buttery tomato cream gravy.</p>
+                <div class="dish-meta">
+                  <strong>€16.95</strong>
+                  <button class="btn-text">Add</button>
+                </div>
+              </div>
+            </article>
+
+            <!-- BUTTER CHICKEN -->
+            <article class="dish-card reveal tilt" data-category="nonveg">
+              <div class="dish-image-wrap">
+                <img src="./assets/dishes/butter-chicken.jpg" alt="Butter Chicken" />
+                <span class="dish-badge">Chef Pick</span>
+              </div>
+              <div class="dish-content">
+                <h3>Butter Chicken</h3>
+                <p>Tandoori chicken in creamy tomato-fenugreek sauce.</p>
+                <div class="dish-meta">
+                  <strong>€18.95</strong>
+                  <button class="btn-text">Add</button>
+                </div>
+              </div>
+            </article>
+
+            <!-- CHICKEN BIRYANI -->
+            <article class="dish-card reveal tilt" data-category="rice nonveg">
+              <div class="dish-image-wrap">
+                <img src="./assets/dishes/chicken-biryani.jpg" alt="Chicken Biryani" />
+                <span class="dish-badge">Popular</span>
+              </div>
+              <div class="dish-content">
+                <h3>Chicken Biryani</h3>
+                <p>Layered basmati rice with chicken, saffron and spices.</p>
+                <div class="dish-meta">
+                  <strong>€19.50</strong>
+                  <button class="btn-text">Add</button>
+                </div>
+              </div>
+            </article>
+
+            <!-- PANEER TIKKA -->
+            <article class="dish-card reveal tilt" data-category="veg">
+              <div class="dish-image-wrap">
+                <img src="./assets/dishes/paneer-tikka.jpg" alt="Paneer Tikka" />
+                <span class="dish-badge">Starter</span>
+              </div>
+              <div class="dish-content">
+                <h3>Paneer Tikka</h3>
+                <p>Marinated paneer cubes, grilled with peppers and onions.</p>
+                <div class="dish-meta">
+                  <strong>€15.95</strong>
+                  <button class="btn-text">Add</button>
+                </div>
+              </div>
+            </article>
+
+            <!-- FISH KORMA -->
+            <article class="dish-card reveal tilt" data-category="nonveg">
+              <div class="dish-image-wrap">
+                <img src="./assets/dishes/fish-korma.jpg" alt="Fish Korma" />
+                <span class="dish-badge">Seafood</span>
+              </div>
+              <div class="dish-content">
+                <h3>Fish Korma</h3>
+                <p>Tender fish in a silky cashew-cardamom korma gravy.</p>
+                <div class="dish-meta">
+                  <strong>€21.95</strong>
+                  <button class="btn-text">Add</button>
+                </div>
+              </div>
+            </article>
+
+            <!-- MANGO LASSI -->
+            <article class="dish-card reveal tilt" data-category="drinks">
+              <div class="dish-image-wrap">
+                <img src="./assets/dishes/mango-lassi.jpg" alt="Mango Lassi" />
+                <span class="dish-badge">Drink</span>
+              </div>
+              <div class="dish-content">
+                <h3>Mango Lassi</h3>
+                <p>Chilled mango yogurt smoothie with a creamy finish.</p>
+                <div class="dish-meta">
+                  <strong>€5.95</strong>
+                  <button class="btn-text">Add</button>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================
+           EXPERIENCE STRIP / PARALLAX BLOCK
+      ====================================================== -->
+      <section class="experience section" id="experience">
+        <div class="experience-parallax" aria-hidden="true">
+          <img src="./assets/experience/spices-parallax.jpg" alt="" />
+          <div class="experience-overlay"></div>
+        </div>
+
+        <div class="container experience-content">
+          <div class="section-head light reveal">
+            <p class="eyebrow">Immersive Experience</p>
+            <h2>Designed to feel like fine dining online</h2>
+          </div>
+
+          <div class="experience-grid">
+            <article class="xp-card reveal tilt">
+              <h3>3D Motion Layers</h3>
+              <p>Subtle depth and parallax-inspired transitions throughout sections.</p>
+            </article>
+            <article class="xp-card reveal tilt">
+              <h3>Luxury Visual Language</h3>
+              <p>Gold accents, cinematic contrast, and premium type hierarchy.</p>
+            </article>
+            <article class="xp-card reveal tilt">
+              <h3>High-Intent Conversion UX</h3>
+              <p>Clear navigation paths to menu, contact, and ordering actions.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================
+           GALLERY SECTION
+      ====================================================== -->
+      <section class="gallery section" id="gallery">
+        <div class="container">
+          <div class="section-head reveal">
+            <p class="eyebrow">Delhi Darbaar Hilversum</p>
+            <h2>Gallery</h2>
+            <p>
+              Replace these with real restaurant interior, ambience, and food photos.
+              Entrance animations and 3D hover effects are handled in CSS/JS.
+            </p>
+          </div>
+
+          <div class="gallery-masonry">
+            <figure class="gallery-item reveal tilt wide">
+              <img src="./assets/gallery/hilversum-interior-1.jpg" alt="Delhi Darbaar interior seating" />
+            </figure>
+            <figure class="gallery-item reveal tilt tall">
+              <img src="./assets/gallery/hilversum-dish-1.jpg" alt="Signature curry plating" />
+            </figure>
+            <figure class="gallery-item reveal tilt">
+              <img src="./assets/gallery/hilversum-ambience-1.jpg" alt="Restaurant ambience lighting" />
+            </figure>
+            <figure class="gallery-item reveal tilt">
+              <img src="./assets/gallery/hilversum-dish-2.jpg" alt="Tandoori platter" />
+            </figure>
+            <figure class="gallery-item reveal tilt wide">
+              <img src="./assets/gallery/hilversum-interior-2.jpg" alt="Main dining area view" />
+            </figure>
+            <figure class="gallery-item reveal tilt">
+              <img src="./assets/gallery/hilversum-drink-1.jpg" alt="Mango lassi close-up" />
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================
+           TESTIMONIALS
+      ====================================================== -->
+      <section class="testimonials section" id="testimonials">
+        <div class="container">
+          <div class="section-head reveal">
+            <p class="eyebrow">Guest Love</p>
+            <h2>What people feel</h2>
+          </div>
+
+          <div class="testimonial-slider">
+            <article class="testimonial-card reveal">
+              <p>
+                “The new website finally matches the quality of the food. Premium look,
+                smooth feel, and super easy to browse dishes.”
+              </p>
+              <h4>— Local Guest</h4>
+            </article>
+            <article class="testimonial-card reveal">
+              <p>
+                “Loved how each dish has the right image and details. Feels modern and high-end.”
+              </p>
+              <h4>— Returning Customer</h4>
+            </article>
+            <article class="testimonial-card reveal">
+              <p>
+                “Gallery animations are beautiful. This is the kind of website a top restaurant deserves.”
+              </p>
+              <h4>— Food Enthusiast</h4>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================
+           CONTACT SECTION
+      ====================================================== -->
+      <section class="contact section" id="contact">
+        <div class="container contact-layout">
+          <div class="contact-info reveal">
+            <p class="eyebrow">Contact & Visit</p>
+            <h2>Delhi Darbaar Hilversum</h2>
+            <ul>
+              <li>
+                <i class="fa-solid fa-location-dot"></i>
+                <span>Havenstraat 75, 1211KH Hilversum, The Netherlands</span>
+              </li>
+              <li>
+                <i class="fa-solid fa-phone"></i>
+                <a href="tel:+31613533612">+31 613 53 36 12</a>
+              </li>
+              <li>
+                <i class="fa-solid fa-envelope"></i>
+                <a href="mailto:info@delhidarbaar.nl">info@delhidarbaar.nl</a>
+              </li>
+            </ul>
+
+            <div class="contact-cta">
+              <a href="#" class="btn btn-gold">Book Table</a>
+              <a href="#" class="btn btn-glass">Start Order</a>
+            </div>
+          </div>
+
+          <form class="contact-form reveal" action="#" method="post" novalidate>
+            <div class="field-row">
+              <div class="field">
+                <label for="name">Name</label>
+                <input id="name" name="name" type="text" placeholder="Your name" />
+              </div>
+              <div class="field">
+                <label for="phone">Phone</label>
+                <input id="phone" name="phone" type="tel" placeholder="+31..." />
+              </div>
+            </div>
+
+            <div class="field-row">
+              <div class="field">
+                <label for="email">Email</label>
+                <input id="email" name="email" type="email" placeholder="you@email.com" />
+              </div>
+              <div class="field">
+                <label for="guests">Guests</label>
+                <select id="guests" name="guests">
+                  <option value="">Select</option>
+                  <option>1-2</option>
+                  <option>3-4</option>
+                  <option>5-8</option>
+                  <option>9+</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" rows="5" placeholder="Reservation details, date, time..."></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-gold btn-block">Send Request</button>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <!-- =======================================================
+         FOOTER
+    ======================================================== -->
+    <footer class="site-footer">
+      <div class="container footer-grid">
+        <div>
+          <a href="#home" class="brand footer-brand">
+            <span class="brand-mark">DD</span>
+            <span class="brand-text">Delhi Darbaar <small>Hilversum</small></span>
+          </a>
+          <p class="footer-note">
+            Premium frontend concept for a modern Indian dining experience.
+          </p>
+        </div>
+
+        <div>
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="#about">About</a></li>
+            <li><a href="#menu">Menu</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4>Hours</h4>
+          <ul>
+            <li>Mon - Sat: 12:00 - 22:00</li>
+            <li>Sunday: Closed</li>
+          </ul>
+        </div>
+
+        <div>
+          <h4>Follow</h4>
+          <div class="socials">
+            <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="#" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="container footer-bottom">
+        <p>© 2026 Delhi Darbaar Hilversum. All rights reserved.</p>
+      </div>
+    </footer>
   </div>
 
-  <button id="backToTopBtn" class="back-to-top" type="button" aria-label="Back to top">↑</button>
-
-  <div id="lightbox" class="lightbox" aria-hidden="true">
-    <button id="lightboxClose" class="lightbox-close" type="button" aria-label="Close lightbox">✕</button>
-    <img
-      id="lightboxImage"
-      src=""
-      alt="Expanded gallery image"
-      loading="lazy"
-      decoding="async"
-      onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1400&q=80';"
-    />
-  </div>
-
-  <script type="application/ld+json">
-    {
-      "@context":"https://schema.org",
-      "@type":"Restaurant",
-      "name":"Delhi Darbaar Hilversum",
-      "servesCuisine":["Indian","Mughlai","Afghani"],
-      "address":{
-        "@type":"PostalAddress",
-        "streetAddress":"Havenstraat 75",
-        "addressLocality":"Hilversum",
-        "postalCode":"1211 KH",
-        "addressCountry":"NL"
-      },
-      "telephone":"+31 613 53 36 12"
-    }
-  </script>
-
-  <script>
-    window.addEventListener("load", function () {
-      var boot = document.getElementById("bootLoader");
-      if (boot) boot.classList.add("hide");
-    });
-    setTimeout(function () {
-      var boot = document.getElementById("bootLoader");
-      if (boot) boot.classList.add("hide");
-    }, 3500);
-  </script>
-
-  <script src="/Delhi-darbar-Final-/menu-data.js"></script>
-  <script defer src="/Delhi-darbar-Final-/script.js"></script>
+  <!-- =========================================================
+       SCRIPTS
+  ========================================================== -->
+  <script src="./script.js"></script>
 </body>
 </html>
